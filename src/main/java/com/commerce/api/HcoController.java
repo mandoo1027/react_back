@@ -72,9 +72,8 @@ public class HcoController {
             resultVo.setSucessCode();
             resultVo.setResultData(userVo);
         }else{
-            resultVo.setFailCode();
-            String data = "세션이 만료되어 로그아웃 상태입니다.";
-            resultVo.setResultData(data);
+            throw new UserException("SESSION_EXPIRED");//세션이 만료되었습니다. 재로그인 부탁드립니다.
+
         }
 
         return resultVo;

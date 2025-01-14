@@ -51,7 +51,7 @@ COMMENT ON COLUMN MEMBER.MEM_CNCL_RESN IS '탈회사유';
 COMMENT ON COLUMN MEMBER.REMARK IS '비고';
 COMMENT ON COLUMN MEMBER.PRVC_OGCR_VRIFY_DT IS '개인인증서검증일시 (YYYYMMDDHH24MISS 형식)';
 COMMENT ON COLUMN MEMBER.LAST_CHNL_CERT_DT IS '최종채널인증일시 (YYYYMMDDHH24MISS 형식)';
-COMMENT ON COLUMN MEMBER.LAST_LOGIN_DT IS '최종로그인일시 (YYYYMMDDHH24MISS 형식)';
+COMMENT ON COLUMN MEMBER.LAST_LOGIN_DT IS 'a (YYYYMMDDHH24MISS 형식)';
 COMMENT ON COLUMN MEMBER.LOGIN_ERR_CNT IS '로그인오류횟수';
 COMMENT ON COLUMN MEMBER.RGTR_USER_ID IS '등록자ID';
 COMMENT ON COLUMN MEMBER.RGTR_DT IS '등록일시';
@@ -60,6 +60,9 @@ COMMENT ON COLUMN MEMBER.LAST_CHG_DT IS '변경일시';
 COMMENT ON COLUMN MEMBER.MEM_PW_CHG_DATE IS '패스워드변경일시 (YYYYMMDD 형식)';
 
 
+INSERT INTO public."member"
+(mem_id, mem_div_cd, nlty_div_cd, mem_nm, mem_pw, mem_brth, mem_se_cd, mobl_telno1, mobl_telno2, mobl_telno3, umsmail, ntcn_chnl_div_cd, mem_join_stat_cd, mem_join_date, mem_cncl_date, mem_cert_div_cd, mem_cncl_resn, remark, prvc_ogcr_vrify_dt, last_chnl_cert_dt, last_login_dt, login_err_cnt, rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt, mem_pw_chg_date)
+VALUES('mandoo1027', '1', '1', '김경', 'rkskekfk5', '19861027', '1', '010', '4732', '1808', 'mandoo1027@gmail.com', '1', '01', '20240813', '99991231', '', '', '', '', '', '', 0, '', '20240813141602', '', '20240813141602', '');
 
 
 CREATE TABLE MENU (
@@ -106,6 +109,25 @@ COMMENT ON COLUMN MENU.RGTR_USER_ID IS '메뉴를 등록한 사용자 ID';
 COMMENT ON COLUMN MENU.RGTR_DT IS '메뉴가 등록된 날짜와 시간';
 COMMENT ON COLUMN MENU.LAST_USER_ID IS '메뉴를 마지막으로 수정한 사용자 ID';
 COMMENT ON COLUMN MENU.LAST_CHG_DT IS '메뉴가 마지막으로 수정된 날짜와 시간';
+
+INSERT INTO public.menu
+(sys_div_cd, menu_scr_dev, menu_code, menu_name, menu_depth, menu_seq, upper_menu_code, file_path, login_yn, scr_ctn, menu_css, use_end_date, use_strt_date, use_yn, rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt)
+VALUES('ADM', 'M', 'ASYS000', '시스템관리', 2, 2, 'AHOM001', NULL, 'Y', '로그인', NULL, '99991223', '20240823', 'Y', 'admin', '20240823162850', 'admin', '20240823162850');
+INSERT INTO public.menu
+(sys_div_cd, menu_scr_dev, menu_code, menu_name, menu_depth, menu_seq, upper_menu_code, file_path, login_yn, scr_ctn, menu_css, use_end_date, use_strt_date, use_yn, rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt)
+VALUES('ADM', 'M', 'ASYS001', '메뉴관리', 3, 1, 'ASYS000', '/MEN/MEN001M01', 'Y', '메뉴관리 화면', NULL, '99991223', '20240823', 'Y', 'admin', '20240823163611', 'admin', '20240823163611');
+INSERT INTO public.menu
+(sys_div_cd, menu_scr_dev, menu_code, menu_name, menu_depth, menu_seq, upper_menu_code, file_path, login_yn, scr_ctn, menu_css, use_end_date, use_strt_date, use_yn, rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt)
+VALUES('ADM', 'M', 'ASYS002', '공통코드관리', 3, 2, 'ASYS000', '/ADM/ADM107M01', 'Y', '공통코드관리', NULL, '99991223', '20240823', 'Y', 'admin', '20240823164038', 'admin', '20240823164038');
+INSERT INTO public.menu
+(sys_div_cd, menu_scr_dev, menu_code, menu_name, menu_depth, menu_seq, upper_menu_code, file_path, login_yn, scr_ctn, menu_css, use_end_date, use_strt_date, use_yn, rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt)
+VALUES('ADM', 'M', 'ASYS003', '관리자 계정관리', 3, 3, 'ASYS000', '/ADM/ADM100M01', 'Y', '관리자 계정관리', NULL, '99991223', '20240823', 'Y', 'admin', '20240823164235', 'admin', '20240823164235');
+INSERT INTO public.menu
+(sys_div_cd, menu_scr_dev, menu_code, menu_name, menu_depth, menu_seq, upper_menu_code, file_path, login_yn, scr_ctn, menu_css, use_end_date, use_strt_date, use_yn, rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt)
+VALUES('ADM', 'S', 'ALOG001', '로그인', 2, 1, 'AHOM001', '/LOG/LOG001M00', 'N', '로그인', NULL, '99991223', '20240823', 'Y', 'admin', '20240823163637', 'admin', '20240823163637');
+INSERT INTO public.menu
+(sys_div_cd, menu_scr_dev, menu_code, menu_name, menu_depth, menu_seq, upper_menu_code, file_path, login_yn, scr_ctn, menu_css, use_end_date, use_strt_date, use_yn, rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt)
+VALUES('ADM', 'N', 'AHOM001', '홈', 1, 1, NULL, '/LOG/LOG001M00', 'N', '메인화면', NULL, '99991223', '20240823', 'Y', 'admin', '20240823161712', 'admin', '20240823161712');
 
 
 CREATE TABLE ADMIN (
@@ -159,3 +181,80 @@ COMMENT ON COLUMN ADMIN.RGTR_DT IS '관리자 정보가 등록된 날짜와 시�
 COMMENT ON COLUMN ADMIN.LAST_USER_ID IS '관리자 정보를 마지막으로 수정한 사용자 ID';
 COMMENT ON COLUMN ADMIN.LAST_CHG_DT IS '관리자 정보가 마지막으로 수정된 날짜와 시간';
 COMMENT ON COLUMN ADMIN.LOGIN_ERR_CNT IS '로그인 실패 횟수 (초기값 0)';
+
+
+
+-- public.cmmn_code definition
+
+-- Drop table
+
+-- DROP TABLE public.cmmn_code;
+
+CREATE TABLE public.cmmn_code (
+	grp_code varchar(20) NOT NULL,
+	grp_name varchar(100) NULL,
+	code varchar(20) NOT NULL,
+	"name" varchar(100) NULL,
+	code2 varchar(20) NULL,
+	name2 varchar(100) NULL,
+	code3 varchar(20) NULL,
+	name3 varchar(100) NULL,
+	code4 varchar(20) NULL,
+	name4 varchar(100) NULL,
+	code5 varchar(20) NULL,
+	name5 varchar(100) NULL,
+	seq int4 NULL,
+	valid_yn bpchar(1) NULL,
+	rgtr_user_id varchar(50) NULL,
+	rgtr_dt varchar(14) DEFAULT to_char(now(), 'YYYYMMDDHH24MISS'::text) NULL,
+	last_user_id varchar(50) NULL,
+	last_chg_dt varchar(14) DEFAULT to_char(now(), 'YYYYMMDDHH24MISS'::text) NULL,
+	CONSTRAINT cmmn_code_pkey PRIMARY KEY (grp_code, code)
+);
+
+
+INSERT INTO public.cmmn_code
+(grp_code, grp_name, code, "name", code2, name2, code3, name3, code4, name4, code5, name5, seq, valid_yn, rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt)
+VALUES('MEM_DIV_CD', '회원구분', '01', '회원', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 'Y', 'system', '20240822205408', 'system', '20240822205408');
+INSERT INTO public.cmmn_code
+(grp_code, grp_name, code, "name", code2, name2, code3, name3, code4, name4, code5, name5, seq, valid_yn, rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt)
+VALUES('MEM_DIV_CD', '회원구분', '02', '비회원', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2, 'Y', 'system', '20240822205408', 'system', '20240822205408');
+INSERT INTO public.cmmn_code
+(grp_code, grp_name, code, "name", code2, name2, code3, name3, code4, name4, code5, name5, seq, valid_yn, rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt)
+VALUES('NLTY_DIV_CD', '내외국인구분', '01', '내국인', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, 'Y', 'system', '20240822205408', 'system', '20240822205408');
+INSERT INTO public.cmmn_code
+(grp_code, grp_name, code, "name", code2, name2, code3, name3, code4, name4, code5, name5, seq, valid_yn, rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt)
+VALUES('NLTY_DIV_CD', '내외국인구분', '02', '외국인', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 4, 'Y', 'system', '20240822205408', 'system', '20240822205408');
+INSERT INTO public.cmmn_code
+(grp_code, grp_name, code, "name", code2, name2, code3, name3, code4, name4, code5, name5, seq, valid_yn, rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt)
+VALUES('MEM_SE_CD', '성별 (M/F)', 'M', '남자', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, 'Y', 'system', '20240822205408', 'system', '20240822205408');
+INSERT INTO public.cmmn_code
+(grp_code, grp_name, code, "name", code2, name2, code3, name3, code4, name4, code5, name5, seq, valid_yn, rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt)
+VALUES('MEM_SE_CD', '성별 (M/F)', 'F', '여자', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 6, 'Y', 'system', '20240822205408', 'system', '20240822205408');
+INSERT INTO public.cmmn_code
+(grp_code, grp_name, code, "name", code2, name2, code3, name3, code4, name4, code5, name5, seq, valid_yn, rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt)
+VALUES('MEM_JOIN_STAT_CD', '회원가입상태', '01', '승인대기', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 7, 'Y', 'system', '20240822205408', 'system', '20240822205408');
+INSERT INTO public.cmmn_code
+(grp_code, grp_name, code, "name", code2, name2, code3, name3, code4, name4, code5, name5, seq, valid_yn, rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt)
+VALUES('MEM_JOIN_STAT_CD', '회원가입상태', '02', '승인', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 8, 'Y', 'system', '20240822205408', 'system', '20240822205408');
+INSERT INTO public.cmmn_code
+(grp_code, grp_name, code, "name", code2, name2, code3, name3, code4, name4, code5, name5, seq, valid_yn, rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt)
+VALUES('MEM_JOIN_STAT_CD', '회원가입상태', '03', '탈퇴대기', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 9, 'Y', 'system', '20240822205408', 'system', '20240822205408');
+INSERT INTO public.cmmn_code
+(grp_code, grp_name, code, "name", code2, name2, code3, name3, code4, name4, code5, name5, seq, valid_yn, rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt)
+VALUES('MEM_JOIN_STAT_CD', '회원가입상태', '04', '탈퇴', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 10, 'Y', 'system', '20240822205408', 'system', '20240822205408');
+INSERT INTO public.cmmn_code
+(grp_code, grp_name, code, "name", code2, name2, code3, name3, code4, name4, code5, name5, seq, valid_yn, rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt)
+VALUES('ERROR_CODE', '에러코드', 'LOGIN_ERROR', '로그인 에러가 발생했습니다.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 11, 'Y', 'system', '20240822205408', 'system', '20240822205408');
+INSERT INTO public.cmmn_code
+(grp_code, grp_name, code, "name", code2, name2, code3, name3, code4, name4, code5, name5, seq, valid_yn, rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt)
+VALUES('ERROR_CODE', '에러코드', 'MEM001', '아이디를 입력하세요.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 12, 'Y', 'system', '20240822205408', 'system', '20240822205408');
+INSERT INTO public.cmmn_code
+(grp_code, grp_name, code, "name", code2, name2, code3, name3, code4, name4, code5, name5, seq, valid_yn, rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt)
+VALUES('ERROR_CODE', '에러코드', 'MEM002', '아이디 또는 비밀번호가 일치하지 않습니다.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 13, 'Y', 'system', '20240822205408', 'system', '20240822205408');
+INSERT INTO public.cmmn_code
+(grp_code, grp_name, code, "name", code2, name2, code3, name3, code4, name4, code5, name5, seq, valid_yn, rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt)
+VALUES('SYS_DIV_CD', '시스템구분코드', 'ADM', '관리자', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 'Y', 'system', '20240822205408', 'system', '20240822205408');
+INSERT INTO public.cmmn_code
+(grp_code, grp_name, code, "name", code2, name2, code3, name3, code4, name4, code5, name5, seq, valid_yn, rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt)
+VALUES('ERROR_CODE', '에러코드', 'SESSION_EXPIRED', '세션이 만료되었습니다. 재로그인 부탁드립니다.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '20250113163635', NULL, '20250113163635');

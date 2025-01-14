@@ -34,7 +34,7 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = null;
         if(findData != null){
             String codeNm = matchingItem.get().get("name").toString();
-             errorResponse = new ErrorResponse(ex.getMessage(), codeNm);
+             errorResponse = new ErrorResponse(codeNm, ex.getMessage());
         }else{
             errorResponse = new ErrorResponse(ex.getMessage(), "등록된 에러코드가 없습니다.");
         }
