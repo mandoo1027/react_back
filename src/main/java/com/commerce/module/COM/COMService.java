@@ -17,10 +17,18 @@ import java.util.Map;
 @Service("ComService")
 public class COMService extends UtilMapper {
 
-    public List<CamelKeyMap>  SCOM001(SCOM001SVO req) throws UserException {
+    public List<CamelKeyMap> SCOM001(SCOM001SVO req) throws UserException {
         Map map = objectMapper.convertValue(req, Map.class);
 
         List<CamelKeyMap> result = generalMapper.selectList("COM","selectCmmnCode",map);
+        return result ;
+    }
+
+    public List<CamelKeyMap> SCOM002(SCOM001SVO req) throws UserException {
+        Map map = objectMapper.convertValue(req, Map.class);
+
+        System.out.println("mapmap" + map.toString());
+        List<CamelKeyMap> result = generalMapper.selectList("COM","selectCmmnCodeDetail",map);
         return result ;
     }
 }
