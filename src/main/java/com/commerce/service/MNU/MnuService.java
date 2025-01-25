@@ -43,6 +43,18 @@ public class MnuService extends UtilMapper {
         return true;
     }
 
+    public boolean MNU0101S02(MNU0101S01S req, MNU0101S01R rsp) throws UserException {
+        Map<String, Object> map = objectMapper.convertValue(req, Map.class);
+
+        List<CamelKeyMap> result = generalMapper.selectList("MEN","selectMnuList",map);
+
+        List<MNUMenu> convertList = ObjectMapperUtils.convertToList(result, MNUMenu.class);
+        // 조회된 메뉴 Tree구조로 변경
+        rsp.setADM(convertList);
+
+        return true;
+    }
+
     /**
      * 트리구조 메뉴생성
      * @param list
