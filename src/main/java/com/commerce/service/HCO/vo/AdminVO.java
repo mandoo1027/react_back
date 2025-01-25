@@ -13,6 +13,7 @@ public class AdminVO {
         private String moblTelno1;      // 모바일 전화번호 앞자리
         private String moblTelno2;      // 모바일 전화번호 중간자리
         private String moblTelno3;      // 모바일 전화번호 끝자리
+        private String phon;            // 전화번호 풀네임
         private String email;           // 이메일 주소
         private String useStatCd;       // 사용 상태 코드 (1: 승인, 9: 승인요청, 3: 거부)
         private String useStrtDate;     // 사용 시작일 (YYYYMMDD 형식)

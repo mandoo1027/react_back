@@ -8,6 +8,8 @@ import com.commerce.module.MEM.vo.SMEM006RVO;
 import com.commerce.service.HCO.HCO0101Service;
 import com.commerce.service.HCO.vo.AdminVO;
 import com.commerce.service.HCO.vo.HCO0101S01S;
+import com.commerce.service.HCO.vo.HCO0101S04R;
+import com.commerce.service.HCO.vo.HCO0101S04S;
 import com.commerce.service.LOG.vo.LOG0101S01S;
 import com.commerce.service.MNU.vo.MNU0101S01R;
 import jakarta.servlet.http.HttpSession;
@@ -88,5 +90,20 @@ public class HcoController {
         resultVo.setResultData(true);
         session.invalidate();
         return resultVo;
+    }
+
+
+    // 로그인
+    @PostMapping(value = "/HCO0101S04")
+    public ResultVO list(@RequestBody HCO0101S04S req, HCO0101S04R rsp) throws UserException {
+
+        boolean isResult = hco0101Service.HCO0101S04(req, rsp);
+        ResultVO result = new ResultVO();
+        if(isResult) {
+            result.setResultData(rsp);
+            result.setSucessCode();
+        }
+
+        return result;
     }
 }
