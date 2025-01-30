@@ -47,6 +47,9 @@
 		<if test="filePath != null and filePath != ''">
 			AND   FILE_PATH LIKE '%'||#{filePath}||'%'
 		</if>
+		<if test="menuScrDev != null and menuScrDev != ''">
+			AND   MENU_SCR_DEV = #{menuScrDev}
+		</if>
 
 
 		ORDER BY SYS_DIV_CD, MENU_DEPTH, MENU_SEQ, MENU_CODE
