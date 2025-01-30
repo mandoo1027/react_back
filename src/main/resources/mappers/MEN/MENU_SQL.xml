@@ -56,7 +56,7 @@
 	</select>
 
 	<!-- 메뉴 등록 -->
-	<insert id="insertMnu" parameterType="hashmap">
+	<insert id="insertMenu" parameterType="hashmap">
 		<![CDATA[
 		INSERT INTO MENU
 		(
@@ -77,7 +77,7 @@
 			, LAST_USER_ID		-- 수정자
 			, LAST_CHG_DT		-- 수정일자
 			, RGTR_USER_ID		-- 등록자
-			, RGST_DT			-- 등록일자
+			, RGTR_DT			-- 등록일자
 		)
 		VALUES
 		(
@@ -85,8 +85,8 @@
 			, #{menuScrDev}		-- 메뉴화면구분 : M 메뉴  S 화면 N 네비게이션
 			, #{menuCode}		-- 메뉴코드 : M + 업무구분(3) + 순번(3)
 			, #{menuName}		-- 메뉴_화면명
-			, #{menuDepth}		-- 메뉴단계
-			, #{menuSeq}		-- 메뉴노출순서 : 메뉴 depth 내 순서
+			, CAST(#{menuDepth} AS INTEGER)		-- 메뉴단계
+			, CAST(#{menuSeq} AS INTEGER) 		-- 메뉴노출순서 : 메뉴 depth 내 순서
 			, #{upperMenuCode}	-- 상위메뉴코드
 			, #{filePath}		-- 화면경로 : /COM/COM002M00
 			, #{loginYn}		-- 로그인여부
@@ -96,11 +96,38 @@
 			, #{useStrtDate}	-- 사용시작일자
 			, #{useYn}			-- 사용여부
 			, #{lastUserId}		-- 수정자
-			, NOW()		-- 수정일자
+			, TO_CHAR(NOW(), 'YYYYMMDDHH24MISS')		-- 수정일자
 			, #{rgtrUserId}		-- 등록자
-			, NOW()			-- 등록일자
+			, TO_CHAR(NOW(), 'YYYYMMDDHH24MISS')		-- 등록일자
 		)
 	]]>
 	</insert>
-
+	<delete id="deleteMenu" parameterType="hashmap">
+		DELETE FROM MENU
+		WHERE 1=1
+		AND   SYS_DIV_CD = #{sysDivCd}
+		AND   MENU_CODE = #{menuCode}
+	</delete>
+	<update id="updateMenu" parameterType="hashmap">
+		<![CDATA[
+		UPDATE MENU
+		SET
+			  MENU_NAME = #{menuName}		-- 메뉴_화면명
+			, MENU_DEPTH = CAST(#{menuDepth} AS INTEGER)			-- 메뉴단계
+			, MENU_SEQ =  CAST(#{menuSeq} AS INTEGER)			-- 메뉴노출순서 : 메뉴 depth 내 순서
+			, UPPER_MENU_CODE = #{upperMenuCode}	-- 상위메뉴코드
+			, FILE_PATH = #{filePath}		-- 화면경로 : /COM/COM002M00
+			, LOGIN_YN = #{loginYn}			-- 로그인여부
+			, SCR_CTN = #{scrCtn}			-- 화면설명
+			, MENU_CSS = #{menuCss}			-- 메뉴CSS
+			, USE_END_DATE = #{useEndDate}	-- 사용종료일자
+			, USE_STRT_DATE = #{useStrtDate}	-- 사용시작일자
+			, USE_YN = #{useYn}				-- 사용여부
+			, LAST_USER_ID = #{lastUserId}	-- 수정자
+			, LAST_CHG_DT = TO_CHAR(NOW(), 'YYYYMMDDHH24MISS')		-- 수정일자
+		WHERE 1=1
+		AND   SYS_DIV_CD = #{sysDivCd}
+		AND   MENU_CODE = #{menuCode}
+	]]>
+	</update>
 </mapper>

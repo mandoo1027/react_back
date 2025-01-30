@@ -1,6 +1,7 @@
 package com.commerce.comm;
 
 import com.commerce.module.MEM.vo.SMEM006RVO;
+import com.commerce.service.HCO.vo.AdminVO;
 import jakarta.servlet.http.HttpSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class GeneralMapperService {
 
     public int insert(String namespace, String queryId, Map<String,Object> paramMap) {
         String statement = namespace + "." + queryId;
-        UserVO userVo = (UserVO) session.getAttribute("user");
+        AdminVO userVo = (AdminVO) session.getAttribute("user");
         String userId = userVo.getCurrentSessionId();
         paramMap.put("rgtrUserId", userId);
         return sqlSessionTemplate.insert(statement, paramMap);
