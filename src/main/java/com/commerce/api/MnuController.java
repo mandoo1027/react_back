@@ -39,5 +39,16 @@ public class MnuController {
         return result;
     }
 
+    @PostMapping(value = "/MNU0101U02")
+    public ResultVO MNU0101U02(@RequestBody MNU0101S01S req) throws UserException {
+        boolean isResult = mnuService.MNU0101U02(req);
+        ResultVO result = new ResultVO();
+        if(isResult) {
+            result.setResultData(isResult);
+            result.setSucessCode();
+        }
+        return result;
+    }
+
 
 }

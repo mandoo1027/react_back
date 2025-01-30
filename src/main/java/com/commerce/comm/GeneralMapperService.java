@@ -1,7 +1,9 @@
 package com.commerce.comm;
 
 import com.commerce.module.MEM.vo.SMEM006RVO;
+import jakarta.servlet.http.HttpSession;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,6 +14,8 @@ import java.util.Map;
 public class GeneralMapperService {
 
     private final SqlSessionTemplate sqlSessionTemplate;
+    @Autowired
+    private HttpSession session;
 
     public GeneralMapperService(SqlSessionTemplate sqlSessionTemplate) {
         this.sqlSessionTemplate = sqlSessionTemplate;
@@ -34,6 +38,19 @@ public class GeneralMapperService {
         Map map = sqlSessionTemplate.selectOne(statement, paramMap);
         CamelKeyMap camelKeyMap = new CamelKeyMap(map);
         return camelKeyMap;
+    }
+
+    public int insert(String namespace, String queryId, Map<String,Object> paramMap) {
+        String statement = namespace + "." + queryId;
+        UserVO userVo = (UserVO) session.getAttribute("user");
+        String userId = userVo.getCurrentSessionId();
+        paramMap.put("rgtrUserId", userId);
+        return sqlSessionTemplate.insert(statement, paramMap);
+    }
+
+    public int update(String namespace, String queryId, Map<String,Object> paramMap) {
+        String statement = namespace + "." + queryId;
+        return sqlSessionTemplate.update(statement, paramMap);
     }
 
 

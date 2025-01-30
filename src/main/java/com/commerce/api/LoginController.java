@@ -22,9 +22,12 @@ public class LoginController {
     @Autowired
     private MemService memService;
 
+    @Autowired
+    private HttpSession session;
+
     // 로그인
     @PostMapping(value = "/LOG0101S01")
-    public ResultVO login(@RequestBody LOG0101S01S req,HttpSession session) throws UserException{
+    public ResultVO login(@RequestBody LOG0101S01S req) throws UserException{
 
         if(StringUtil.isNullOrEmpty(req.getMemId())){
             throw new UserException("MEM001");//"아이디를 입력하세요.");

@@ -97,13 +97,10 @@ public class HcoController {
     @PostMapping(value = "/HCO0101S04")
     public ResultVO list(@RequestBody HCO0101S04S req, HCO0101S04R rsp) throws UserException {
 
-        boolean isResult = hco0101Service.HCO0101S04(req, rsp);
+        List<AdminVO>  adminList = hco0101Service.HCO0101S04(req, rsp);
         ResultVO result = new ResultVO();
-        if(isResult) {
-            result.setResultData(rsp);
-            result.setSucessCode();
-        }
-
+        result.setResultData(adminList);
+        result.setSucessCode();
         return result;
     }
 }

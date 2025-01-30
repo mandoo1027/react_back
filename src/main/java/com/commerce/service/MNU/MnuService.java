@@ -2,6 +2,7 @@ package com.commerce.service.MNU;
 
 import com.commerce.comm.CamelKeyMap;
 import com.commerce.comm.ObjectMapperUtils;
+import com.commerce.comm.UserVO;
 import com.commerce.comm.UtilMapper;
 import com.commerce.exception.UserException;
 import com.commerce.module.MEM.vo.SMEM001SVO;
@@ -10,6 +11,8 @@ import com.commerce.service.MNU.vo.MNU0101S01R;
 import com.commerce.service.MNU.vo.MNU0101S01S;
 import com.commerce.service.MNU.vo.MNUMenu;
 import io.micrometer.common.util.StringUtils;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +25,8 @@ import java.util.stream.Collectors;
 @Transactional
 @Service("MnuService")
 public class MnuService extends UtilMapper {
+    @Autowired
+    private HttpSession session;
     public boolean MNU0101S01(MNU0101S01S req, MNU0101S01R rsp) throws UserException {
         Map<String, Object> map = objectMapper.convertValue(req, Map.class);
 
@@ -54,6 +59,21 @@ public class MnuService extends UtilMapper {
 
         return true;
     }
+
+
+    public boolean MNU0101U02(MNU0101S01S req) throws UserException {
+        Map<String, Object> map = objectMapper.convertValue(req, Map.class);
+
+        UserVO userVo = (UserVO) session.getAttribute("user");
+        String userId = userVo.getCurrentSessionId();
+
+        map.put("lastUserId", userId);
+        int result = generalMapper.insert("MEN","insertMenu",map);
+
+
+        return result > 0;
+    }
+
 
     /**
      * 트리구조 메뉴생성

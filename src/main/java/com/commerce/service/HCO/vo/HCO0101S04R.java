@@ -9,6 +9,5 @@ import java.util.List;
 @Component
 @Data
 public class HCO0101S04R {
-	private List<AdminVO> ADM;
-	private List<AdminVO> admMappingList;
+	private List<AdminVO> adminList;
 }

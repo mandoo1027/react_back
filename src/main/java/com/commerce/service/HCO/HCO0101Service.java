@@ -50,7 +50,7 @@ public class HCO0101Service extends UtilMapper {
      * @return
      * @throws Exception
      */
-    public boolean HCO0101S04(HCO0101S04S req, HCO0101S04R rsp) throws UserException {
+    public List<AdminVO>  HCO0101S04(HCO0101S04S req, HCO0101S04R rsp) throws UserException {
 
         Map<String, Object> map = objectMapper.convertValue(req, Map.class);
 
@@ -58,9 +58,7 @@ public class HCO0101Service extends UtilMapper {
 
         List<AdminVO> convertList = ObjectMapperUtils.convertToList(result, AdminVO.class);
 
-        // 조회된 메뉴 Tree구조로 변경
-        rsp.setADM(convertList);
 
-        return true;
+        return convertList;
     }
 }
