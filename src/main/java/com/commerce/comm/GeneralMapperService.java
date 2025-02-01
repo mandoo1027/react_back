@@ -1,5 +1,7 @@
 package com.commerce.comm;
 
+import com.commerce.exception.UserException;
+import com.commerce.module.COM.COMService;
 import com.commerce.module.MEM.vo.SMEM006RVO;
 import com.commerce.service.HCO.vo.AdminVO;
 import jakarta.servlet.http.HttpSession;
@@ -15,8 +17,6 @@ import java.util.Map;
 public class GeneralMapperService {
 
     private final SqlSessionTemplate sqlSessionTemplate;
-    @Autowired
-    private HttpSession session;
 
     public GeneralMapperService(SqlSessionTemplate sqlSessionTemplate) {
         this.sqlSessionTemplate = sqlSessionTemplate;
@@ -41,11 +41,9 @@ public class GeneralMapperService {
         return camelKeyMap;
     }
 
-    public int insert(String namespace, String queryId, Map<String,Object> paramMap) {
+    public int insert(String namespace, String queryId, Map<String,Object> paramMap) throws UserException {
         String statement = namespace + "." + queryId;
-        AdminVO userVo = (AdminVO) session.getAttribute("user");
-        String userId = userVo.getCurrentSessionId();
-        paramMap.put("rgtrUserId", userId);
+
         return sqlSessionTemplate.insert(statement, paramMap);
     }
 

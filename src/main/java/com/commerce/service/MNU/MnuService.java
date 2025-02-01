@@ -5,6 +5,7 @@ import com.commerce.comm.ObjectMapperUtils;
 import com.commerce.comm.UserVO;
 import com.commerce.comm.UtilMapper;
 import com.commerce.exception.UserException;
+import com.commerce.module.COM.COMService;
 import com.commerce.service.HCO.vo.AdminVO;
 import com.commerce.service.MNU.vo.MNU0101S01R;
 import com.commerce.service.MNU.vo.MNU0101S01S;
@@ -27,6 +28,9 @@ import java.util.stream.Collectors;
 public class MnuService extends UtilMapper {
     @Autowired
     private HttpSession session;
+
+    @Autowired
+    private COMService comService;
     public boolean MNU0101S01(MNU0101S01S req, MNU0101S01R rsp) throws UserException {
         Map<String, Object> map = objectMapper.convertValue(req, Map.class);
 
@@ -63,18 +67,18 @@ public class MnuService extends UtilMapper {
 
     public boolean MNU0101U02(MNU0101S01S req) throws UserException {
         int resultCnt = 0;
+        AdminVO userVo = comService.getAdminInfo();
         for (MNU0101S01S menu : req.getMenuList()) {
             Map<String, Object> map = objectMapper.convertValue(menu, Map.class);
-
-            AdminVO userVo = (AdminVO) session.getAttribute("user");
             String userId = userVo.getId();
 
             map.put("lastUserId", userId);
+            map.put("rgtrUserId", userId);
 
             if ("C".equals(map.get("rowStatus"))) {
-                resultCnt += generalMapper.insert("MEN", "insertMenu", map);
+                resultCnt += generalMapper.insert("MEN", "insertMenu",map );
             } else if ("U".equals(map.get("rowStatus"))) {
-                resultCnt += generalMapper.insert("MEN", "updateMenu", map);
+                resultCnt += generalMapper.insert("MEN", "updateMenu",map );
             } else if ("D".equals(map.get("rowStatus"))) {
                 resultCnt += generalMapper.insert("MEN", "deleteMenu", map);
             }

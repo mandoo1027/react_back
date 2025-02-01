@@ -5,6 +5,7 @@ import com.commerce.comm.ObjectMapperUtils;
 import com.commerce.comm.ResultVO;
 import com.commerce.comm.UserVO;
 import com.commerce.exception.UserException;
+import com.commerce.module.COM.COMService;
 import com.commerce.module.MEM.MemService;
 import com.commerce.module.MEM.vo.SMEM001SVO;
 import com.commerce.module.MEM.vo.SMEM006RVO;
@@ -26,6 +27,8 @@ public class LoginController {
     @Autowired
     private HttpSession session;
 
+    @Autowired
+    private COMService comService;
     // 로그인
     @PostMapping(value = "/LOG0101S01")
     public ResultVO login(@RequestBody LOG0101S01S req) throws UserException{
@@ -62,7 +65,8 @@ public class LoginController {
     @PostMapping(value = "/LOG0101S02")
     public ResultVO healthCheck(@RequestBody LOG0101S01S req,HttpSession session) throws UserException{
 
-        AdminVO userVo =  (AdminVO) session.getAttribute("user");
+
+        AdminVO userVo = comService.getAdminInfo();
         ResultVO resultVo = new ResultVO();
         resultVo.setSucessCode();
         resultVo.setResultData(userVo);

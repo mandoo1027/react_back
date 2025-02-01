@@ -258,3 +258,27 @@ VALUES('SYS_DIV_CD', '시스템구분코드', 'ADM', '관리자', NULL, NULL, NU
 INSERT INTO public.cmmn_code
 (grp_code, grp_name, code, "name", code2, name2, code3, name3, code4, name4, code5, name5, seq, valid_yn, rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt)
 VALUES('ERROR_CODE', '에러코드', 'SESSION_EXPIRED', '세션이 만료되었습니다. 재로그인 부탁드립니다.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '20250113163635', NULL, '20250113163635');
+
+
+CREATE TABLE posts (
+    id BIGSERIAL PRIMARY KEY,                -- 게시글 고유 ID
+    title VARCHAR(255) NOT NULL,             -- 게시글 제목
+    content BYTEA NOT NULL,                  -- 게시글 본문 (HTML 포함, BYTEA로 변경)
+    rgtr_user_id VARCHAR(255) NOT NULL,      -- 작성자
+    rgtr_dt VARCHAR(14),                    -- 등록일자
+    last_user_id VARCHAR(255) NOT NULL,      -- 마지막 수정자
+    last_chg_at VARCHAR(14)                 -- 수정일자
+);
+
+-- 파일 테이블
+CREATE TABLE files (
+    id BIGSERIAL PRIMARY KEY,         -- 파일 고유 ID
+    bbs_id BIGINT,                               -- 게시글 ID (외래 키, bbs_id로 변경)
+    file_sequence INT NOT NULL,                   -- 파일 시퀀스 (게시글에 첨부된 순서)
+    original_file_name VARCHAR(255) NOT NULL,     -- 파일 원본 이름
+    server_file_name VARCHAR(255) NOT NULL,       -- 서버에 저장된 파일 이름
+    file_path VARCHAR(255) NOT NULL,              -- 파일 저장 경로
+    rgtr_user_id VARCHAR(255) NOT NULL,      -- 작성자
+    rgtr_dt VARCHAR(14),                    -- 등록일자
+    FOREIGN KEY (bbs_id) REFERENCES posts(id) ON DELETE CASCADE -- 게시글 삭제 시 파일도 삭제
+);

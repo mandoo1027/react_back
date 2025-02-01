@@ -4,6 +4,7 @@ import ch.qos.logback.core.util.StringUtil;
 import com.commerce.comm.ResultVO;
 import com.commerce.comm.UserVO;
 import com.commerce.exception.UserException;
+import com.commerce.module.COM.COMService;
 import com.commerce.module.MEM.vo.SMEM006RVO;
 import com.commerce.service.HCO.HCO0101Service;
 import com.commerce.service.HCO.vo.AdminVO;
@@ -28,6 +29,8 @@ public class HcoController {
     @Autowired
     HCO0101Service hco0101Service;
 
+    @Autowired
+    private COMService comService;
     // 로그인
     @PostMapping(value = "/HCO0101S01")
     public ResultVO login(@RequestBody HCO0101S01S req, HttpSession session) throws UserException {
@@ -68,15 +71,11 @@ public class HcoController {
     @PostMapping(value = "/HCO0101S02")
     public ResultVO healthCheck(@RequestBody LOG0101S01S req,HttpSession session) throws UserException{
 
-        AdminVO userVo =  (AdminVO) session.getAttribute("user");
+
+        AdminVO userVo = comService.getAdminInfo();
         ResultVO resultVo = new ResultVO();
-        if(userVo != null){
             resultVo.setSucessCode();
             resultVo.setResultData(userVo);
-        }else{
-            throw new UserException("SESSION_EXPIRED");//세션이 만료되었습니다. 재로그인 부탁드립니다.
-
-        }
 
         return resultVo;
     }
