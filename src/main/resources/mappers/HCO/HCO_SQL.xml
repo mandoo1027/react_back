@@ -76,6 +76,89 @@
 
 	</select>
 
-
+	<!-- 관리자 등록 -->
+	<insert id="insertAdmin" parameterType="hashmap">
+		<![CDATA[
+			INSERT INTO ADMIN
+			(
+				  ID                -- 사용자 ID
+				, PWD               -- 비밀번호
+				, NAME              -- 이름
+				, IDNO              -- 주민번호(식별)
+				, IP                -- 접속 IP
+				, MOBL_TELNO1       -- 전화번호1
+				, MOBL_TELNO2       -- 전화번호1
+				, MOBL_TELNO3       -- 전화번호1
+				, EMAIL             -- 이메일
+				, USE_STAT_CD       -- 사용 상태 코드
+				, USE_STRT_DATE     -- 사용 시작일
+				, USE_END_DATE      -- 사용 종료일
+				, MENU_AUTH         -- 메뉴 권한
+				, DEPT_CD           -- 부서 코드
+				, DEPT_NM           -- 부서 이름
+				, MEMO              -- 메모
+				, OTP_SKEY          -- OTP 키
+				, RGTR_USER_ID      -- 등록자 ID
+				, RGTR_DT           -- 등록일
+				, LAST_USER_ID      -- 최종 수정자 ID
+				, LAST_CHG_DT       -- 최종 수정일
+			)
+			VALUES
+			(
+				  #{id}               -- 사용자 ID
+				, #{pwd}              -- 비밀번호
+				, #{name}             -- 이름
+				, #{idno}             -- 주민번호(식별)
+				, #{ip}               -- 접속 IP
+				, (STRING_TO_ARRAY(#{phon}, '-'))[1]             -- 전화번호
+				, (STRING_TO_ARRAY(#{phon}, '-'))[2]             -- 전화번호
+				, (STRING_TO_ARRAY(#{phon}, '-'))[3]             -- 전화번호
+				, #{email}            -- 이메일
+				, #{useStatCd}        -- 사용 상태 코드
+				, #{useStrtDate}      -- 사용 시작일
+				, #{useEndDate}       -- 사용 종료일
+				, #{menuAuth}         -- 메뉴 권한
+				, #{deptCd}           -- 부서 코드
+				, #{deptNm}           -- 부서 이름
+				, #{memo}             -- 메모
+				, #{otpSkey}          -- OTP 키
+				, #{rgtrUserId}       -- 등록자 ID
+				, TO_CHAR(NOW(), 'YYYYMMDDHH24MISS') -- 등록일 (현재 시간)
+				, #{lastUserId}       -- 최종 수정자 ID
+				, TO_CHAR(NOW(), 'YYYYMMDDHH24MISS') -- 최종 수정일 (현재 시간)
+			)
+		]]>
+	</insert>
+	<delete id="deleteAdmin" parameterType="hashmap">
+		DELETE FROM ADMIN
+		WHERE 1=1
+		AND   ID = #{id}
+	</delete>
+	<update id="updateAdmin" parameterType="hashmap">
+		<![CDATA[
+			UPDATE ADMIN
+			SET
+				  PWD            = #{pwd}              -- 비밀번호
+				, NAME           = #{name}             -- 이름
+				, IDNO           = #{idno}             -- 주민번호(식별)
+				, IP             = #{ip}               -- 접속 IP
+				, MOBL_TELNO1    = (STRING_TO_ARRAY(#{phon}, '-'))[1]             -- 전화번호
+				, MOBL_TELNO2    = (STRING_TO_ARRAY(#{phon}, '-'))[2]             -- 전화번호
+				, MOBL_TELNO3    = (STRING_TO_ARRAY(#{phon}, '-'))[3]             -- 전화번호
+				, EMAIL          = #{email}            -- 이메일
+				, USE_STAT_CD    = #{useStatCd}        -- 사용 상태 코드
+				, USE_STRT_DATE  = #{useStrtDate}      -- 사용 시작일
+				, USE_END_DATE   = #{useEndDate}       -- 사용 종료일
+				, MENU_AUTH      = #{menuAuth}         -- 메뉴 권한
+				, DEPT_CD        = #{deptCd}           -- 부서 코드
+				, DEPT_NM        = #{deptNm}           -- 부서 이름
+				, MEMO           = #{memo}             -- 메모
+				, OTP_SKEY       = #{otpSkey}          -- OTP 키
+				, LAST_USER_ID   = #{lastUserId}       -- 최종 수정자 ID
+				, LAST_CHG_DT    = TO_CHAR(NOW(), 'YYYYMMDDHH24MISS') -- 최종 수정일 (현재 시간)
+			WHERE
+				ID = #{id};  -- 사용자 ID 기준으로 업데이트
+		]]>
+	</update>
 
 </mapper>

@@ -13,6 +13,7 @@ import com.commerce.service.HCO.vo.HCO0101S04R;
 import com.commerce.service.HCO.vo.HCO0101S04S;
 import com.commerce.service.LOG.vo.LOG0101S01S;
 import com.commerce.service.MNU.vo.MNU0101S01R;
+import com.commerce.service.MNU.vo.MNU0101S01S;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -92,7 +93,7 @@ public class HcoController {
     }
 
 
-    // 로그인
+    // 관리자 목록
     @PostMapping(value = "/HCO0101S04")
     public ResultVO list(@RequestBody HCO0101S04S req, HCO0101S04R rsp) throws UserException {
 
@@ -100,6 +101,19 @@ public class HcoController {
         ResultVO result = new ResultVO();
         result.setResultData(adminList);
         result.setSucessCode();
+        return result;
+    }
+
+    //관리자 저장
+    @PostMapping(value = "/HCO0101U01")
+    public ResultVO MNU0101U02(@RequestBody HCO0101S04S req) throws UserException {
+
+        boolean isResult = hco0101Service.HCO0101U01(req);
+        ResultVO result = new ResultVO();
+        if(isResult) {
+            result.setResultData(isResult);
+            result.setSucessCode();
+        }
         return result;
     }
 }
