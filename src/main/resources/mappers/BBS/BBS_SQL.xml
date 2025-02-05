@@ -3,6 +3,11 @@
 
 <mapper namespace="BBS">
 
+	<!-- 게시판 조회 -->
+	<select id="selectPostIdNextVal" resultType="hashmap">
+		SELECT nextval('posts_id_seq') posts_id_seq
+	</select>
+
 	<!-- 메뉴 조회 -->
 	<select id="selectMnuList" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[

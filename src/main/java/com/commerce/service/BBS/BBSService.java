@@ -44,6 +44,21 @@ public class BBSService extends UtilMapper {
     }
 
     /**
+     * 게시판 아이디 가져오기
+     *
+     * @param
+     * @param
+     * @return
+     * @throws Exception
+     */
+
+    public Long selectPostIdNextVal() throws UserException {
+         CamelKeyMap result = generalMapper.selectOne("BBS", "selectPostIdNextVal",null);
+        Long posts_id_seq = (Long) result.get("postsIdSeq");
+        return posts_id_seq;
+    }
+
+    /**
      * 관리자 저장
      * @param 
      * @return

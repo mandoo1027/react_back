@@ -15,4 +15,6 @@ spring:
             max-file-size: 50MB
             max-request-size: 50MB
 file:
-    upload-dir: /Users/kyungilkim/devel/react/commerce-back/uploads
+    resource-locations: /Users/kyungilkim/devel/react/commerce-back/uploads/
+    home-dir: /Users/kyungilkim/devel/react/commerce-back/
+    images-upload-dir: /uploads/images

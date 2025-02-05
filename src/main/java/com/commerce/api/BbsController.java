@@ -37,4 +37,13 @@ public class BbsController{
 
         return "Upload successful";
     }
+
+    @PostMapping("/selectPostIdNextVal")
+    public ResultVO selectPostIdNextVal() throws UserException {
+        Long postId = bbsService.selectPostIdNextVal();
+        ResultVO resultVO = new ResultVO();
+        resultVO.setResultData(postId);
+        resultVO.setSuccess(true);
+        return resultVO;
+    }
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class GeneralMapperService {
@@ -34,9 +35,9 @@ public class GeneralMapperService {
         return camelKeyMapList;
     }
 
-    public CamelKeyMap selectOne(String namespace, String queryId, Map<String, Object> paramMap) {
+    public CamelKeyMap selectOne(String namespace, String queryId, Optional<Map<String, Object>> paramMapOpt) {
         String statement = namespace + "." + queryId;
-        Map map = sqlSessionTemplate.selectOne(statement, paramMap);
+        Map map = sqlSessionTemplate.selectOne(statement, paramMapOpt);
         CamelKeyMap camelKeyMap = new CamelKeyMap(map);
         return camelKeyMap;
     }
