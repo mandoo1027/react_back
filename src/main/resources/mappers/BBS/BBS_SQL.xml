@@ -9,63 +9,42 @@
 	</select>
 
 	<!-- 메뉴 조회 -->
-	<select id="selectMnuList" parameterType="hashmap" resultType="hashmap">
-		<![CDATA[
+	<select id="selectBBS" parameterType="hashmap" resultType="hashmap">
 		SELECT
-			  SYS_DIV_CD		-- 시스템구분 : EFM, ADM
-			, MENU_SCR_DEV		-- 메뉴화면구분 : M 메뉴  S 화면 N 네비게이션
-			, MENU_CODE			-- 메뉴코드 : M + 업무구분(3) + 순번(3)
-			, MENU_NAME			-- 메뉴_화면명
-			, MENU_DEPTH		-- 메뉴단계
-			, MENU_SEQ			-- 메뉴노출순서 : 메뉴 depth 내 순서
-			, UPPER_MENU_CODE	-- 상위메뉴코드
-			, FILE_PATH			-- 화면경로 : /COM/COM002M00
-			, LOGIN_YN			-- 로그인여부
-			, SCR_CTN			-- 화면설명
-			, MENU_CSS			-- 메뉴CSS
-			, USE_END_DATE		-- 사용종료일자
-			, USE_STRT_DATE		-- 사용시작일자
-			, USE_YN			-- 사용여부
-			, LAST_USER_ID		-- 수정자
-			, LAST_CHG_DT		-- 수정일자
-		FROM MENU
-		WHERE 1=1
-
-		AND   USE_STRT_DATE <= TO_CHAR(now(), 'YYYYMMDD')
-		AND   USE_END_DATE >= TO_CHAR(now(), 'YYYYMMDD')
-	]]>
-		<if test="searchType == null or searchType == ''">
-			AND  USE_YN = 'Y'
-		</if>
-		<if test="sysDivCd == 'ADM'">
-			AND   SYS_DIV_CD = 'ADM'
-		</if>
-		<if test="menuCode != null and menuCode != ''">
-			AND   MENU_CODE LIKE '%'||#{menuCode}||'%'
-		</if>
-		<if test="menuName != null and menuName != ''">
-			AND   MENU_NAME LIKE '%'||#{menuName}||'%'
-		</if>
-		<if test="upperMenuCode != null and upperMenuCode != ''">
-			AND   UPPER_MENU_CODE LIKE '%'||#{upperMenuCode}||'%'
-		</if>
-		<if test="filePath != null and filePath != ''">
-			AND   FILE_PATH LIKE '%'||#{filePath}||'%'
-		</if>
-		<if test="menuScrDev != null and menuScrDev != ''">
-			AND   MENU_SCR_DEV = #{menuScrDev}
-		</if>
-
-
-		ORDER BY SYS_DIV_CD, MENU_DEPTH, MENU_SEQ, MENU_CODE
+		p.id as postId,
+		p.title,
+		p.contents,
+		get_user_name(p.rgtr_user_id) AS rgtr_user_name,
+		p.rgtr_dt,
+		p.last_user_id,
+		get_user_name(p.last_user_id) AS last_user_name,
+		p.last_chg_at,
+		p.isNotice
+		FROM posts p
+		<where>
+			<if test="searchKeyword != null and searchKeyword != ''">
+				AND (p.title LIKE CONCAT('%', #{searchKeyword}, '%')
+				OR p.contents LIKE CONCAT('%', #{searchKeyword}, '%'))
+			</if>
+			<if test="rgtrUserName != null and rgtrUserName != ''">
+				AND get_user_name(p.rgtr_user_id) LIKE CONCAT('%', #{rgtrUserName}, '%')
+			</if>
+			<if test="isNotice != null">
+				AND p.isNotice = #{isNotice}
+			</if>
+			<if test="postId != null and postId != ''">
+				AND p.id = #{postId}
+			</if>
+		</where>
+		ORDER BY p.rgtr_dt DESC
 	</select>
 
 	<!-- 메뉴 등록 -->
 	<insert id="insertBBS" parameterType="hashmap">
 		<![CDATA[
-		    INSERT INTO posts (title, content, rgtr_user_id, rgtr_dt, last_user_id, last_chg_at, isnotice)
+		    INSERT INTO posts (id,title, contents, rgtr_user_id, rgtr_dt, last_user_id, last_chg_at, isNotice)
 			VALUES
-			(#{title}, #{content, jdbcType=BINARY}, #{rgtrUserId}, TO_CHAR(NOW(), 'YYYYMMDDHH24MISS'), #{lastUserId}, TO_CHAR(NOW(), 'YYYYMMDDHH24MISS'), #{isNotice})
+			(#{postId},#{title}, #{contents, jdbcType=BINARY}, #{rgtrUserId}, TO_CHAR(NOW(), 'YYYYMMDDHH24MISS'), #{lastUserId}, TO_CHAR(NOW(), 'YYYYMMDDHH24MISS'), #{isNotice})
 	]]>
 	</insert>
 	<delete id="deleteMenu" parameterType="hashmap">

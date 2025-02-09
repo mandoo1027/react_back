@@ -75,8 +75,8 @@ public class HcoController {
 
         AdminVO userVo = comService.getAdminInfo();
         ResultVO resultVo = new ResultVO();
-            resultVo.setSucessCode();
-            resultVo.setResultData(userVo);
+        resultVo.setSucessCode();
+        resultVo.setResultData(userVo);
 
         return resultVo;
     }

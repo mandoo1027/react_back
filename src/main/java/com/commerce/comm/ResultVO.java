@@ -15,10 +15,8 @@ public class ResultVO {
     private String resultMsg;
     private boolean success;
 
-    private Object data;
-    public void setResultData(Object resultData) {
-        this.data = resultData;
-    }
+    private Object resultData;
+
     public void setSucessCode() {
         this.resultCode = "0000";
         this.resultMsg = "성공";
