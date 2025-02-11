@@ -16,7 +16,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.lang.reflect.Array;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Transactional
@@ -73,11 +77,18 @@ public class BBSService extends UtilMapper {
     public List<BBS0101S01R>  selectBBSList(BBS0101S01S req) throws UserException {
         Map<String, Object> map = objectMapper.convertValue(req, Map.class);
         List<CamelKeyMap> result = generalMapper.selectList("BBS", "selectBBS",map);
-        if(!Objects.isNull(req.getPostId())){
+        List<BBS0101S01R> returnData = ObjectMapperUtils.convertToList(result, BBS0101S01R.class);
+
+        if(!Objects.isNull(req.getPostid())){
             //파일 정보 가져오기
+            FileVO fileVO = ObjectMapperUtils.convertToVo(req,FileVO.class);
+            fileModule.fileList(fileVO);
+            BBS0101S01R data = returnData.get(0);
+            data.setAttachFile(fileVO.getAttachList());
+            data.setImgFiles(fileVO.getImageList());
         }
 
-        return ObjectMapperUtils.convertToList(result, BBS0101S01R.class);
+        return returnData;
     }
 
     /**

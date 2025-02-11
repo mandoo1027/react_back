@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service("FileModule")
@@ -127,10 +128,19 @@ public class FileModule extends UtilMapper {
      * @throws Exception
      */
 
-    public List<FileVO> fileList(FileVO req) throws UserException {
+    public FileVO fileList(FileVO req) throws UserException {
         Map<String, Object> map = objectMapper.convertValue(req, Map.class);
         List<CamelKeyMap> result = generalMapper.selectList("FILE", "selectFileList", map);
-        return ObjectMapperUtils.convertToList(result, FileVO.class);
+        List<FileVO> files = ObjectMapperUtils.convertToList(result, FileVO.class);
+        List<FileVO> attachList = files.stream()
+                .filter(item -> "attach".equals(item.getType()))
+                .collect(Collectors.toList());
+        List<FileVO> imageList = files.stream()
+                .filter(item -> "image".equals(item.getType()))
+                .collect(Collectors.toList());
+        req.setAttachList(attachList);
+        req.setImageList(imageList);
+        return req;
     }
 
     public void fileSave(List<HashMap> files,String type,int postsId) throws UserException{
@@ -142,7 +152,7 @@ public class FileModule extends UtilMapper {
             String rowStatus = fileVO.getRowStatus();
             fileVO.setFileSequence(seq++);
             fileVO.setType(type);
-            fileVO.setPostsId(postsId);
+            fileVO.setPostid(postsId);
             Map<String, Object> map = objectMapper.convertValue(fileVO, Map.class);
             if ("C".equals(rowStatus)) {
                 generalMapper.insert("FILE", "insertFile", map);

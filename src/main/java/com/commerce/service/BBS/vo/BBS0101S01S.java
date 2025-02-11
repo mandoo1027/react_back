@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 public class BBS0101S01S {
 
-    private Integer postId;
+    private Integer postid;
     private String rowStatus;
     private String title;
     private Boolean isnotice;

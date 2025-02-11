@@ -32,8 +32,8 @@
 			<if test="isNotice != null">
 				AND p.isNotice = #{isNotice}
 			</if>
-			<if test="postId != null and postId != ''">
-				AND p.id = #{postId}
+			<if test="postid != null and postid != ''">
+				AND p.id = #{postid}
 			</if>
 		</where>
 		ORDER BY p.rgtr_dt DESC

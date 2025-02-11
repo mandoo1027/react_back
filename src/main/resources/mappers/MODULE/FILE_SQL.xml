@@ -7,7 +7,7 @@
     <select id="selectFileList" parameterType="hashmap" resultType="hashmap">
         SELECT
                 id,
-                posts_id,
+                postid,
                 file_sequence,
                 realName,
                 fileName,
@@ -17,15 +17,15 @@
                 rgtr_dt
         FROM public.files
         WHERE 1=1
-        AND   posts_id = #{postsId}
-        order by posts_id, file_sequence
+        AND   postid = #{postid}
+        order by postid, file_sequence
     </select>
 
     <!-- 메뉴 등록 -->
     <insert id="insertFile" parameterType="hashmap">
         <![CDATA[
 		INSERT INTO public.files (
-                posts_id,
+                postid,
                 file_sequence,
                 realName,
                 fileName,
@@ -34,7 +34,7 @@
                 rgtr_user_id,
                 rgtr_dt
             ) VALUES (
-                #{postsId},          -- 게시글 ID (동적 값)
+                #{postid},          -- 게시글 ID (동적 값)
                 #{fileSequence},     -- 파일 순서 (동적 값)
                 #{realName}, -- 원본 파일명 (동적 값)
                 #{fileName},   -- 서버 저장 파일명 (동적 값)
@@ -49,8 +49,8 @@
         DELETE FROM files
         WHERE 1=1
         AND   id = #{id}
-        <if test="postsId != null and postsId != ''">
-            AND posts_id = #{postsId}
+        <if test="postid != null and postid != ''">
+            AND postid = #{postid}
         </if>
     </delete>
 </mapper>

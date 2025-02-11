@@ -39,9 +39,9 @@ public class FileUploadController {
 
     @PostMapping("/fileList")
     public ResultVO fileList(@RequestBody FileVO vo) throws UserException {
-        List<FileVO> fileList = fileModule.fileList(vo);
+        FileVO fileData = fileModule.fileList(vo);
         ResultVO resultVO = new ResultVO();
-        resultVO.setResultData(fileList);
+        resultVO.setResultData(fileData);
         resultVO.setSucessCode();
         return resultVO;
     }

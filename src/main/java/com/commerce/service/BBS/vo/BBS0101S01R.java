@@ -1,8 +1,10 @@
 package com.commerce.service.BBS.vo;
 
+import com.commerce.module.CMN.FileVO;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,6 +24,6 @@ public class BBS0101S01R {
     private String lastChgAt; // 마지막 수정 일시
 
 
-    private List<HashMap> attachFile;
-    private List<HashMap> imgFiles;
+    private List<FileVO> attachFile;
+    private List<FileVO> imgFiles;
 }
