@@ -7,11 +7,12 @@ import java.util.List;
 @Data
 public class FileVO {
     private Integer id;               // 파일 ID
-    private Integer postid;          // 게시글 ID (posts 테이블과 연결)
+    private Integer postId;          // 게시글 ID (posts 테이블과 연결)
     private Integer fileSequence;  // 파일 순서
-    private String realname; // 원본 파일명
-    private String filename;   // 서버 저장 파일명
-    private String fileurl;         // 파일 경로
+    private String realName; // 원본 파일명
+    private String fileName;   // 서버 저장 파일명
+    private String fileUrl;         // 파일 경로
+    private String realUrl;         // 파일 경로
     private String type;             // 파일 타입 (예: 이미지, 문서 등)
     private String rgtrUserId;       // 등록 사용자 ID
     private String rgtrUserName;       // 등록 사용자 ID

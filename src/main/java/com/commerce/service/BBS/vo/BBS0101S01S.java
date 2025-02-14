@@ -11,10 +11,10 @@ import java.util.List;
 @Data
 public class BBS0101S01S {
 
-    private Integer postid;
+    private Integer postId;
     private String rowStatus;
     private String title;
-    private Boolean isnotice;
+    private Boolean isNotice;
     private String contents;
     private List<HashMap> attachFile;
     private List<HashMap> imgFiles;

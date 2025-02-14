@@ -79,7 +79,7 @@ public class BBSService extends UtilMapper {
         List<CamelKeyMap> result = generalMapper.selectList("BBS", "selectBBS",map);
         List<BBS0101S01R> returnData = ObjectMapperUtils.convertToList(result, BBS0101S01R.class);
 
-        if(!Objects.isNull(req.getPostid())){
+        if(!Objects.isNull(req.getPostId())){
             //파일 정보 가져오기
             FileVO fileVO = ObjectMapperUtils.convertToVo(req,FileVO.class);
             fileModule.fileList(fileVO);

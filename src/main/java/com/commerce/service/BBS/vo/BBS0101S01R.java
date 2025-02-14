@@ -15,7 +15,7 @@ public class BBS0101S01R {
     private int postid;
     private String rowStatus;
     private String title;
-    private boolean isnotice;
+    private boolean isNotice;
     private String contents;
     private String rgtrUserName;  // 등록자 이름
     private String last_user_name;  // 등록자 이름

@@ -9,15 +9,17 @@
                 id,
                 postid,
                 file_sequence,
-                realName,
-                fileName,
-                fileUrl,
+                realName as real_name,
+                fileName as file_name,
+                fileUrl as real_url,
+                fileUrl as file_url,
                 type,
                 rgtr_user_id,
+                get_user_name(rgtr_user_id) as rgtr_user_name,
                 rgtr_dt
         FROM public.files
         WHERE 1=1
-        AND   postid = #{postid}
+        AND   postid = #{postId}
         order by postid, file_sequence
     </select>
 
@@ -34,11 +36,11 @@
                 rgtr_user_id,
                 rgtr_dt
             ) VALUES (
-                #{postid},          -- 게시글 ID (동적 값)
+                #{postId},          -- 게시글 ID (동적 값)
                 #{fileSequence},     -- 파일 순서 (동적 값)
                 #{realName}, -- 원본 파일명 (동적 값)
                 #{fileName},   -- 서버 저장 파일명 (동적 값)
-                #{fileUrl},         -- 파일 경로 (동적 값)
+                #{realUrl},         -- 파일 경로 (동적 값)
                 #{type},             -- 파일 타입 (동적 값)
                 #{rgtrUserId},       -- 등록 사용자 ID (동적 값)
                 TO_CHAR(NOW(), 'YYYYMMDDHH24MISS')		-- 수정일자

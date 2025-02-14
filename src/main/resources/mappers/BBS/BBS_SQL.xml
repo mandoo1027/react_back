@@ -19,7 +19,7 @@
 		p.last_user_id,
 		get_user_name(p.last_user_id) AS last_user_name,
 		p.last_chg_at,
-		p.isNotice
+		p.isNotice is_notice
 		FROM posts p
 		<where>
 			<if test="searchKeyword != null and searchKeyword != ''">
@@ -32,8 +32,8 @@
 			<if test="isNotice != null">
 				AND p.isNotice = #{isNotice}
 			</if>
-			<if test="postid != null and postid != ''">
-				AND p.id = #{postid}
+			<if test="postId != null and postId != ''">
+				AND p.id = #{postId}
 			</if>
 		</where>
 		ORDER BY p.rgtr_dt DESC

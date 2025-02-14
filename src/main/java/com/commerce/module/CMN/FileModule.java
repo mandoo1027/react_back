@@ -81,11 +81,13 @@ public class FileModule extends UtilMapper {
 
                 //변경전 : /uploads/tmp-attachments, 변경 후 /uploads/attachments/{0}/{1}
                 String imageUrl = ServletUriComponentsBuilder.fromCurrentContextPath().toUriString() + filePath;
-                String realFilePath = realFileUploadDir.replaceAll(Pattern.quote("{0}"),type)+File.separator+ formattedDateTime + extension;;
+                String realUrl = ServletUriComponentsBuilder.fromCurrentContextPath().toUriString() +realFileUploadDir.replaceAll(Pattern.quote("{0}"),type)+File.separator+ formattedDateTime + extension;;
+                String realPath = realFileUploadDir.replaceAll(Pattern.quote("{0}"),type)+File.separator+ formattedDateTime + extension;;
 
                 fileInfo.put("fileUrl",imageUrl);
-                fileInfo.put("realUrl",realFilePath);
-                fileInfo.put("tmpUrl",filePath);
+                fileInfo.put("tmpPath",filePath);
+                fileInfo.put("realUrl",realUrl);
+                fileInfo.put("realPath",realPath);
                 fileInfo.put("yyyymmdd",yyyymmdd);
                 fileInfo.put("fileName",fileName);
                 fileInfo.put("realName",realName);
@@ -99,8 +101,8 @@ public class FileModule extends UtilMapper {
     public void relocateFile(List<HashMap> files){
 
         for(HashMap file : files){
-            String sourcePath =homeDir +  (String) file.get("tmpUrl");
-            String destinationPath = homeDir +(String) file.get("realUrl");
+            String sourcePath =homeDir +  (String) file.get("tmpPath");
+            String destinationPath = homeDir +(String) file.get("realPath");
             try {
                 File destinationFile = new File(destinationPath);
                 File destinationDir = destinationFile.getParentFile();
@@ -152,7 +154,7 @@ public class FileModule extends UtilMapper {
             String rowStatus = fileVO.getRowStatus();
             fileVO.setFileSequence(seq++);
             fileVO.setType(type);
-            fileVO.setPostid(postsId);
+            fileVO.setPostId(postsId);
             Map<String, Object> map = objectMapper.convertValue(fileVO, Map.class);
             if ("C".equals(rowStatus)) {
                 generalMapper.insert("FILE", "insertFile", map);
