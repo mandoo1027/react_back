@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/admin/service")
@@ -19,11 +20,25 @@ public class BbsController{
     @PostMapping("/BBS0101U01")
     public ResultVO uploadPost(@RequestBody  BBS0101S01S req) throws UserException {
 
-        //1. 데이터 저장
-        boolean resultData = bbsService.BBS0101U01(req);
+        if(!Objects.isNull(req.getBbsList()) && req.getBbsList().size() > 0){
+            //여러건 날아올 경우 데이터 삭제
+            List<BBS0101S01S> bbsList = req.getBbsList();
+            //
+            bbsList.forEach(bbs0101S01S -> {
+                try {
+                    bbsService.BBS0101U01(bbs0101S01S);
+                } catch (UserException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }else{
+            //1. 데이터 저장
+             bbsService.BBS0101U01(req);
+        }
+
 
         ResultVO resultVO = new ResultVO();
-        resultVO.setResultData(resultData);
+        resultVO.setResultData(true);
         resultVO.setSucessCode();
         return resultVO;
     }

@@ -6,34 +6,33 @@
 	<!-- 비로그인 회원ID 찾기 조회 -->
 	<select id="selectAdmin" parameterType="hashmap" resultType="hashmap">
 		SELECT  ID
-				,PWD
-				,NAME
-				,IDNO
-				,IP
-				,MOBL_TELNO1
-				,MOBL_TELNO2
-				,MOBL_TELNO3
-				, MOBL_TELNO1||'-'||MOBL_TELNO2||'-'|| MOBL_TELNO3 AS phon
-				,EMAIL
-				,USE_STAT_CD
-				,USE_STRT_DATE
-				,USE_END_DATE
-				,MENU_AUTH
-				,DEPT_CD
-				,DEPT_NM
-				,MEMO
-				,OTP_SKEY
-				,RGTR_USER_ID
-				,RGTR_DT
-				,LAST_USER_ID
-				,LAST_CHG_DT
-				,LOGIN_ERR_CNT
-				,MENU_AUTH
-				FROM ADMIN
-				WHERE 1=1
-				AND ID = #{id}
+		,PWD
+		,NAME
+		,IDNO
+		,IP
+		,MOBL_TELNO1
+		,MOBL_TELNO2
+		,MOBL_TELNO3
+		, CONCAT(MOBL_TELNO1, '-', MOBL_TELNO2, '-', MOBL_TELNO3) AS phon
+		,EMAIL
+		,USE_STAT_CD
+		,USE_STRT_DATE
+		,USE_END_DATE
+		,MENU_AUTH
+		,DEPT_CD
+		,DEPT_NM
+		,MEMO
+		,OTP_SKEY
+		,RGTR_USER_ID
+		,RGTR_DT
+		,LAST_USER_ID
+		,LAST_CHG_DT
+		,LOGIN_ERR_CNT
+		,MENU_AUTH
+		FROM admin
+		WHERE 1=1
+		AND ID = #{id}
 	</select>
-
 
 	<!-- 비로그인 회원ID 찾기 조회 -->
 	<select id="selectAdminList" parameterType="hashmap" resultType="hashmap">
@@ -46,7 +45,7 @@
 		     , MOBL_TELNO1
 		     , MOBL_TELNO2
 		     , MOBL_TELNO3
-		     , MOBL_TELNO1||'-'||MOBL_TELNO2||'-'|| MOBL_TELNO3 AS phon
+		     , CONCAT(MOBL_TELNO1, '-', MOBL_TELNO2, '-', MOBL_TELNO3) AS phon
 		     , EMAIL
 		     , USE_STAT_CD
 		     , USE_STRT_DATE
@@ -62,24 +61,22 @@
 		     , LAST_CHG_DT
 		     , LOGIN_ERR_CNT
 		     , MENU_AUTH
-		  FROM ADMIN
+		  FROM admin
         ]]>
 		<where>
 			<if test="id != null and id != ''">
-				AND ID like '%' || #{id} || '%'
+				AND ID LIKE CONCAT('%', #{id}, '%')
 			</if>
 			<if test="name != null and name != ''">
-				AND NAME like '%' || #{name} || '%'
+				AND NAME LIKE CONCAT('%', #{name}, '%')
 			</if>
 		</where>
-
-
 	</select>
 
 	<!-- 관리자 등록 -->
 	<insert id="insertAdmin" parameterType="hashmap">
 		<![CDATA[
-			INSERT INTO ADMIN
+			INSERT INTO admin
 			(
 				  ID                -- 사용자 ID
 				, PWD               -- 비밀번호
@@ -110,9 +107,9 @@
 				, #{name}             -- 이름
 				, #{idno}             -- 주민번호(식별)
 				, #{ip}               -- 접속 IP
-				, (STRING_TO_ARRAY(#{phon}, '-'))[1]             -- 전화번호
-				, (STRING_TO_ARRAY(#{phon}, '-'))[2]             -- 전화번호
-				, (STRING_TO_ARRAY(#{phon}, '-'))[3]             -- 전화번호
+				, SUBSTRING_INDEX(SUBSTRING_INDEX(#{phon}, '-', 1), '-', -1)   -- 전화번호1
+				, SUBSTRING_INDEX(SUBSTRING_INDEX(#{phon}, '-', 2), '-', -1)   -- 전화번호2
+				, SUBSTRING_INDEX(#{phon}, '-', -1)                            -- 전화번호3
 				, #{email}            -- 이메일
 				, #{useStatCd}        -- 사용 상태 코드
 				, #{useStrtDate}      -- 사용 시작일
@@ -123,28 +120,30 @@
 				, #{memo}             -- 메모
 				, #{otpSkey}          -- OTP 키
 				, #{rgtrUserId}       -- 등록자 ID
-				, TO_CHAR(NOW(), 'YYYYMMDDHH24MISS') -- 등록일 (현재 시간)
+				, NOW()               -- 등록일 (현재 시간)
 				, #{lastUserId}       -- 최종 수정자 ID
-				, TO_CHAR(NOW(), 'YYYYMMDDHH24MISS') -- 최종 수정일 (현재 시간)
+				, NOW()               -- 최종 수정일 (현재 시간)
 			)
 		]]>
 	</insert>
+
 	<delete id="deleteAdmin" parameterType="hashmap">
-		DELETE FROM ADMIN
+		DELETE FROM admin
 		WHERE 1=1
 		AND   ID = #{id}
 	</delete>
+
 	<update id="updateAdmin" parameterType="hashmap">
 		<![CDATA[
-			UPDATE ADMIN
+			UPDATE admin
 			SET
 				  PWD            = #{pwd}              -- 비밀번호
 				, NAME           = #{name}             -- 이름
 				, IDNO           = #{idno}             -- 주민번호(식별)
 				, IP             = #{ip}               -- 접속 IP
-				, MOBL_TELNO1    = (STRING_TO_ARRAY(#{phon}, '-'))[1]             -- 전화번호
-				, MOBL_TELNO2    = (STRING_TO_ARRAY(#{phon}, '-'))[2]             -- 전화번호
-				, MOBL_TELNO3    = (STRING_TO_ARRAY(#{phon}, '-'))[3]             -- 전화번호
+				, MOBL_TELNO1    = SUBSTRING_INDEX(SUBSTRING_INDEX(#{phon}, '-', 1), '-', -1)   -- 전화번호1
+				, MOBL_TELNO2    = SUBSTRING_INDEX(SUBSTRING_INDEX(#{phon}, '-', 2), '-', -1)   -- 전화번호2
+				, MOBL_TELNO3    = SUBSTRING_INDEX(#{phon}, '-', -1)                            -- 전화번호3
 				, EMAIL          = #{email}            -- 이메일
 				, USE_STAT_CD    = #{useStatCd}        -- 사용 상태 코드
 				, USE_STRT_DATE  = #{useStrtDate}      -- 사용 시작일
@@ -155,7 +154,7 @@
 				, MEMO           = #{memo}             -- 메모
 				, OTP_SKEY       = #{otpSkey}          -- OTP 키
 				, LAST_USER_ID   = #{lastUserId}       -- 최종 수정자 ID
-				, LAST_CHG_DT    = TO_CHAR(NOW(), 'YYYYMMDDHH24MISS') -- 최종 수정일 (현재 시간)
+				, LAST_CHG_DT    = NOW()               -- 최종 수정일 (현재 시간)
 			WHERE
 				ID = #{id};  -- 사용자 ID 기준으로 업데이트
 		]]>

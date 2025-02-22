@@ -1,16 +1,22 @@
 package com.commerce.intercepter;
 
 import com.commerce.comm.ResultVO;
+import com.commerce.module.COM.COMService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 public class ResultVOInterceptor implements HandlerInterceptor {
 
+    @Autowired
+    private HttpSession session;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 요청 전 처리
+
         return true; // false를 반환하면 요청을 중단합니다.
     }
 

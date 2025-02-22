@@ -6,29 +6,31 @@
     <!-- 메뉴 조회 -->
     <select id="selectFileList" parameterType="hashmap" resultType="hashmap">
         SELECT
-                id,
-                postid,
-                file_sequence,
-                realName as real_name,
-                fileName as file_name,
-                fileUrl as real_url,
-                fileUrl as file_url,
-                type,
-                rgtr_user_id,
-                get_user_name(rgtr_user_id) as rgtr_user_name,
-                rgtr_dt
-        FROM public.files
+        id,
+        postid,
+        file_sequence,
+        realName as real_name,
+        realPath as real_path,
+        fileName as file_name,
+        fileUrl as real_url,
+        fileUrl as file_url,
+        type,
+        rgtr_user_id,
+        get_user_name(rgtr_user_id) as rgtr_user_name,
+        rgtr_dt
+        FROM files
         WHERE 1=1
         AND   postid = #{postId}
-        order by postid, file_sequence
+        ORDER BY postid, file_sequence
     </select>
 
     <!-- 메뉴 등록 -->
     <insert id="insertFile" parameterType="hashmap">
         <![CDATA[
-		INSERT INTO public.files (
+		INSERT INTO files (
                 postid,
                 file_sequence,
+                realPath,
                 realName,
                 fileName,
                 fileUrl,
@@ -37,22 +39,25 @@
                 rgtr_dt
             ) VALUES (
                 #{postId},          -- 게시글 ID (동적 값)
-                #{fileSequence},     -- 파일 순서 (동적 값)
-                #{realName}, -- 원본 파일명 (동적 값)
-                #{fileName},   -- 서버 저장 파일명 (동적 값)
+                #{fileSequence},    -- 파일 순서 (동적 값)
+                #{realPath},        -- 저장 디렉토리
+                #{realName},        -- 원본 파일명 (동적 값)
+                #{fileName},        -- 서버 저장 파일명 (동적 값)
                 #{realUrl},         -- 파일 경로 (동적 값)
-                #{type},             -- 파일 타입 (동적 값)
-                #{rgtrUserId},       -- 등록 사용자 ID (동적 값)
-                TO_CHAR(NOW(), 'YYYYMMDDHH24MISS')		-- 수정일자
+                #{type},            -- 파일 타입 (동적 값)
+                #{rgtrUserId},      -- 등록 사용자 ID (동적 값)
+                DATE_FORMAT(NOW(), '%Y%m%d%H%i%s')		-- 등록일자
             );
 	]]>
     </insert>
+
+    <!-- 파일 삭제 -->
     <delete id="deleteFile" parameterType="hashmap">
         DELETE FROM files
         WHERE 1=1
         AND   id = #{id}
-        <if test="postid != null and postid != ''">
-            AND postid = #{postid}
+        <if test="postId != null and postId != ''">
+            AND postid = #{postId}
         </if>
     </delete>
 </mapper>

@@ -22,9 +22,12 @@ dependencies {
 	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16' /*이 부분 추가!*/
 	compileOnly 'org.projectlombok:lombok:1.18.28' // Lombok 라이브러리를 컴파일할 때만 사용
 	annotationProcessor 'org.projectlombok:lombok:1.18.28' // Lombok의 어노테이션 프로세서를 등록
-	runtimeOnly 'org.postgresql:postgresql'
+//	runtimeOnly 'org.postgresql:postgresql'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'com.google.cloud:google-cloud-vision:3.32.0'
+	implementation 'com.warrenstrange:googleauth:1.4.0'
+	// MariaDB JDBC Driver
+	implementation 'org.mariadb.jdbc:mariadb-java-client'
 }
 
 repositories {
@@ -33,7 +36,7 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	runtimeOnly 'org.postgresql:postgresql'
+//	runtimeOnly 'org.postgresql:postgresql'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }

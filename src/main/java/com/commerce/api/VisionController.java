@@ -1,5 +1,8 @@
 package com.commerce.api;
 import com.commerce.service.GoogleCloudVisionService;
+import com.warrenstrange.googleauth.GoogleAuthenticator;
+import com.warrenstrange.googleauth.GoogleAuthenticatorKey;
+import com.warrenstrange.googleauth.GoogleAuthenticatorQRGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,5 +33,24 @@ public class VisionController {
         } catch (IOException e) {
             return new ResponseEntity<>(List.of("Error processing images"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    private final GoogleAuthenticator gAuth = new GoogleAuthenticator();
+
+    @GetMapping("/generate")
+    public String generateOtpSecret() {
+        GoogleAuthenticatorKey key = gAuth.createCredentials();
+        String secret = key.getKey();  // 사용자에게 제공할 Secret Key
+
+        // QR 코드 URL 생성 (Google Authenticator 앱에서 스캔 가능)
+        String qrCodeUrl = GoogleAuthenticatorQRGenerator.getOtpAuthTotpURL(
+                "MyApp", "user@example.com", key);
+
+        return "Secret Key: " + secret + "<br>QR Code URL: <a href=\"" + qrCodeUrl + "\">Scan QR</a>";
+    }
+
+    @PostMapping("/verify")
+    public boolean verifyOtp(@RequestParam String secret, @RequestParam int otp) {
+        return gAuth.authorize(secret, otp);
     }
 }

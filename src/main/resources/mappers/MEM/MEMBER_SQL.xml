@@ -5,7 +5,7 @@
 
 	<!-- 비로그인 회원ID 찾기 조회 -->
 	<select id="selectMemberByNm" parameterType="hashmap" resultType="hashmap">
-    <![CDATA[
+		<![CDATA[
 		SELECT
 		      MEM_ID               -- 회원ID
 		    , MEM_DIV_CD           -- 회원구분          
@@ -29,10 +29,10 @@
 		    , LAST_CHNL_CERT_DT    -- 최종채널인증일시  
 		    , LAST_LOGIN_DT        -- 최종로그인일시    
 		    , LOGIN_ERR_CNT        -- 로그인오류횟수
-		FROM MEMBER
+		FROM member
     ]]>
 		<trim prefix="WHERE">
-        	<![CDATA[
+			<![CDATA[
         		MEM_JOIN_STAT_CD <> '09'
         	]]>
 			<if test="memNm != null and memNm != ''">
@@ -48,9 +48,7 @@
 				AND MEM_SE_CD = #{memSeCd}
 			</if>
 			<if test='ntcnChnlDivCd == "1" or ntcnChnlDivCd == "9"'> -- SMS
-				AND MOBL_TELNO1 = #{moblTelno1}
-				AND MOBL_TELNO2 = #{moblTelno2}
-				AND MOBL_TELNO3 = #{moblTelno3}
+				AND CONCAT(MOBL_TELNO1, '-', MOBL_TELNO2, '-', MOBL_TELNO3) = CONCAT(#{moblTelno1}, '-', #{moblTelno2}, '-', #{moblTelno3})
 			</if>
 			<if test='ntcnChnlDivCd == "2"'> -- EMAIL
 				AND UMSMAIL = #{email}

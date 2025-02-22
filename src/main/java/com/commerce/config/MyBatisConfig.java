@@ -31,4 +31,17 @@ public class MyBatisConfig {
     public DataSourceTransactionManager transactionManager(DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
     }
+
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http
+//                .csrf(csrf -> csrf.disable()) // ✅ 최신 버전 방식으로 수정
+//                .authorizeHttpRequests(auth -> auth
+//                        .requestMatchers("/login").permitAll() // 로그인 API 허용
+//                        .anyRequest().denyAll() // 그 외 모든 API 차단
+//                )
+//                .addFilterBefore(new ApiBlockFilter(), UsernamePasswordAuthenticationFilter.class);
+//
+//        return http.build();
+//    }
 }

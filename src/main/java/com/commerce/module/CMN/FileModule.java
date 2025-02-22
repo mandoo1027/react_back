@@ -103,20 +103,41 @@ public class FileModule extends UtilMapper {
         for(HashMap file : files){
             String sourcePath =homeDir +  (String) file.get("tmpPath");
             String destinationPath = homeDir +(String) file.get("realPath");
+            String rowStatus = (String) file.get("rowStatus");
             try {
                 File destinationFile = new File(destinationPath);
                 File destinationDir = destinationFile.getParentFile();
+                if("C".equals(rowStatus)) {
+                    // 폴더가 존재하지 않으면 생성
+                    if (!destinationDir.exists()) {
+                        destinationDir.mkdirs();
+                    }
 
-                // 폴더가 존재하지 않으면 생성
-                if (!destinationDir.exists()) {
-                    destinationDir.mkdirs();
+                    // 파일 이동
+                    Files.move(Path.of(sourcePath), Path.of(destinationPath), StandardCopyOption.REPLACE_EXISTING);
+                }else if("D".equals(rowStatus)){
+                    if (destinationFile.exists()) {
+                        destinationFile.delete(); // 파일 삭제
+                    }
                 }
-
-                // 파일 이동
-                Files.move(Path.of(sourcePath), Path.of(destinationPath), StandardCopyOption.REPLACE_EXISTING);
                 System.out.println("파일이 성공적으로 이동됨: " + destinationPath);
             } catch (IOException e) {
                 System.err.println("파일 이동 실패: " + e.getMessage());
+            }
+        }
+    }
+
+    public void deleteFile(List<FileVO> files, boolean isDelDeractory){
+        for(FileVO file : files){
+            String destinationPath = homeDir + file.getRealPath() ;
+            File destinationFile = new File(destinationPath);
+
+            if (destinationFile.exists()) {
+                destinationFile.delete(); // 파일 삭제
+            }
+            File destinationDir = destinationFile.getParentFile();
+            if(isDelDeractory){// 부모 폴더 삭제
+                destinationDir.delete();
             }
         }
     }
@@ -158,6 +179,8 @@ public class FileModule extends UtilMapper {
             Map<String, Object> map = objectMapper.convertValue(fileVO, Map.class);
             if ("C".equals(rowStatus)) {
                 generalMapper.insert("FILE", "insertFile", map);
+            }else if ("D".equals(rowStatus)) {
+                generalMapper.insert("FILE", "deleteFile", map);
             }
         }
 

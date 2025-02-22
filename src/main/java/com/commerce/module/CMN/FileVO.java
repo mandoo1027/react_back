@@ -12,7 +12,8 @@ public class FileVO {
     private String realName; // 원본 파일명
     private String fileName;   // 서버 저장 파일명
     private String fileUrl;         // 파일 경로
-    private String realUrl;         // 파일 경로
+    private String realUrl;         // 파일 URL
+    private String realPath;         // 파일 경로
     private String type;             // 파일 타입 (예: 이미지, 문서 등)
     private String rgtrUserId;       // 등록 사용자 ID
     private String rgtrUserName;       // 등록 사용자 ID

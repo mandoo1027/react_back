@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 public class BBS0101S01R {
 
-    private int postid;
+    private int postId;
     private String rowStatus;
     private String title;
     private boolean isNotice;
@@ -22,7 +22,7 @@ public class BBS0101S01R {
     private String rgtrDt; // 등록 일시
     private String lastUserId;   // 마지막 수정자 ID
     private String lastChgAt; // 마지막 수정 일시
-
+    private Integer rowNum;
 
     private List<FileVO> attachFile;
     private List<FileVO> imgFiles;

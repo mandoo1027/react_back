@@ -4,9 +4,9 @@ spring:
     application:
         name: commerce
     datasource:
-        url: jdbc:log4jdbc:postgresql://localhost:5432/postgres
-        username: postgres
-        password: postgres
+        url: jdbc:log4jdbc:mariadb://mandoo1027.tplinkdns.com:3306/teo
+        username: mandoo1027
+        password: rkskekfk5%
         driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
     mybatis:
         config-location: classpath:mybatis-config.xml

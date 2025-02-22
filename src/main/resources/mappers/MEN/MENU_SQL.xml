@@ -23,11 +23,11 @@
 			, USE_YN			-- 사용여부
 			, LAST_USER_ID		-- 수정자
 			, LAST_CHG_DT		-- 수정일자
-		FROM MENU
+		FROM menu
 		WHERE 1=1
 
-		AND   USE_STRT_DATE <= TO_CHAR(now(), 'YYYYMMDD')
-		AND   USE_END_DATE >= TO_CHAR(now(), 'YYYYMMDD')
+		AND   USE_STRT_DATE <= DATE_FORMAT(NOW(), '%Y%m%d')
+		AND   USE_END_DATE >= DATE_FORMAT(NOW(), '%Y%m%d')
 	]]>
 		<if test="searchType == null or searchType == ''">
 			AND  USE_YN = 'Y'
@@ -36,21 +36,20 @@
 			AND   SYS_DIV_CD = 'ADM'
 		</if>
 		<if test="menuCode != null and menuCode != ''">
-			AND   MENU_CODE LIKE '%'||#{menuCode}||'%'
+			AND   MENU_CODE LIKE CONCAT('%', #{menuCode}, '%')
 		</if>
 		<if test="menuName != null and menuName != ''">
-			AND   MENU_NAME LIKE '%'||#{menuName}||'%'
+			AND   MENU_NAME LIKE CONCAT('%', #{menuName}, '%')
 		</if>
 		<if test="upperMenuCode != null and upperMenuCode != ''">
-			AND   UPPER_MENU_CODE LIKE '%'||#{upperMenuCode}||'%'
+			AND   UPPER_MENU_CODE LIKE CONCAT('%', #{upperMenuCode}, '%')
 		</if>
 		<if test="filePath != null and filePath != ''">
-			AND   FILE_PATH LIKE '%'||#{filePath}||'%'
+			AND   FILE_PATH LIKE CONCAT('%', #{filePath}, '%')
 		</if>
 		<if test="menuScrDev != null and menuScrDev != ''">
 			AND   MENU_SCR_DEV = #{menuScrDev}
 		</if>
-
 
 		ORDER BY SYS_DIV_CD, MENU_DEPTH, MENU_SEQ, MENU_CODE
 	</select>
@@ -58,7 +57,7 @@
 	<!-- 메뉴 등록 -->
 	<insert id="insertMenu" parameterType="hashmap">
 		<![CDATA[
-		INSERT INTO MENU
+		INSERT INTO menu
 		(
 			  SYS_DIV_CD		-- 시스템구분 : EFM, ADM
 			, MENU_SCR_DEV		-- 메뉴화면구분 : M 메뉴  S 화면 N 네비게이션
@@ -96,21 +95,21 @@
 			, #{useStrtDate}	-- 사용시작일자
 			, #{useYn}			-- 사용여부
 			, #{lastUserId}		-- 수정자
-			, TO_CHAR(NOW(), 'YYYYMMDDHH24MISS')		-- 수정일자
+			, DATE_FORMAT(NOW(), '%Y%m%d%H%i%s')		-- 수정일자
 			, #{rgtrUserId}		-- 등록자
-			, TO_CHAR(NOW(), 'YYYYMMDDHH24MISS')		-- 등록일자
+			, DATE_FORMAT(NOW(), '%Y%m%d%H%i%s')		-- 등록일자
 		)
 	]]>
 	</insert>
 	<delete id="deleteMenu" parameterType="hashmap">
-		DELETE FROM MENU
+		DELETE FROM menu
 		WHERE 1=1
 		AND   SYS_DIV_CD = #{sysDivCd}
 		AND   MENU_CODE = #{menuCode}
 	</delete>
 	<update id="updateMenu" parameterType="hashmap">
 		<![CDATA[
-		UPDATE MENU
+		UPDATE menu
 		SET
 			  MENU_NAME = #{menuName}		-- 메뉴_화면명
 			, MENU_DEPTH = CAST(#{menuDepth} AS INTEGER)			-- 메뉴단계
@@ -124,7 +123,7 @@
 			, USE_STRT_DATE = #{useStrtDate}	-- 사용시작일자
 			, USE_YN = #{useYn}				-- 사용여부
 			, LAST_USER_ID = #{lastUserId}	-- 수정자
-			, LAST_CHG_DT = TO_CHAR(NOW(), 'YYYYMMDDHH24MISS')		-- 수정일자
+			, LAST_CHG_DT = DATE_FORMAT(NOW(), '%Y%m%d%H%i%s')		-- 수정일자
 		WHERE 1=1
 		AND   SYS_DIV_CD = #{sysDivCd}
 		AND   MENU_CODE = #{menuCode}

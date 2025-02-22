@@ -5,13 +5,16 @@
 
 	<!-- 게시판 조회 -->
 	<select id="selectPostIdNextVal" resultType="hashmap">
-		SELECT nextval('posts_id_seq') posts_id_seq
+		SELECT AUTO_INCREMENT as `postsIdSeq`
+		FROM information_schema.tables
+		WHERE table_name = 'posts'
 	</select>
 
 	<!-- 메뉴 조회 -->
-	<select id="selectBBS" parameterType="hashmap" resultType="hashmap">
+	<select id="selectPosts" parameterType="hashmap" resultType="hashmap">
 		SELECT
-		p.id as postId,
+		ROW_NUMBER() OVER (ORDER BY p.rgtr_dt DESC) AS row_num,  -- 행 번호 추가
+		p.id AS post_id,
 		p.title,
 		p.contents,
 		get_user_name(p.rgtr_user_id) AS rgtr_user_name,
@@ -19,60 +22,63 @@
 		p.last_user_id,
 		get_user_name(p.last_user_id) AS last_user_name,
 		p.last_chg_at,
-		p.isNotice is_notice
+		p.isNotice AS is_notice
 		FROM posts p
-		<where>
-			<if test="searchKeyword != null and searchKeyword != ''">
-				AND (p.title LIKE CONCAT('%', #{searchKeyword}, '%')
-				OR p.contents LIKE CONCAT('%', #{searchKeyword}, '%'))
-			</if>
-			<if test="rgtrUserName != null and rgtrUserName != ''">
-				AND get_user_name(p.rgtr_user_id) LIKE CONCAT('%', #{rgtrUserName}, '%')
-			</if>
-			<if test="isNotice != null">
-				AND p.isNotice = #{isNotice}
-			</if>
-			<if test="postId != null and postId != ''">
-				AND p.id = #{postId}
-			</if>
-		</where>
+		WHERE 1=1
+		-- 제목 검색
+		<if test="title != null and title != ''">
+			AND p.title LIKE CONCAT('%', #{title}, '%')
+		</if>
+		-- 내용 검색
+		<if test="contents != null and contents != ''">
+			AND p.contents LIKE CONCAT('%', #{contents}, '%')
+		</if>
+		-- 등록자 검색
+		<if test="rgtrUserName != null and rgtrUserName != ''">
+			AND get_user_name(p.rgtr_user_id) LIKE CONCAT('%', #{rgtrUserName}, '%')
+		</if>
+		-- 공지 여부
+		<if test="isNotice != null">
+			AND p.isNotice = #{isNotice}
+		</if>
+		-- 특정 게시글 ID 검색
+		<if test="postId != null and postId != ''">
+			AND p.id = #{postId}
+		</if>
 		ORDER BY p.rgtr_dt DESC
+
+		<if test="offset != null and offset != ''">
+			LIMIT #{pageSize} OFFSET #{offset}
+		</if>
 	</select>
 
 	<!-- 메뉴 등록 -->
-	<insert id="insertBBS" parameterType="hashmap">
+	<insert id="insertPosts" parameterType="hashmap">
 		<![CDATA[
-		    INSERT INTO posts (id,title, contents, rgtr_user_id, rgtr_dt, last_user_id, last_chg_at, isNotice)
+		    INSERT INTO posts (title, contents, rgtr_user_id, rgtr_dt, last_user_id, last_chg_at, isNotice)
 			VALUES
-			(#{postId},#{title}, #{contents, jdbcType=BINARY}, #{rgtrUserId}, TO_CHAR(NOW(), 'YYYYMMDDHH24MISS'), #{lastUserId}, TO_CHAR(NOW(), 'YYYYMMDDHH24MISS'), #{isNotice})
+			(#{title}, #{contents}, #{rgtrUserId}, DATE_FORMAT(NOW(), '%Y%m%d%H%i%s'), #{lastUserId}, DATE_FORMAT(NOW(), '%Y%m%d%H%i%s'), #{isNotice})
 	]]>
 	</insert>
-	<delete id="deleteMenu" parameterType="hashmap">
-		DELETE FROM MENU
-		WHERE 1=1
-		AND   SYS_DIV_CD = #{sysDivCd}
-		AND   MENU_CODE = #{menuCode}
+
+	<!-- 게시글 삭제 -->
+	<delete id="deletePosts" parameterType="hashmap">
+		DELETE FROM posts
+		WHERE ID = #{postId}
 	</delete>
-	<update id="updateMenu" parameterType="hashmap">
+
+	<!-- 게시글 수정 -->
+	<update id="updatePosts" parameterType="hashmap">
 		<![CDATA[
-		UPDATE MENU
+		UPDATE posts
 		SET
-			  MENU_NAME = #{menuName}		-- 메뉴_화면명
-			, MENU_DEPTH = CAST(#{menuDepth} AS INTEGER)			-- 메뉴단계
-			, MENU_SEQ =  CAST(#{menuSeq} AS INTEGER)			-- 메뉴노출순서 : 메뉴 depth 내 순서
-			, UPPER_MENU_CODE = #{upperMenuCode}	-- 상위메뉴코드
-			, FILE_PATH = #{filePath}		-- 화면경로 : /COM/COM002M00
-			, LOGIN_YN = #{loginYn}			-- 로그인여부
-			, SCR_CTN = #{scrCtn}			-- 화면설명
-			, MENU_CSS = #{menuCss}			-- 메뉴CSS
-			, USE_END_DATE = #{useEndDate}	-- 사용종료일자
-			, USE_STRT_DATE = #{useStrtDate}	-- 사용시작일자
-			, USE_YN = #{useYn}				-- 사용여부
-			, LAST_USER_ID = #{lastUserId}	-- 수정자
-			, LAST_CHG_DT = TO_CHAR(NOW(), 'YYYYMMDDHH24MISS')		-- 수정일자
-		WHERE 1=1
-		AND   SYS_DIV_CD = #{sysDivCd}
-		AND   MENU_CODE = #{menuCode}
+			  TITLE = #{title},               -- 제목
+			  CONTENTS = #{contents},         -- 내용
+			  LAST_USER_ID = #{lastUserId},   -- 마지막 수정자 ID
+			  LAST_CHG_AT = DATE_FORMAT(NOW(), '%Y%m%d%H%i%s'),  -- 마지막 수정 일시
+			  ISNOTICE = #{isNotice}          -- 공지 여부
+		WHERE ID = #{postId}               -- 게시글 ID
 	]]>
 	</update>
+
 </mapper>

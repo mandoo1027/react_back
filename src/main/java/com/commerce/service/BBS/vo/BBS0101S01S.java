@@ -16,6 +16,11 @@ public class BBS0101S01S {
     private String title;
     private Boolean isNotice;
     private String contents;
+    private String rgtrUserName;
     private List<HashMap> attachFile;
     private List<HashMap> imgFiles;
+    private List<BBS0101S01S> bbsList;
+
+    private Integer currentPage;
+    private Integer pageSize;
 }

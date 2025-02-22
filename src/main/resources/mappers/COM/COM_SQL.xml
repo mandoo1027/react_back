@@ -7,32 +7,33 @@
 	<select id="selectCmmnCode" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[
             SELECT A.*
-	          FROM (
-                   SELECT A.GRP_CODE
-                        , A.GRP_NAME
-                     FROM CMMN_CODE A
-               ]]>
+            FROM (
+                SELECT A.GRP_CODE
+                     , A.GRP_NAME
+                FROM cmmn_code A
+            ]]>
 		<where>
 			<if test="grpCode != null and grpCode != ''">
-				AND A.GRP_CODE like #{grpCode}||'%'
+				AND A.GRP_CODE LIKE CONCAT(#{grpCode}, '%')
 			</if>
 			<if test="grpName != null and grpName != ''">
-				AND A.GRP_NAME like '%' || #{grpName} || '%'
+				AND A.GRP_NAME LIKE CONCAT('%', #{grpName}, '%')
 			</if>
 			<if test="code != null and code != ''">
-				AND A.CODE like #{code}||'%'
+				AND A.CODE LIKE CONCAT(#{code}, '%')
 			</if>
 			<if test="name != null and name != ''">
-				AND A.NAME LIKE '%'||#{name}||'%'
+				AND A.NAME LIKE CONCAT('%', #{name}, '%')
 			</if>
 			<if test="etcCodeOrName != null and etcCodeOrName != ''">
-				AND (   A.CODE2 LIKE '%'||#{etcCodeOrName}||'%'
-				OR A.NAME2 LIKE '%'||#{etcCodeOrName}||'%'
-				OR A.CODE3 LIKE '%'||#{etcCodeOrName}||'%'
-				OR A.NAME3 LIKE '%'||#{etcCodeOrName}||'%'
-				OR A.CODE4 LIKE '%'||#{etcCodeOrName}||'%'
-				OR A.NAME4 LIKE '%'||#{etcCodeOrName}||'%'
-				OR A.CODE5 LIKE '%'||#{etcCodeOrName}||'%'
+				AND (
+				A.CODE2 LIKE CONCAT('%', #{etcCodeOrName}, '%')
+				OR A.NAME2 LIKE CONCAT('%', #{etcCodeOrName}, '%')
+				OR A.CODE3 LIKE CONCAT('%', #{etcCodeOrName}, '%')
+				OR A.NAME3 LIKE CONCAT('%', #{etcCodeOrName}, '%')
+				OR A.CODE4 LIKE CONCAT('%', #{etcCodeOrName}, '%')
+				OR A.NAME4 LIKE CONCAT('%', #{etcCodeOrName}, '%')
+				OR A.CODE5 LIKE CONCAT('%', #{etcCodeOrName}, '%')
 				)
 			</if>
 		</where>
@@ -41,52 +42,31 @@
 		) A
 	</select>
 
-
-
-	<!-- 공통코드 조회 -->
+	<!-- 공통코드 상세 조회 -->
 	<select id="selectCmmnCodeDetail" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[
             SELECT A.*
-	          FROM (
-                   SELECT A.GRP_CODE
-                        , A.GRP_NAME
-                        , A.CODE
-                        , A.NAME
-                        , A.CODE2
-                        , A.NAME2
-                        , A.CODE3
-                        , A.NAME3
-                        , A.CODE4
-                        , A.NAME4
-                        , A.CODE5
-                        , A.NAME5
-                        , A.SEQ
-                        , A.VALID_YN
-                     FROM CMMN_CODE A
-               ]]>
+            FROM (
+                SELECT A.GRP_CODE
+                     , A.GRP_NAME
+                     , A.CODE
+                     , A.NAME
+                     , A.CODE2
+                     , A.NAME2
+                     , A.CODE3
+                     , A.NAME3
+                     , A.CODE4
+                     , A.NAME4
+                     , A.CODE5
+                     , A.NAME5
+                     , A.SEQ
+                     , A.VALID_YN
+                FROM cmmn_code A
+            ]]>
 		<where>
 			<if test="grpCode != null and grpCode != ''">
 				AND A.GRP_CODE = #{grpCode}
 			</if>
-<!--			<if test="grpName != null and grpName != ''">-->
-<!--				AND A.GRP_NAME like '%' || #{grpName} || '%'-->
-<!--			</if>-->
-<!--			<if test="code != null and code != ''">-->
-<!--				AND A.CODE like #{code}||'%'-->
-<!--			</if>-->
-<!--			<if test="name != null and name != ''">-->
-<!--				AND A.NAME LIKE '%'||#{name}||'%'-->
-<!--			</if>-->
-<!--			<if test="etcCodeOrName != null and etcCodeOrName != ''">-->
-<!--				AND (   A.CODE2 LIKE '%'||#{etcCodeOrName}||'%'-->
-<!--				OR A.NAME2 LIKE '%'||#{etcCodeOrName}||'%'-->
-<!--				OR A.CODE3 LIKE '%'||#{etcCodeOrName}||'%'-->
-<!--				OR A.NAME3 LIKE '%'||#{etcCodeOrName}||'%'-->
-<!--				OR A.CODE4 LIKE '%'||#{etcCodeOrName}||'%'-->
-<!--				OR A.NAME4 LIKE '%'||#{etcCodeOrName}||'%'-->
-<!--				OR A.CODE5 LIKE '%'||#{etcCodeOrName}||'%'-->
-<!--				)-->
-<!--			</if>-->
 		</where>
 		ORDER BY A.GRP_CODE, A.SEQ, A.CODE
 		) A
