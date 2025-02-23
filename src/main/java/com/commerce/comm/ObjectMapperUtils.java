@@ -181,7 +181,7 @@ public class ObjectMapperUtils {
 		return (T) resultMap;
 	}
     
-    public static <T> List<T> convertToList(List<?> list, Class<T> clazz) throws UserException {
+    public static <T> List<T> convertToList(List<?> list, Class<T> clazz)  {
     	if(list == null) {
     		return null;
     	}

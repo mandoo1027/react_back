@@ -4,7 +4,11 @@ package com.commerce.service;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.vision.v1.*;
 import com.google.protobuf.ByteString;
+import com.warrenstrange.googleauth.GoogleAuthenticator;
+import com.warrenstrange.googleauth.GoogleAuthenticatorKey;
+import com.warrenstrange.googleauth.GoogleAuthenticatorQRGenerator;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileInputStream;
@@ -49,5 +53,18 @@ public class GoogleCloudVisionService {
             TextAnnotation annotation = response.getResponsesList().get(0).getFullTextAnnotation();
             return annotation != null ? annotation.getText() : "No text found";
         }
+    }
+
+    private static final GoogleAuthenticator gAuth = new GoogleAuthenticator();
+    public String generateOtpSecret(String userId) {
+        GoogleAuthenticatorKey key = gAuth.createCredentials();
+        String secret = key.getKey();  // 사용자에게 제공할 Secret Key
+
+
+        return secret;// + "<br>QR Code URL: <a href=\"" + qrCodeUrl + "\">Scan QR</a>";
+    }
+    public boolean verifyOtp(String userId, int otp) {
+        String secret = userId; // 사용자에게 제공된 Secret Key
+        return gAuth.authorize(secret, otp);
     }
 }

@@ -27,6 +27,6 @@ public class AdminVO {
         private String rgtrDt;          // 등록 일시
         private String lastUserId;      // 마지막 수정자 ID
         private String lastChgDt;       // 마지막 수정 일시
-        private int loginErrCnt;        // 로그인 오류 횟수 (초기값 0)
-        private  String currentSessionId; // 현재 세션 ID
+       // private int loginErrCnt;        // 로그인 오류 횟수 (초기값 0)
+       // private  String currentSessionId; // 현재 세션 ID
 }

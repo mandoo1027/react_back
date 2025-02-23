@@ -40,7 +40,7 @@ public class HCO0101Service extends UtilMapper {
      * @throws Exception
      */
 
-    public List<AdminVO> HCO0101S01(HCO0101S01S req) throws UserException {
+    public List<AdminVO> HCO0101S01(HCO0101S01S req) {
         Map<String, Object> map = objectMapper.convertValue(req, Map.class);
 
         List<CamelKeyMap> result = generalMapper.selectList("HCO", "selectAdmin", map);
