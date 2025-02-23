@@ -1,6 +1,7 @@
 package com.commerce.api;
 import com.commerce.comm.ResultVO;
 import com.commerce.exception.UserException;
+import com.commerce.module.COM.COMService;
 import com.commerce.service.GoogleCloudVisionService;
 import com.commerce.service.HCO.HCO0101Service;
 import com.commerce.service.HCO.vo.AdminVO;
@@ -30,7 +31,8 @@ public class VisionController {
     HCO0101Service hco0101Service;
 
     @Autowired
-    private HttpSession session;
+    private COMService comService;
+
 
     @PostMapping
     public ResponseEntity<List<String>> uploadImages(@RequestParam("images") MultipartFile[] files) {
@@ -50,25 +52,24 @@ public class VisionController {
     private final GoogleAuthenticator gAuth = new GoogleAuthenticator();
 
     @GetMapping("/otp/generate")
-    public String generateOtpSecret(@RequestParam String userId) {
-        return visionService.generateOtpSecret(userId);
+    public String generateOtpSecret() {
+        return visionService.generateOtpSecret();
     }
 
     @GetMapping("/otp/verify")
-    public ResultVO verifyOtp(@RequestParam String userId, @RequestParam String otp)  {
+    public ResultVO verifyOtp(@RequestParam String userId, @RequestParam String otp) throws UserException {
         HCO0101S01S req = new HCO0101S01S();
         req.setId(userId);
-
-        List<AdminVO> rvo = hco0101Service.HCO0101S01(req);
-        AdminVO adminVo = rvo.get(0);
+        AdminVO adminVo = comService.getAdminInfo();
         String otpSecret = adminVo.getOtpSkey();
         int opt = Integer.parseInt(otp);
+        if(!adminVo.getId().equals(userId)) {
+            throw new UserException("MEM003");//"인증시 사용된 아이디와 일치하지 않습니다.
+        }
         boolean result = visionService.verifyOtp(otpSecret,opt);
         ResultVO vo = new ResultVO();
         if(result) {
              vo.setSucessCode();
-
-            session.setAttribute("user", adminVo);
 
             //초기화
             adminVo.setPwd("");

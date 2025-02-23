@@ -56,7 +56,7 @@ public class GoogleCloudVisionService {
     }
 
     private static final GoogleAuthenticator gAuth = new GoogleAuthenticator();
-    public String generateOtpSecret(String userId) {
+    public String generateOtpSecret() {
         GoogleAuthenticatorKey key = gAuth.createCredentials();
         String secret = key.getKey();  // 사용자에게 제공할 Secret Key
 
