@@ -1,5 +1,7 @@
 server:
     port: 8080
+    tomcat:
+        connection-timeout : 3600000
 spring:
     application:
         name: commerce
@@ -12,8 +14,9 @@ spring:
         config-location: classpath:mybatis-config.xml
     servlet:
         multipart:
-            max-file-size: 50MB
-            max-request-size: 50MB
+            max-file-size: 500MB
+            max-request-size: 500MB
+
 file:
     resource-locations: /Users/kyungilkim/devel/react/commerce-back/uploads/
     home-dir: /Users/kyungilkim/devel/react/commerce-back/
