@@ -58,7 +58,7 @@ public class MnuService extends UtilMapper {
         List<CamelKeyMap> result = generalMapper.selectList("MEN","selectMnuList",map);
 
         List<MNUMenu> convertList = ObjectMapperUtils.convertToList(result, MNUMenu.class);
-        // 조회된 메뉴 Tree구조로 변경
+
         rsp.setADM(convertList);
 
         return true;

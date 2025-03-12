@@ -51,7 +51,7 @@
 			AND   MENU_SCR_DEV = #{menuScrDev}
 		</if>
 
-		ORDER BY SYS_DIV_CD, MENU_DEPTH, MENU_SEQ, MENU_CODE
+		ORDER BY SYS_DIV_CD, MENU_CODE, MENU_DEPTH , MENU_SEQ, MENU_CODE
 	</select>
 
 	<!-- 메뉴 등록 -->
@@ -112,6 +112,7 @@
 		UPDATE menu
 		SET
 			  MENU_NAME = #{menuName}		-- 메뉴_화면명
+			, MENU_SCR_DEV = #{menuScrDev}  -- 화면 구분
 			, MENU_DEPTH = CAST(#{menuDepth} AS INTEGER)			-- 메뉴단계
 			, MENU_SEQ =  CAST(#{menuSeq} AS INTEGER)			-- 메뉴노출순서 : 메뉴 depth 내 순서
 			, UPPER_MENU_CODE = #{upperMenuCode}	-- 상위메뉴코드

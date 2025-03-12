@@ -22,3 +22,10 @@ file:
     home-dir: /Users/kyungilkim/devel/react/commerce-back/
     tmp-file-upload-dir: /uploads/tmp-attachments
     real-file-upload-dir: /uploads/attachments/{0}/{1}
+
+company:
+    chk-url: https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=
+    service-key: DeiF0powLCGOpLdOoh8YbiTVZeqnpZNuqlBjvkIHUq3%2FzQyi8Dz9jXNu1qFpzXFZ1O8Ga%2BJEdahoRohBZlr9Zw%3D%3D
+
+ocr:
+    url: http://mandoo1027.tplinkdns.com:5001/ocr
