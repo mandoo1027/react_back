@@ -35,4 +35,6 @@ public class MNU0101S01S {
     private String useStrtDate;
     private String useYn;
     private List<MNU0101S01S> menuList;
+    private int startNum;
+    private int endNum;
 }

@@ -54,6 +54,9 @@
 				AND UMSMAIL = #{email}
 			</if>
 		</trim>
+		<if test="startNum >= 0 and endNum != 0">
+			LIMIT #{startNum}, #{endNum}
+		</if>
 	</select>
 
 </mapper>

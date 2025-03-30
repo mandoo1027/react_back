@@ -52,6 +52,9 @@
 		</if>
 
 		ORDER BY SYS_DIV_CD, MENU_CODE, MENU_DEPTH , MENU_SEQ, MENU_CODE
+		<if test="startNum >= 0 and endNum != 0">
+			LIMIT #{startNum}, #{endNum}
+		</if>
 	</select>
 
 	<!-- 메뉴 등록 -->

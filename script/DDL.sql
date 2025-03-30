@@ -24,18 +24,25 @@ CREATE TABLE menu (
 ) COMMENT='시스템 메뉴';
 
 
-INSERT INTO menu
-(sys_div_cd, menu_scr_dev, menu_code, menu_name, menu_depth, menu_seq, upper_menu_code, file_path, login_yn, scr_ctn, menu_css, use_end_date, use_strt_date, use_yn, rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt)
-values
+INSERT INTO teo.menu (
+    sys_div_cd, menu_scr_dev, menu_code, menu_name, menu_depth, menu_seq,
+    upper_menu_code, file_path, login_yn, scr_ctn, menu_css,
+    use_end_date, use_strt_date, use_yn,
+    rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt
+) VALUES
 ('ADM', 'N', 'AHOM001', '홈', 1, 1, NULL, '/LOG/LOG001M00', 'N', '메인화면', NULL, '99991223', '20240823', 'Y', 'admin', '20240823161712', 'admin', '20240823161712'),
 ('ADM', 'S', 'ALOG001', '로그인', 2, 1, 'AHOM001', '/LOG/LOG001M00', 'N', '로그인', NULL, '99991223', '20240823', 'Y', 'admin', '20240823163637', 'admin', '20240823163637'),
 ('ADM', 'M', 'ASYS000', '시스템관리', 2, 1, 'AHOM001', NULL, 'Y', '로그인', NULL, '99991223', '20240823', 'Y', 'admin', '20240823162850', 'admin', '20250312122706'),
 ('ADM', 'M', 'ASYS001', '메뉴관리', 3, 1, 'ASYS000', '/MNU/MNU001M01', 'Y', '메뉴관리 화면', NULL, '99991223', '20240823', 'Y', 'admin', '20240823163611', 'admin', '20240823163611'),
 ('ADM', 'M', 'ASYS002', '공통코드관리', 3, 2, 'ASYS000', '/ADM/ADM107M01', 'Y', '공통코드관리', NULL, '99991223', '20240823', 'Y', 'admin', '20240823164038', 'admin', '20240823164038'),
 ('ADM', 'M', 'ASYS003', '관리자 계정관리', 3, 3, 'ASYS000', '/ADM/ADM100M01', 'Y', '관리자 계정관리', NULL, '99991223', '20240823', 'Y', 'admin', '20240823164235', 'admin', '20240823164235'),
+('ADM', 'S', 'ASYS004', '게시판관리', 3, 4, 'ASYS000', '/BBS/BBS001M01', 'Y', NULL, NULL, '99991231', '20250324', 'Y', 'admin', '20250324123903', 'admin', '20250324123903'),
 ('ADM', 'M', 'ETC000', '기타', 2, 2, 'AHOM001', NULL, 'Y', NULL, NULL, '99991231', '20250312', 'Y', 'admin', '20250312122648', 'admin', '20250312122706'),
 ('ADM', 'S', 'ETC001', 'OCR(온문상)', 3, 1, 'ETC000', '/ETC/ETC001M01', 'Y', NULL, NULL, '99991231', '20250312', 'Y', 'admin', '20250312122648', 'admin', '20250312122648'),
 ('ADM', 'S', 'ETC002', 'OCR(사업자등록증)', 3, 2, 'ETC000', '/ETC/ETC001M02', 'Y', NULL, NULL, '99991231', '20250312', 'Y', 'admin', '20250312122648', 'admin', '20250312122716');
+
+
+;
 CREATE TABLE member (
     mem_id VARCHAR(50) NOT NULL PRIMARY KEY COMMENT '회원ID',
     mem_div_cd VARCHAR(10) NOT NULL COMMENT '회원구분',
