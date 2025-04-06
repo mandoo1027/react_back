@@ -72,4 +72,20 @@
 		) A
 	</select>
 
+	<insert id="insertCmmnCode" parameterType="hashmap">
+		INSERT INTO teo.cmmn_code (
+		grp_code, grp_name, code, name,
+		code2, name2, code3, name3,
+		code4, name4, code5, name5,
+		seq, valid_yn, rgtr_user_id, rgtr_dt,
+		last_user_id, last_chg_dt
+		) VALUES (
+		#{grpCode}, #{grpName}, #{code}, #{name},
+		#{code2}, #{name2}, #{code3}, #{name3},
+		#{code4}, #{name4}, #{code5}, #{name5},
+		#{seq}, #{validYn}, #{rgtrUserId}, #{rgtrDt},
+		#{lastUserId}, #{lastChgDt}
+		)
+	</insert>
+
 </mapper>
