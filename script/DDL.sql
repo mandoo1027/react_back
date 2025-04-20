@@ -103,7 +103,7 @@ CREATE TABLE cmmn_code (
     code5 VARCHAR(20) NULL,
     name5 VARCHAR(100) NULL,
     seq INT(11) NULL,
-    valid_yn CHAR(1) NULL,
+    use_yn CHAR(1) NULL,
     rgtr_user_id VARCHAR(50) NULL,
     rgtr_dt VARCHAR(14) NULL DEFAULT DATE_FORMAT(NOW(), '%Y%m%d%H%i%s'),
     last_user_id VARCHAR(50) NULL,
@@ -113,7 +113,7 @@ CREATE TABLE cmmn_code (
 
 
 INSERT INTO cmmn_code (
-    grp_code, grp_name, code, name, code2, name2, code3, name3, code4, name4, code5, name5, seq, valid_yn, rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt
+    grp_code, grp_name, code, name, code2, name2, code3, name3, code4, name4, code5, name5, seq, use_yn, rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt
 ) VALUES
 ('MEM_DIV_CD', '회원구분', '01', '회원', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 'Y', 'system', '20240822205408', 'system', '20240822205408'),
 ('MEM_DIV_CD', '회원구분', '02', '비회원', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2, 'Y', 'system', '20240822205408', 'system', '20240822205408'),

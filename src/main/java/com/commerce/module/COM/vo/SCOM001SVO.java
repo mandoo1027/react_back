@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Data
 @Getter
 @Setter
@@ -25,5 +27,11 @@ public class SCOM001SVO {
     private String code5;
     private String name5;
     private String seq;
-    private String validYn;
+    private String useYn;
+
+    private List<SCOM001SVO> list;
+
+
+    private int startNum;
+    private int endNum;
 }

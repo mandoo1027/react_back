@@ -35,6 +35,28 @@ public class COMService extends UtilMapper {
         List<CamelKeyMap> result = generalMapper.selectList("COM","selectCmmnCodeDetail",map);
         return result ;
     }
+    public int ADM0202U01(SCOM001SVO req) throws UserException {
+        Map map = objectMapper.convertValue(req, Map.class);
+
+        AdminVO userVo = getAdminInfo();
+        String userId = userVo.getId();
+        map.put("rgtrUserId", userId);
+        map.put("lastUserId", userId);
+
+        int resultCnt = 0;
+        String rowStatus = req.getRowStatus();
+        if ("C".equals(rowStatus)) {
+            resultCnt += generalMapper.insert("COM", "insertCmmnCode", map);
+        } else if ("U".equals(rowStatus)) {
+            resultCnt += generalMapper.insert("COM", "updateCmmnCode", map);
+        } else if ("D".equals((rowStatus))) {
+            resultCnt += generalMapper.insert("COM", "deleteCmmnCode", map);
+
+        }
+
+
+        return resultCnt ;
+    }
 
     public AdminVO getAdminInfo() throws UserException {
         AdminVO userVo = (AdminVO) session.getAttribute("user");

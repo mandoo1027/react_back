@@ -80,5 +80,6 @@ public class VisionController {
             vo.setFailCode();
         }
         return vo;
+
     }
 }

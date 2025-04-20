@@ -60,7 +60,7 @@
                      , A.CODE5
                      , A.NAME5
                      , A.SEQ
-                     , A.VALID_YN
+                     , A.USE_YN
                 FROM cmmn_code A
             ]]>
 		<where>
@@ -69,6 +69,9 @@
 			</if>
 		</where>
 		ORDER BY A.GRP_CODE, A.SEQ, A.CODE
+		<if test="startNum >= 0 and endNum != 0">
+			LIMIT #{startNum}, #{endNum}
+		</if>
 		) A
 	</select>
 
@@ -77,15 +80,43 @@
 		grp_code, grp_name, code, name,
 		code2, name2, code3, name3,
 		code4, name4, code5, name5,
-		seq, valid_yn, rgtr_user_id, rgtr_dt,
+		seq, use_yn, rgtr_user_id, rgtr_dt,
 		last_user_id, last_chg_dt
 		) VALUES (
 		#{grpCode}, #{grpName}, #{code}, #{name},
 		#{code2}, #{name2}, #{code3}, #{name3},
 		#{code4}, #{name4}, #{code5}, #{name5},
-		#{seq}, #{validYn}, #{rgtrUserId}, #{rgtrDt},
-		#{lastUserId}, #{lastChgDt}
+		#{seq}, #{useYn}, #{rgtrUserId},NOW(),
+		#{lastUserId}, NOW()
 		)
 	</insert>
 
+	<update id="updateCmmnCode" parameterType="hashmap">
+		UPDATE cmmn_code
+		<set>
+			<if test="grpName != null and grpName != ''">grp_name = #{grpName},</if>
+			<if test="name != null and name != ''">name = #{name},</if>
+			<if test="code2 != null and code2 != ''">code2 = #{code2},</if>
+			<if test="name2 != null and name2 != ''">name2 = #{name2},</if>
+			<if test="code3 != null and code3 != ''">code3 = #{code3},</if>
+			<if test="name3 != null and name3 != ''">name3 = #{name3},</if>
+			<if test="code4 != null and code4 != ''">code4 = #{code4},</if>
+			<if test="name4 != null and name4 != ''">name4 = #{name4},</if>
+			<if test="code5 != null and code5 != ''">code5 = #{code5},</if>
+			<if test="name5 != null and name5 != ''">name5 = #{name5},</if>
+			<if test="seq != null">seq = #{seq},</if>
+			<if test="useYn != null and useYn != ''">useYn = #{useYn},</if>
+			<if test="rgtrUserId != null and rgtrUserId != ''">rgtr_user_id = #{rgtrUserId},</if>
+			<if test="rgtrDt != null">rgtr_dt = #{rgtrDt},</if>
+			<if test="lastUserId != null and lastUserId != ''">last_user_id = #{lastUserId},</if>
+			<if test="lastChgDt != null">last_chg_dt = #{lastChgDt}</if>
+		</set>
+		WHERE grp_code = #{grpCode}
+		AND code = #{code}
+	</update>
+	<delete id="deleteCmmnCode" parameterType="hashmap">
+		DELETE FROM cmmn_code
+		WHERE grp_code = #{grpCode}
+		AND code = #{code}
+	</delete>
 </mapper>
