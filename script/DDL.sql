@@ -22,14 +22,9 @@ CREATE TABLE menu (
     last_chg_dt VARCHAR(14) NOT NULL DEFAULT DATE_FORMAT(NOW(), '%Y%m%d%H%i%s') COMMENT '메뉴가 마지막으로 수정된 날짜와 시간',
     PRIMARY KEY (sys_div_cd, menu_code)  -- 시스템구분과 메뉴코드를 복합키로 설정
 ) COMMENT='시스템 메뉴';
+BEGIN;
 
-
-INSERT INTO teo.menu (
-    sys_div_cd, menu_scr_dev, menu_code, menu_name, menu_depth, menu_seq,
-    upper_menu_code, file_path, login_yn, scr_ctn, menu_css,
-    use_end_date, use_strt_date, use_yn,
-    rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt
-) VALUES
+INSERT INTO teo.menu (sys_div_cd, menu_scr_dev, menu_code, menu_name, menu_depth, menu_seq, upper_menu_code, file_path, login_yn, scr_ctn, menu_css, use_end_date, use_strt_date, use_yn, rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt) VALUES
 ('ADM', 'N', 'AHOM001', '홈', 1, 1, NULL, '/LOG/LOG001M00', 'N', '메인화면', NULL, '99991223', '20240823', 'Y', 'admin', '20240823161712', 'admin', '20240823161712'),
 ('ADM', 'S', 'ALOG001', '로그인', 2, 1, 'AHOM001', '/LOG/LOG001M00', 'N', '로그인', NULL, '99991223', '20240823', 'Y', 'admin', '20240823163637', 'admin', '20240823163637'),
 ('ADM', 'M', 'ASYS000', '시스템관리', 2, 1, 'AHOM001', NULL, 'Y', '로그인', NULL, '99991223', '20240823', 'Y', 'admin', '20240823162850', 'admin', '20250312122706'),
@@ -39,9 +34,15 @@ INSERT INTO teo.menu (
 ('ADM', 'S', 'ASYS004', '게시판관리', 3, 4, 'ASYS000', '/BBS/BBS001M01', 'Y', NULL, NULL, '99991231', '20250324', 'Y', 'admin', '20250324123903', 'admin', '20250324123903'),
 ('ADM', 'M', 'ETC000', '기타', 2, 2, 'AHOM001', NULL, 'Y', NULL, NULL, '99991231', '20250312', 'Y', 'admin', '20250312122648', 'admin', '20250312122706'),
 ('ADM', 'S', 'ETC001', 'OCR(온문상)', 3, 1, 'ETC000', '/ETC/ETC001M01', 'Y', NULL, NULL, '99991231', '20250312', 'Y', 'admin', '20250312122648', 'admin', '20250312122648'),
-('ADM', 'S', 'ETC002', 'OCR(사업자등록증)', 3, 2, 'ETC000', '/ETC/ETC001M02', 'Y', NULL, NULL, '99991231', '20250312', 'Y', 'admin', '20250312122648', 'admin', '20250312122716');
+('ADM', 'S', 'ETC002', 'OCR(사업자등록증)', 3, 2, 'ETC000', '/ETC/ETC001M02', 'Y', NULL, NULL, '99991231', '20250312', 'Y', 'admin', '20250312122648', 'admin', '20250312122716'),
+('ADM', 'M', 'KREAM000', '크롤링', 2, 1, 'AHOM001', NULL, 'Y', NULL, NULL, '99991231', '20250517', 'Y', 'admin', '20250517052732', 'admin', '20250517052759'),
+('ADM', 'S', 'KREAM001', '크림 로그인', 3, 1, 'KREAM000', '/KRM/KRM001M01', 'Y', NULL, NULL, '99991231', '20250517', 'Y', 'admin', '20250517052732', 'admin', '20250517052835'),
+('ADM', 'S', 'KREAM002', '정산내역 조회 ', 3, 2, 'KREAM000', '/KRM/KRM001M02', 'Y', NULL, NULL, '99991231', '20250517', 'Y', 'admin', '20250517052732', 'admin', '20250517052835'),
+('ADM', 'S', 'KREAM003', '보관신청 상품관리', 3, 3, 'KREAM000', '/KRM/KRM001M03', 'Y', NULL, NULL, '99991231', '20250517', 'Y', 'admin', '20250517052732', 'admin', '20250517052835'),
+('ADM', 'S', 'KREAM004', '입찰보관신청 상품관리', 3, 4, 'KREAM000', '/KRM/KRM001M05', 'Y', NULL, NULL, '99991231', '20250517', 'Y', 'admin', '20250517052732', 'admin', '20250517052835'),
+('ADM', 'S', 'KREAM005', '로그 확인', 3, 5, 'KREAM000', '/KRM/KRM001M04', 'Y', NULL, NULL, '99991231', '20250517', 'Y', 'admin', '20250517052732', 'admin', '20250517052835');
 
-
+COMMIT;
 ;
 CREATE TABLE member (
     mem_id VARCHAR(50) NOT NULL PRIMARY KEY COMMENT '회원ID',
@@ -112,25 +113,36 @@ CREATE TABLE cmmn_code (
 );
 
 
-INSERT INTO cmmn_code (
-    grp_code, grp_name, code, name, code2, name2, code3, name3, code4, name4, code5, name5, seq, use_yn, rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt
-) VALUES
-('MEM_DIV_CD', '회원구분', '01', '회원', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 'Y', 'system', '20240822205408', 'system', '20240822205408'),
-('MEM_DIV_CD', '회원구분', '02', '비회원', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2, 'Y', 'system', '20240822205408', 'system', '20240822205408'),
-('NLTY_DIV_CD', '내외국인구분', '01', '내국인', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, 'Y', 'system', '20240822205408', 'system', '20240822205408'),
-('NLTY_DIV_CD', '내외국인구분', '02', '외국인', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 4, 'Y', 'system', '20240822205408', 'system', '20240822205408'),
-('MEM_SE_CD', '성별 (M/F)', 'M', '남자', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, 'Y', 'system', '20240822205408', 'system', '20240822205408'),
-('MEM_SE_CD', '성별 (M/F)', 'F', '여자', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 6, 'Y', 'system', '20240822205408', 'system', '20240822205408'),
-('MEM_JOIN_STAT_CD', '회원가입상태', '01', '승인대기', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 7, 'Y', 'system', '20240822205408', 'system', '20240822205408'),
-('MEM_JOIN_STAT_CD', '회원가입상태', '02', '승인', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 8, 'Y', 'system', '20240822205408', 'system', '20240822205408'),
-('MEM_JOIN_STAT_CD', '회원가입상태', '03', '탈퇴대기', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 9, 'Y', 'system', '20240822205408', 'system', '20240822205408'),
-('MEM_JOIN_STAT_CD', '회원가입상태', '04', '탈퇴', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 10, 'Y', 'system', '20240822205408', 'system', '20240822205408'),
-('ERROR_CODE', '에러코드', 'LOGIN_ERROR', '로그인 에러가 발생했습니다.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 11, 'Y', 'system', '20240822205408', 'system', '20240822205408'),
-('ERROR_CODE', '에러코드', 'MEM001', '아이디를 입력하세요.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 12, 'Y', 'system', '20240822205408', 'system', '20240822205408'),
-('ERROR_CODE', '에러코드', 'MEM002', '아이디 또는 비밀번호가 일치하지 않습니다.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 13, 'Y', 'system', '20240822205408', 'system', '20240822205408'),
-('SYS_DIV_CD', '시스템구분코드', 'ADM', '관리자', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 'Y', 'system', '20240822205408', 'system', '20240822205408'),
-('ERROR_CODE', '에러코드', 'SESSION_EXPIRED', '세션이 만료되었습니다. 재로그인 부탁드립니다.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 14, 'Y', 'system', '20250113163635', 'system', '20250113163635');
-
+INSERT INTO teo.cmmn_code (
+  grp_code, grp_name, code, name, code2, name2, code3, name3,
+  code4, name4, code5, name5, seq, use_yn,
+  rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt
+)
+VALUES
+  ('AUTH_GRADE_CD', '권한등급', 'A', '무료회원', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 'Y', 'admin', '20250518151354', 'admin', '20250518151354'),
+  ('AUTH_GRADE_CD', '권한등급', 'B', '무료회원', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2, 'Y', 'admin', '20250518151354', 'admin', '20250518151354'),
+  ('AUTH_GRADE_CD', '권한등급', 'C', '유료회원', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, 'Y', 'admin', '20250518151354', 'admin', '20250518151354'),
+  ('AUTH_GRADE_CD', '권한등급', 'D', '클래식회원', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 4, 'Y', 'admin', '20250518151354', 'admin', '20250518151354'),
+  ('AUTH_GRADE_CD', '권한등급', 'E', '시스템관리자', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, 'Y', 'admin', '20250518151354', 'admin', '20250518151354'),
+  ('ERROR_CODE', '에러코드', 'LOGIN_ERROR', '로그인 에러가 발생했습니다.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 11, 'Y', 'system', '20240822205408', 'system', '20240822205408'),
+  ('ERROR_CODE', '에러코드', 'MEM001', '아이디를 입력하세요.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 12, 'Y', 'system', '20240822205408', 'system', '20240822205408'),
+  ('ERROR_CODE', '에러코드', 'MEM002', '아이디 또는 비밀번호가 일치하지 않습니다.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 13, 'Y', 'system', '20240822205408', 'system', '20240822205408'),
+  ('ERROR_CODE', '에러코드', 'SESSION_EXPIRED', '세션이 만료되었습니다. 재로그인 부탁드립니다.', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 14, 'Y', 'system', '20250113163635', 'system', '20250113163635'),
+  ('MEM_DIV_CD', '회원구분', '01', '회원', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 'Y', 'system', '20240822205408', 'system', '20240822205408'),
+  ('MEM_DIV_CD', '회원구분', '02', '비회원', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2, 'Y', 'system', '20240822205408', 'system', '20240822205408'),
+  ('MEM_JOIN_STAT_CD', '회원가입상태', '01', '승인대기', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 7, 'Y', 'system', '20240822205408', 'system', '20240822205408'),
+  ('MEM_JOIN_STAT_CD', '회원가입상태', '02', '승인', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 8, 'Y', 'system', '20240822205408', 'system', '20240822205408'),
+  ('MEM_JOIN_STAT_CD', '회원가입상태', '03', '탈퇴대기', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 9, 'Y', 'system', '20240822205408', 'system', '20240822205408'),
+  ('MEM_JOIN_STAT_CD', '회원가입상태', '04', '탈퇴', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 10, 'Y', 'system', '20240822205408', 'system', '20240822205408'),
+  ('MEM_SE_CD', '성별 (M/F)', 'F', '여자', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 6, 'Y', 'system', '20240822205408', 'system', '20240822205408'),
+  ('MEM_SE_CD', '성별 (M/F)', 'M', '남자', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 5, 'Y', 'system', '20240822205408', 'system', '20240822205408'),
+  ('NLTY_DIV_CD', '내외국인구분', '01', '내국인', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, 'Y', 'system', '20240822205408', 'system', '20240822205408'),
+  ('NLTY_DIV_CD', '내외국인구분', '02', '외국인', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 4, 'Y', 'system', '20240822205408', 'system', '20240822205408'),
+  ('SYS_DIV_CD', '시스템구분코드', 'ADM', '관리자', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 'Y', 'system', '20240822205408', 'system', '20240822205408'),
+  ('USE_STAT_CD', '회원상태코드', '1', '승인', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 'Y', 'admin', '20250518151236', 'admin', '20250518151236'),
+  ('USE_STAT_CD', '회원상태코드', '2', '승인요청', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2, 'Y', 'admin', '20250518151236', 'admin', '20250518151236'),
+  ('USE_STAT_CD', '회원상태코드', '3', '승인거절', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 3, 'Y', 'admin', '20250518151236', 'admin', '20250518151236'),
+  ('USE_STAT_CD', '회원상태코드', '4', '회원탈퇴', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 4, 'Y', 'admin', '20250518151236', 'admin', '20250518151236');
 
 CREATE TABLE posts (
     id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '게시글 고유 ID',

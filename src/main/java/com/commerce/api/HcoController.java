@@ -65,6 +65,22 @@ public class HcoController {
         result.setSucessCode();
         return result;
     }
+    @PostMapping(value = "/HCO0101S05")
+    public ResultVO dupIdChk(@RequestBody HCO0101S01S req, HttpSession session) throws UserException {
+
+        ResultVO result = new ResultVO();
+        boolean isResult = false;
+        if (StringUtil.isNullOrEmpty(req.getId())) {
+           throw new UserException("MEM001");//"아이디를 입력하세요.");
+        }
+        List<AdminVO> rvo = hco0101Service.HCO0101S01(req);
+        if(rvo.size() > 0 ){
+            isResult = true;
+        }
+        result.setResultData(isResult);
+        result.setSucessCode();
+        return result;
+    }
 
 
 

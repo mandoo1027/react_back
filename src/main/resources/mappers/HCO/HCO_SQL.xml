@@ -13,7 +13,7 @@
 		,MOBL_TELNO1
 		,MOBL_TELNO2
 		,MOBL_TELNO3
-		, CONCAT(MOBL_TELNO1, '-', MOBL_TELNO2, '-', MOBL_TELNO3) AS phon
+		, CONCAT(MOBL_TELNO1, '-', MOBL_TELNO2, '-', MOBL_TELNO3) AS phone
 		,EMAIL
 		,USE_STAT_CD
 		,USE_STRT_DATE
@@ -45,7 +45,7 @@
 		     , MOBL_TELNO1
 		     , MOBL_TELNO2
 		     , MOBL_TELNO3
-		     , CONCAT(MOBL_TELNO1, '-', MOBL_TELNO2, '-', MOBL_TELNO3) AS phon
+		     , CONCAT(MOBL_TELNO1, '-', MOBL_TELNO2, '-', MOBL_TELNO3) AS phone
 		     , EMAIL
 		     , USE_STAT_CD
 		     , USE_STRT_DATE
@@ -107,9 +107,9 @@
 				, #{name}             -- 이름
 				, #{idno}             -- 주민번호(식별)
 				, #{ip}               -- 접속 IP
-				, SUBSTRING_INDEX(SUBSTRING_INDEX(#{phon}, '-', 1), '-', -1)   -- 전화번호1
-				, SUBSTRING_INDEX(SUBSTRING_INDEX(#{phon}, '-', 2), '-', -1)   -- 전화번호2
-				, SUBSTRING_INDEX(#{phon}, '-', -1)                            -- 전화번호3
+				, SUBSTRING_INDEX(SUBSTRING_INDEX(#{phone}, '-', 1), '-', -1)   -- 전화번호1
+				, SUBSTRING_INDEX(SUBSTRING_INDEX(#{phone}, '-', 2), '-', -1)   -- 전화번호2
+				, SUBSTRING_INDEX(#{phone}, '-', -1)                            -- 전화번호3
 				, #{email}            -- 이메일
 				, #{useStatCd}        -- 사용 상태 코드
 				, #{useStrtDate}      -- 사용 시작일
@@ -120,9 +120,9 @@
 				, #{memo}             -- 메모
 				, #{otpSkey}          -- OTP 키
 				, #{rgtrUserId}       -- 등록자 ID
-				, NOW()               -- 등록일 (현재 시간)
+				, DATE_FORMAT(NOW(), '%Y%m%d%H%i%s')              -- 등록일 (현재 시간)
 				, #{lastUserId}       -- 최종 수정자 ID
-				, NOW()               -- 최종 수정일 (현재 시간)
+				, DATE_FORMAT(NOW(), '%Y%m%d%H%i%s')               -- 최종 수정일 (현재 시간)
 			)
 		]]>
 	</insert>
@@ -141,9 +141,9 @@
 				, NAME           = #{name}             -- 이름
 				, IDNO           = #{idno}             -- 주민번호(식별)
 				, IP             = #{ip}               -- 접속 IP
-				, MOBL_TELNO1    = SUBSTRING_INDEX(SUBSTRING_INDEX(#{phon}, '-', 1), '-', -1)   -- 전화번호1
-				, MOBL_TELNO2    = SUBSTRING_INDEX(SUBSTRING_INDEX(#{phon}, '-', 2), '-', -1)   -- 전화번호2
-				, MOBL_TELNO3    = SUBSTRING_INDEX(#{phon}, '-', -1)                            -- 전화번호3
+				, MOBL_TELNO1    = SUBSTRING_INDEX(SUBSTRING_INDEX(#{phone}, '-', 1), '-', -1)   -- 전화번호1
+				, MOBL_TELNO2    = SUBSTRING_INDEX(SUBSTRING_INDEX(#{phone}, '-', 2), '-', -1)   -- 전화번호2
+				, MOBL_TELNO3    = SUBSTRING_INDEX(#{phone}, '-', -1)                            -- 전화번호3
 				, EMAIL          = #{email}            -- 이메일
 				, USE_STAT_CD    = #{useStatCd}        -- 사용 상태 코드
 				, USE_STRT_DATE  = #{useStrtDate}      -- 사용 시작일
@@ -154,7 +154,7 @@
 				, MEMO           = #{memo}             -- 메모
 				, OTP_SKEY       = #{otpSkey}          -- OTP 키
 				, LAST_USER_ID   = #{lastUserId}       -- 최종 수정자 ID
-				, LAST_CHG_DT    = NOW()               -- 최종 수정일 (현재 시간)
+				, LAST_CHG_DT    = DATE_FORMAT(NOW(), '%Y%m%d%H%i%s')              -- 최종 수정일 (현재 시간)
 			WHERE
 				ID = #{id};  -- 사용자 ID 기준으로 업데이트
 		]]>

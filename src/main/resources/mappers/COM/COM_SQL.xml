@@ -86,8 +86,8 @@
 		#{grpCode}, #{grpName}, #{code}, #{name},
 		#{code2}, #{name2}, #{code3}, #{name3},
 		#{code4}, #{name4}, #{code5}, #{name5},
-		#{seq}, #{useYn}, #{rgtrUserId},NOW(),
-		#{lastUserId}, NOW()
+		#{seq}, #{useYn}, #{rgtrUserId},DATE_FORMAT(NOW(), '%Y%m%d%H%i%s'),
+		#{lastUserId}, DATE_FORMAT(NOW(), '%Y%m%d%H%i%s')
 		)
 	</insert>
 
