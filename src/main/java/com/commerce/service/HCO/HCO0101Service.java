@@ -4,6 +4,7 @@ import com.commerce.comm.CamelKeyMap;
 import com.commerce.comm.ObjectMapperUtils;
 import com.commerce.comm.UtilMapper;
 import com.commerce.exception.UserException;
+import com.commerce.module.COM.COMService;
 import com.commerce.module.MEM.MemService;
 import com.commerce.module.MEM.vo.SMEM001SVO;
 import com.commerce.module.MEM.vo.SMEM006RVO;
@@ -32,6 +33,8 @@ public class HCO0101Service extends UtilMapper {
     @Autowired
     private HttpSession session;
 
+    @Autowired
+    private COMService comService;
     /**
      * 관리자 로그인
      *
@@ -82,7 +85,7 @@ public class HCO0101Service extends UtilMapper {
 
             Map<String, Object> map = objectMapper.convertValue(admin, Map.class);
 
-            AdminVO userVo = (AdminVO) session.getAttribute("user");
+            AdminVO userVo = comService.getAdminInfo();
             String userId = userVo.getId();
 
             map.put("lastUserId", userId);
