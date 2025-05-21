@@ -89,6 +89,31 @@ INSERT INTO member (
     '', '20240813141602', '', '20240813141602', ''
 );
 
+
+
+    -- 1. 테이블 생성
+CREATE TABLE cmmn_grp_code (
+    grp_code VARCHAR(50) NOT NULL PRIMARY KEY COMMENT '그룹코드',
+    grp_name VARCHAR(100) NOT NULL COMMENT '그룹코드명',
+    use_yn CHAR(1) NOT NULL DEFAULT 'Y' COMMENT '사용여부',
+    memo VARCHAR(500) DEFAULT NULL COMMENT '메모',
+ 	RGTR_USER_ID VARCHAR(50) NULL COMMENT '등록자 ID',
+    RGTR_DT VARCHAR(14) NOT NULL DEFAULT DATE_FORMAT(NOW(), '%Y%m%d%H%i%s') COMMENT '등록 일시',
+    LAST_USER_ID VARCHAR(50) NULL COMMENT '마지막 수정자 ID',
+    LAST_CHG_DT VARCHAR(14) NOT NULL DEFAULT DATE_FORMAT(NOW(), '%Y%m%d%H%i%s') COMMENT '마지막 수정 일시'
+
+) COMMENT = '공통 그룹코드';
+
+INSERT INTO teo.cmmn_grp_code (grp_code, grp_name, use_yn, memo, rgtr_user_id, rgtr_dt, last_user_id, lst_chg_dt) VALUES
+('AUTH_GRADE_CD', '권한등급', 'Y', NULL, 'admin', DATE_FORMAT(CURRENT_TIMESTAMP(), '%Y%m%d%H%i%s'), 'admin', DATE_FORMAT(CURRENT_TIMESTAMP(), '%Y%m%d%H%i%s')),
+('ERROR_CODE', '에러코드', 'Y', NULL, 'system', DATE_FORMAT(CURRENT_TIMESTAMP(), '%Y%m%d%H%i%s'), 'system', DATE_FORMAT(CURRENT_TIMESTAMP(), '%Y%m%d%H%i%s')),
+('MEM_DIV_CD', '회원구분', 'Y', NULL, 'system', DATE_FORMAT(CURRENT_TIMESTAMP(), '%Y%m%d%H%i%s'), 'system', DATE_FORMAT(CURRENT_TIMESTAMP(), '%Y%m%d%H%i%s')),
+('MEM_JOIN_STAT_CD', '회원가입상태', 'Y', NULL, 'system', DATE_FORMAT(CURRENT_TIMESTAMP(), '%Y%m%d%H%i%s'), 'system', DATE_FORMAT(CURRENT_TIMESTAMP(), '%Y%m%d%H%i%s')),
+('MEM_SE_CD', '성별 (M/F)', 'Y', NULL, 'system', DATE_FORMAT(CURRENT_TIMESTAMP(), '%Y%m%d%H%i%s'), 'system', DATE_FORMAT(CURRENT_TIMESTAMP(), '%Y%m%d%H%i%s')),
+('NLTY_DIV_CD', '내외국인구분', 'Y', NULL, 'system', DATE_FORMAT(CURRENT_TIMESTAMP(), '%Y%m%d%H%i%s'), 'system', DATE_FORMAT(CURRENT_TIMESTAMP(), '%Y%m%d%H%i%s')),
+('SYS_DIV_CD', '시스템구분코드', 'Y', NULL, 'system', DATE_FORMAT(CURRENT_TIMESTAMP(), '%Y%m%d%H%i%s'), 'system', DATE_FORMAT(CURRENT_TIMESTAMP(), '%Y%m%d%H%i%s')),
+('USE_STAT_CD', '회원상태코드', 'Y', NULL, 'admin', DATE_FORMAT(CURRENT_TIMESTAMP(), '%Y%m%d%H%i%s'), 'admin', DATE_FORMAT(CURRENT_TIMESTAMP(), '%Y%m%d%H%i%s'));
+
 -- cmmn_code 테이블
 CREATE TABLE cmmn_code (
     grp_code VARCHAR(20) NOT NULL,

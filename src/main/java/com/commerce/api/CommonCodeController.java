@@ -21,11 +21,23 @@ public class CommonCodeController {
 
     @Autowired
     private COMService comService;
-    
+
+    //공통 코드 조회
     @PostMapping(value = "/ADM0202S01")
     public ResultVO ADM0202S01(@RequestBody SCOM001SVO req) throws UserException {
 
         List<CamelKeyMap> codeList = comService.SCOM001(req);
+        ResultVO result = new ResultVO();
+        result.setResultData(codeList);
+        result.setSucessCode();
+
+        return result;
+    }
+    // 그룹코드 조회
+    @PostMapping(value = "/ADM0202S03")
+    public ResultVO ADM0202S03(@RequestBody SCOM001SVO req) throws UserException {
+
+        List<CamelKeyMap> codeList = comService.SCOM000(req);
         ResultVO result = new ResultVO();
         result.setResultData(codeList);
         result.setSucessCode();

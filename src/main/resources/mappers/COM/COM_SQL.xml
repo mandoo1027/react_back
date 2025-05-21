@@ -41,6 +41,32 @@
 		ORDER BY A.GRP_CODE, A.GRP_NAME
 		) A
 	</select>
+	<!-- 공통코드 조회 -->
+	<select id="selectCmmnGrpCode" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[
+            SELECT A.*
+            FROM (
+                SELECT A.GRP_CODE
+                     , A.GRP_NAME
+                     , A.USE_YN
+                     , A.MEMO
+                FROM cmmn_grp_code A
+            ]]>
+		<where>
+			<if test="grpCode != null and grpCode != ''">
+				AND A.GRP_CODE LIKE CONCAT(#{grpCode}, '%')
+			</if>
+			<if test="grpName != null and grpName != ''">
+				AND A.GRP_NAME LIKE CONCAT('%', #{grpName}, '%')
+			</if>
+			<if test="useYn != null and useYn != ''">
+				AND A.USE_YN = #{useYn}
+			</if>
+
+		</where>
+		ORDER BY A.GRP_CODE, A.GRP_NAME
+		) A
+	</select>
 
 	<!-- 공통코드 상세 조회 -->
 	<select id="selectCmmnCodeDetail" parameterType="hashmap" resultType="hashmap">

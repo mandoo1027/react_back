@@ -20,7 +20,12 @@ import java.util.Map;
 public class COMService extends UtilMapper {
     @Autowired
     private HttpSession session;
+    public List<CamelKeyMap> SCOM000(SCOM001SVO req) throws UserException {
+        Map map = objectMapper.convertValue(req, Map.class);
 
+        List<CamelKeyMap> result = generalMapper.selectList("COM","selectCmmnGrpCode",map);
+        return result ;
+    }
     public List<CamelKeyMap> SCOM001(SCOM001SVO req) throws UserException {
         Map map = objectMapper.convertValue(req, Map.class);
 
