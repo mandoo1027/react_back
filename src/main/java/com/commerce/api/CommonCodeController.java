@@ -68,6 +68,26 @@ public class CommonCodeController {
         resultVO.setSucessCode();
         return resultVO;
     }
+    @PostMapping(value = "/ADM0202U02")
+    public ResultVO ADM0202U02(@RequestBody SCOM001SVO req) throws UserException {
+
+        if (!Objects.isNull(req.getList()) && req.getList().size() > 0) {
+            //여러건 날아올 경우 데이터 삭제
+            List<SCOM001SVO> scom001SVOS = req.getList();
+            //
+            scom001SVOS.forEach(scom001SVO -> {
+                try {
+                    comService.ADM0202U02(scom001SVO);
+                } catch (UserException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }
+        ResultVO resultVO = new ResultVO();
+        resultVO.setResultData(true);
+        resultVO.setSucessCode();
+        return resultVO;
+    }
     @PostMapping(value = "/ADM0202S02")
     public ResultVO ADM0202S02(@RequestBody SCOM001SVO req) throws UserException {
 

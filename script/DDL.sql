@@ -104,7 +104,7 @@ CREATE TABLE cmmn_grp_code (
 
 ) COMMENT = '공통 그룹코드';
 
-INSERT INTO teo.cmmn_grp_code (grp_code, grp_name, use_yn, memo, rgtr_user_id, rgtr_dt, last_user_id, lst_chg_dt) VALUES
+INSERT INTO teo.cmmn_grp_code (grp_code, grp_name, use_yn, memo, rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt) VALUES
 ('AUTH_GRADE_CD', '권한등급', 'Y', NULL, 'admin', DATE_FORMAT(CURRENT_TIMESTAMP(), '%Y%m%d%H%i%s'), 'admin', DATE_FORMAT(CURRENT_TIMESTAMP(), '%Y%m%d%H%i%s')),
 ('ERROR_CODE', '에러코드', 'Y', NULL, 'system', DATE_FORMAT(CURRENT_TIMESTAMP(), '%Y%m%d%H%i%s'), 'system', DATE_FORMAT(CURRENT_TIMESTAMP(), '%Y%m%d%H%i%s')),
 ('MEM_DIV_CD', '회원구분', 'Y', NULL, 'system', DATE_FORMAT(CURRENT_TIMESTAMP(), '%Y%m%d%H%i%s'), 'system', DATE_FORMAT(CURRENT_TIMESTAMP(), '%Y%m%d%H%i%s')),

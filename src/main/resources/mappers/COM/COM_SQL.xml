@@ -68,13 +68,39 @@
 		) A
 	</select>
 
+	<insert id="insertGrpCmmnCode" parameterType="hashmap">
+		INSERT INTO teo.cmmn_grp_code (
+		grp_code, grp_name, use_yn, memo, rgtr_user_id, rgtr_dt,
+		last_user_id, last_chg_dt
+		) VALUES (
+		#{grpCode}, #{grpName}, #{useYn},#{memo}, #{rgtrUserId},DATE_FORMAT(NOW(), '%Y%m%d%H%i%s'),
+		#{lastUserId}, DATE_FORMAT(NOW(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+
+	<update id="updateGrpCmmnCode" parameterType="hashmap">
+		UPDATE cmmn_grp_code
+		<set>
+			<if test="grpName != null and grpName != ''">grp_name = #{grpName},</if>
+			<if test="useYn != null and useYn != ''">use_yn = #{useYn},</if>
+			<if test="memo != null and memo != ''">memo = #{memo},</if>
+			<if test="lastUserId != null and lastUserId != ''">last_user_id = #{lastUserId},</if>
+			<if test="lastChgDt != null">last_chg_dt = DATE_FORMAT(NOW(), '%Y%m%d%H%i%s')</if>
+		</set>
+		WHERE grp_code = #{grpCode}
+	</update>
+
+	<delete id="deleteGrpCmmnCode" parameterType="hashmap">
+		DELETE FROM cmmn_grp_code
+		WHERE grp_code = #{grpCode}
+	</delete>
+
 	<!-- 공통코드 상세 조회 -->
 	<select id="selectCmmnCodeDetail" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[
             SELECT A.*
             FROM (
                 SELECT A.GRP_CODE
-                     , A.GRP_NAME
                      , A.CODE
                      , A.NAME
                      , A.CODE2
@@ -103,13 +129,13 @@
 
 	<insert id="insertCmmnCode" parameterType="hashmap">
 		INSERT INTO teo.cmmn_code (
-		grp_code, grp_name, code, name,
+		grp_code, code, name,
 		code2, name2, code3, name3,
 		code4, name4, code5, name5,
 		seq, use_yn, rgtr_user_id, rgtr_dt,
 		last_user_id, last_chg_dt
 		) VALUES (
-		#{grpCode}, #{grpName}, #{code}, #{name},
+		#{grpCode}, #{code}, #{name},
 		#{code2}, #{name2}, #{code3}, #{name3},
 		#{code4}, #{name4}, #{code5}, #{name5},
 		#{seq}, #{useYn}, #{rgtrUserId},DATE_FORMAT(NOW(), '%Y%m%d%H%i%s'),
@@ -120,7 +146,6 @@
 	<update id="updateCmmnCode" parameterType="hashmap">
 		UPDATE cmmn_code
 		<set>
-			<if test="grpName != null and grpName != ''">grp_name = #{grpName},</if>
 			<if test="name != null and name != ''">name = #{name},</if>
 			<if test="code2 != null and code2 != ''">code2 = #{code2},</if>
 			<if test="name2 != null and name2 != ''">name2 = #{name2},</if>
@@ -131,7 +156,7 @@
 			<if test="code5 != null and code5 != ''">code5 = #{code5},</if>
 			<if test="name5 != null and name5 != ''">name5 = #{name5},</if>
 			<if test="seq != null">seq = #{seq},</if>
-			<if test="useYn != null and useYn != ''">useYn = #{useYn},</if>
+			<if test="useYn != null and useYn != ''">use_yn = #{useYn},</if>
 			<if test="rgtrUserId != null and rgtrUserId != ''">rgtr_user_id = #{rgtrUserId},</if>
 			<if test="rgtrDt != null">rgtr_dt = #{rgtrDt},</if>
 			<if test="lastUserId != null and lastUserId != ''">last_user_id = #{lastUserId},</if>

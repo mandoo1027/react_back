@@ -28,6 +28,7 @@ public class SCOM001SVO {
     private String name5;
     private String seq;
     private String useYn;
+    private String memo;
 
     private List<SCOM001SVO> list;
 
