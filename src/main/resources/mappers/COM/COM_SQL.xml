@@ -83,7 +83,7 @@
 		<set>
 			<if test="grpName != null and grpName != ''">grp_name = #{grpName},</if>
 			<if test="useYn != null and useYn != ''">use_yn = #{useYn},</if>
-			<if test="memo != null and memo != ''">memo = #{memo},</if>
+			memo = #{memo},
 			<if test="lastUserId != null and lastUserId != ''">last_user_id = #{lastUserId},</if>
 			<if test="lastChgDt != null">last_chg_dt = DATE_FORMAT(NOW(), '%Y%m%d%H%i%s')</if>
 		</set>
@@ -146,16 +146,16 @@
 	<update id="updateCmmnCode" parameterType="hashmap">
 		UPDATE cmmn_code
 		<set>
-			<if test="name != null and name != ''">name = #{name},</if>
-			<if test="code2 != null and code2 != ''">code2 = #{code2},</if>
-			<if test="name2 != null and name2 != ''">name2 = #{name2},</if>
-			<if test="code3 != null and code3 != ''">code3 = #{code3},</if>
-			<if test="name3 != null and name3 != ''">name3 = #{name3},</if>
-			<if test="code4 != null and code4 != ''">code4 = #{code4},</if>
-			<if test="name4 != null and name4 != ''">name4 = #{name4},</if>
-			<if test="code5 != null and code5 != ''">code5 = #{code5},</if>
-			<if test="name5 != null and name5 != ''">name5 = #{name5},</if>
-			<if test="seq != null">seq = #{seq},</if>
+			name = #{name},
+			code2 = #{code2},
+			name2 = #{name2},
+			code3 = #{code3},
+			name3 = #{name3},
+			code4 = #{code4},
+			name4 = #{name4},
+			code5 = #{code5},
+			name5 = #{name5},
+			seq = #{seq},
 			<if test="useYn != null and useYn != ''">use_yn = #{useYn},</if>
 			<if test="rgtrUserId != null and rgtrUserId != ''">rgtr_user_id = #{rgtrUserId},</if>
 			<if test="rgtrDt != null">rgtr_dt = #{rgtrDt},</if>
