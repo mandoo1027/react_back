@@ -34,6 +34,43 @@
 		AND ID = #{id}
 	</select>
 
+	<!-- 등록 권한 사용자 조회-->
+	<select id="selectAuthAdmin" parameterType="hashmap" resultType="hashmap">
+		SELECT  ID
+				,PWD
+				,NAME
+				,IDNO
+				,IP
+				,MOBL_TELNO1
+				,MOBL_TELNO2
+				,MOBL_TELNO3
+				, CONCAT(MOBL_TELNO1, '-', MOBL_TELNO2, '-', MOBL_TELNO3) AS phone
+				,EMAIL
+				,USE_STAT_CD
+				,USE_STRT_DATE
+				,USE_END_DATE
+				,MENU_AUTH
+				,DEPT_CD
+				,DEPT_NM
+				,MEMO
+				,OTP_SKEY
+				,RGTR_USER_ID
+				,RGTR_DT
+				,LAST_USER_ID
+				,LAST_CHG_DT
+				,LOGIN_ERR_CNT
+				,MENU_AUTH
+		FROM admin
+		WHERE 1=1
+		<if test="searchTxt != null and searchTxt != ''">
+
+			AND (ID LIKE CONCAT('%', #{searchTxt}, '%') or NAME LIKE CONCAT('%', #{searchTxt}, '%') )
+		</if>
+		<if test="authGradeCd != null and authGradeCd != ''">
+			AND MENU_AUTH = #{authGradeCd}
+		</if>
+	</select>
+
 	<!-- 비로그인 회원ID 찾기 조회 -->
 	<select id="selectAdminList" parameterType="hashmap" resultType="hashmap">
 		<![CDATA[

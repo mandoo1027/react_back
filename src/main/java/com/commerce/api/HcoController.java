@@ -7,10 +7,7 @@ import com.commerce.exception.UserException;
 import com.commerce.module.COM.COMService;
 import com.commerce.module.MEM.vo.SMEM006RVO;
 import com.commerce.service.HCO.HCO0101Service;
-import com.commerce.service.HCO.vo.AdminVO;
-import com.commerce.service.HCO.vo.HCO0101S01S;
-import com.commerce.service.HCO.vo.HCO0101S04R;
-import com.commerce.service.HCO.vo.HCO0101S04S;
+import com.commerce.service.HCO.vo.*;
 import com.commerce.service.LOG.vo.LOG0101S01S;
 import com.commerce.service.MNU.vo.MNU0101S01R;
 import com.commerce.service.MNU.vo.MNU0101S01S;
@@ -114,6 +111,15 @@ public class HcoController {
     public ResultVO list(@RequestBody HCO0101S04S req, HCO0101S04R rsp) throws UserException {
 
         List<AdminVO>  adminList = hco0101Service.HCO0101S04(req, rsp);
+        ResultVO result = new ResultVO();
+        result.setResultData(adminList);
+        result.setSucessCode();
+        return result;
+    }
+    // 관리자 목록
+    @PostMapping(value = "/HCO0201S01")
+    public ResultVO HCO0201S01(@RequestBody HCO0201S01L req, HCO0101S04R rsp) throws UserException {
+        List<AdminVO>  adminList = hco0101Service.HCO0201S01(req, rsp);
         ResultVO result = new ResultVO();
         result.setResultData(adminList);
         result.setSucessCode();

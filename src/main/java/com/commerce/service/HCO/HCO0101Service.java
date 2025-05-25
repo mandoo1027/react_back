@@ -8,10 +8,7 @@ import com.commerce.module.COM.COMService;
 import com.commerce.module.MEM.MemService;
 import com.commerce.module.MEM.vo.SMEM001SVO;
 import com.commerce.module.MEM.vo.SMEM006RVO;
-import com.commerce.service.HCO.vo.AdminVO;
-import com.commerce.service.HCO.vo.HCO0101S01S;
-import com.commerce.service.HCO.vo.HCO0101S04R;
-import com.commerce.service.HCO.vo.HCO0101S04S;
+import com.commerce.service.HCO.vo.*;
 import com.commerce.service.MNU.vo.MNU0101S01S;
 import com.commerce.service.MNU.vo.MNUMenu;
 import io.micrometer.common.util.StringUtils;
@@ -65,6 +62,26 @@ public class HCO0101Service extends UtilMapper {
         Map<String, Object> map = objectMapper.convertValue(req, Map.class);
 
         List<CamelKeyMap> result = generalMapper.selectList("HCO","selectAdminList",map);
+
+        List<AdminVO> convertList = ObjectMapperUtils.convertToList(result, AdminVO.class);
+
+
+        return convertList;
+    }
+
+    /**
+     * 권한 그룹 사용자  조회
+     *
+     * @param
+     * @param
+     * @return
+     * @throws Exception
+     */
+    public List<AdminVO>  HCO0201S01(HCO0201S01L req, HCO0101S04R rsp) throws UserException {
+
+        Map<String, Object> map = objectMapper.convertValue(req, Map.class);
+
+        List<CamelKeyMap> result = generalMapper.selectList("HCO","selectAuthAdmin",map);
 
         List<AdminVO> convertList = ObjectMapperUtils.convertToList(result, AdminVO.class);
 
