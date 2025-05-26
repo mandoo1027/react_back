@@ -119,7 +119,7 @@ public class HCO0101Service extends UtilMapper {
         return resultCnt > 0;
     }
     /**
-     * 관리자 저장
+     * 관리자 권한 코드 변경
      * @param
      * @return
      * @throws Exception
@@ -136,6 +136,26 @@ public class HCO0101Service extends UtilMapper {
             map.put("lastUserId", userId);
 
             resultCnt += generalMapper.update("HCO", "updateAuthCdAdmin", map);
+        return resultCnt > 0;
+    }
+    /**
+     * 회원 승인 상태 코드 변경
+     * @param
+     * @return
+     * @throws Exception
+     */
+    public boolean HCO0101U02(HCO0101S04S req) throws UserException {
+        int resultCnt = 0;
+
+
+            Map<String, Object> map = objectMapper.convertValue(req, Map.class);
+
+            AdminVO userVo = comService.getAdminInfo();
+            String userId = userVo.getId();
+
+            map.put("lastUserId", userId);
+
+            resultCnt += generalMapper.update("HCO", "updateUseStatCdAdmin", map);
         return resultCnt > 0;
     }
 }

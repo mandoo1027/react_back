@@ -217,4 +217,18 @@
 		</foreach>
 	</update>
 
+	<update id="updateUseStatCdAdmin" parameterType="hashmap">
+		<![CDATA[
+			UPDATE admin
+			SET
+			  USE_STAT_CD    = #{useStatCd},         -- 회원 상태코드
+			  LAST_USER_ID = #{lastUserId},       -- 최종 수정자 ID
+			  LAST_CHG_DT  = DATE_FORMAT(NOW(), '%Y%m%d%H%i%s')  -- 최종 수정일
+			WHERE ID IN
+		  ]]>
+		<foreach collection="adminList" item="admin" open="(" separator="," close=")">
+			#{admin.id}
+		</foreach>
+	</update>
+
 </mapper>

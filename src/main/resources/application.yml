@@ -10,6 +10,14 @@ spring:
         username: mandoo1027
         password: rkskekfk5%
         driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+        hikari:
+            maximum-pool-size: 10
+            minimum-idle: 5
+            idle-timeout: 600000          # 10분
+            max-lifetime: 1800000         # 30분
+            keepalive-time: 300000        # 5분마다 ping (3.4.0 이상)
+            connection-timeout: 30000     # 커넥션 가져오기 대기 시간
+            validation-timeout: 5000
     mybatis:
         config-location: classpath:mybatis-config.xml
     servlet:

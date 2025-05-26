@@ -150,4 +150,16 @@ public class HcoController {
         }
         return result;
     }
+    // 관리자 상태 코드 변경
+    @PostMapping(value = "/HCO0101U02")
+    public ResultVO HCO0101U02(@RequestBody HCO0101S04S req) throws UserException {
+
+        boolean isResult = hco0101Service.HCO0101U02(req);
+        ResultVO result = new ResultVO();
+        if(isResult) {
+            result.setResultData(isResult);
+            result.setSucessCode();
+        }
+        return result;
+    }
 }
