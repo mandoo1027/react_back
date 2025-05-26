@@ -107,6 +107,12 @@
 			<if test="name != null and name != ''">
 				AND NAME LIKE CONCAT('%', #{name}, '%')
 			</if>
+			<if test="authGradeCd != null and authGradeCd != ''">
+				AND MENU_AUTH = #{authGradeCd}
+			</if>
+			<if test="memJoinStatCd != null and memJoinStatCd != ''">
+				AND USE_STAT_CD = #{memJoinStatCd}
+			</if>
 		</where>
 	</select>
 
@@ -195,6 +201,20 @@
 			WHERE
 				ID = #{id};  -- 사용자 ID 기준으로 업데이트
 		]]>
+	</update>
+
+	<update id="updateAuthCdAdmin" parameterType="hashmap">
+		<![CDATA[
+			UPDATE admin
+			SET
+			  MENU_AUTH    = #{menuAuth},         -- 메뉴 권한
+			  LAST_USER_ID = #{lastUserId},       -- 최종 수정자 ID
+			  LAST_CHG_DT  = DATE_FORMAT(NOW(), '%Y%m%d%H%i%s')  -- 최종 수정일
+			WHERE ID IN
+		  ]]>
+		<foreach collection="adminList" item="admin" open="(" separator="," close=")">
+			#{admin.id}
+		</foreach>
 	</update>
 
 </mapper>

@@ -36,6 +36,8 @@ public class HCO0101S04S extends RequestPayload {
     private String lastChgDt;       // 마지막 수정 일시
     private int loginErrCnt;        // 로그인 오류 횟수 (초기값 0)
     private  String currentSessionId; // 현재 세션 ID
+    private  String authGradeCd; // 권한 그룹 코드
+    private  String memJoinStatCd; // 회원 상태 코드
     private String rowStatus;
     private List<HCO0101S04S> adminList;
 }
