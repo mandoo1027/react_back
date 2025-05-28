@@ -1,6 +1,7 @@
 package com.commerce.api;
 
 import ch.qos.logback.core.util.StringUtil;
+import com.commerce.comm.CODE;
 import com.commerce.comm.ResultVO;
 import com.commerce.comm.UserVO;
 import com.commerce.exception.UserException;
@@ -50,6 +51,14 @@ public class HcoController {
             if(!getData.getPwd().equals(req.getPwd())){
                 throw new UserException("MEM002");//"아이디 또는 비밀번호가 일치하지 않습니다.");
             }
+        }
+
+        //승인이 아닐 경우
+        if(!getData.getUseStatCd().equals(CODE.USE_STAT_CD_02.getCode())){
+            isPass = false;
+            String statusName = CODE.getNameByCode(getData.getUseStatCd());
+            System.out.println(statusName);  // 예: "사용중"
+            throw new UserException("현재 유저 상태가 "+statusName +"상태이므로 로그인을 하실 수 없습니다. 관리자에게 문의해주세요.");//"승인되지 않은 사용자입니다.");
         }
 
 

@@ -225,3 +225,53 @@ VALUES('admin', '1234', '김경일', NULL, '199.123.1.222', NULL, NULL, NULL, 'a
 INSERT INTO admin
 (ID, PWD, NAME, IDNO, IP, MOBL_TELNO1, MOBL_TELNO2, MOBL_TELNO3, EMAIL, USE_STAT_CD, USE_STRT_DATE, USE_END_DATE, MENU_AUTH, DEPT_CD, DEPT_NM, MEMO, OTP_SKEY, RGTR_USER_ID, RGTR_DT, LAST_USER_ID, LAST_CHG_DT, LOGIN_ERR_CNT)
 VALUES('pack', '1234', '박희찬', NULL, '199.123.1.222', NULL, NULL, NULL, 'admin@example.com', '1', '20240824', '99991231', 'S', NULL, '금감원', NULL, 'WOTTHNU4SWL2ULVM', 'admin', '20240824201204', 'admin', '20240824201204', 0);
+
+
+
+CREATE TABLE screen (
+  screen_id      INT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '화면 ID',
+  screen_name    VARCHAR(100) NOT NULL COMMENT '화면 이름',
+  screen_path    VARCHAR(200) NOT NULL COMMENT '화면 경로(URL 또는 라우트)',
+  memo           VARCHAR(500) DEFAULT NULL COMMENT '비고',
+  use_yn         CHAR(1) DEFAULT 'Y' COMMENT '사용 여부 (Y/N)',
+
+  rgtr_user_id   VARCHAR(50) DEFAULT NULL COMMENT '등록자 ID',
+  rgtr_dt        VARCHAR(14) DEFAULT DATE_FORMAT(CURRENT_TIMESTAMP(), '%Y%m%d%H%i%s') COMMENT '등록일시',
+  last_user_id   VARCHAR(50) DEFAULT NULL COMMENT '최종 수정자 ID',
+  last_chg_dt    VARCHAR(14) DEFAULT DATE_FORMAT(CURRENT_TIMESTAMP(), '%Y%m%d%H%i%s') COMMENT '최종 수정일시'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='화면 관리 테이블';
+
+INSERT INTO screen
+(screen_name, screen_path, memo, use_yn, rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt)
+VALUES
+('홈', '/LOG/LOG001M00', '메인화면', 'Y', 'admin', '20240823161712', 'admin', '20240823161712'),
+('로그인', '/LOG/LOG001M00', '로그인', 'Y', 'admin', '20240823163637', 'admin', '20240823163637'),
+('메뉴관리', '/MNU/MNU001M01', '메뉴관리 화면', 'Y', 'admin', '20240823163611', 'admin', '20250528122633'),
+('공통코드관리', '/ADM/ADM107M01', '공통코드관리', 'Y', 'admin', '20240823164038', 'admin', '20250528122601'),
+('관리자 계정관리', '/ADM/ADM100M01', '관리자 계정관리', 'Y', 'admin', '20240823164235', 'admin', '20250528122633'),
+('게시판관리', '/BBS/BBS001M01', '', 'Y', 'admin', '20250324123903', 'admin', '20250528122553'),
+('사용자 권한 관리', '/ADM/ADM101M01', '', 'Y', 'admin', '20250522235821', 'admin', '20250528122633'),
+('메뉴 권한 관리', '/ADM/ADM201M01', '', 'Y', 'admin', '20250523000010', 'admin', '20250528122633'),
+('화면관리', '/MNU/MNU001M01', '', 'Y', 'admin', '20250528122402', 'admin', '20250528122633'),
+('OCR(온문상)', '/ETC/ETC001M01', '', 'Y', 'admin', '20250312122648', 'admin', '20250312122648'),
+('OCR(사업자등록증)', '/ETC/ETC001M02', '', 'Y', 'admin', '20250312122648', 'admin', '20250312122716'),
+('크림 로그인', '/KRM/KRM001M01', '', 'Y', 'admin', '20250517052732', 'admin', '20250517052835'),
+('정산내역 조회', '/KRM/KRM001M02', '', 'Y', 'admin', '20250517052732', 'admin', '20250517052835'),
+('보관신청 상품관리', '/KRM/KRM001M03', '', 'Y', 'admin', '20250517052732', 'admin', '20250517052835'),
+('입찰보관신청 상품관리', '/KRM/KRM001M05', '', 'Y', 'admin', '20250517052732', 'admin', '20250517052835'),
+('로그 확인', '/KRM/KRM001M04', '', 'Y', 'admin', '20250517052732', 'admin', '20250517052835');
+
+CREATE TABLE menu_temp (
+  menu_id         INT AUTO_INCREMENT PRIMARY KEY,
+  menu_name       VARCHAR(100) NOT NULL COMMENT '메뉴 이름',
+  menu_level      INT NOT NULL COMMENT '메뉴 깊이 (1: 대메뉴, 2: 서브메뉴 등)',
+  sort_order      INT NOT NULL DEFAULT 1 COMMENT '정렬 순서',
+  parent_menu_id  INT DEFAULT NULL COMMENT '상위 메뉴 ID (NULL이면 루트)',
+  screen_id       INT DEFAULT NULL COMMENT '연결된 화면 ID',
+  use_yn          CHAR(1) DEFAULT 'Y' COMMENT '사용 여부 (Y/N)',
+  display_yn      CHAR(1) DEFAULT 'Y' COMMENT '메뉴 노출 여부 (Y/N)',
+  rgtr_user_id    VARCHAR(50) COMMENT '등록자 ID',
+  rgtr_dt         VARCHAR(14) COMMENT '등록일시 (YYYYMMDDHHMISS)',
+  last_user_id    VARCHAR(50) COMMENT '최종 수정자 ID',
+  last_chg_dt     VARCHAR(14) COMMENT '최종 수정일시 (YYYYMMDDHHMISS)'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='메뉴 관리 테이블';
