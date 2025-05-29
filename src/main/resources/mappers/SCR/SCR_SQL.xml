@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="SCR">
+
+	<!-- 화면 조회 -->
+	<select id="selectScrList" parameterType="hashmap" resultType="hashmap">
+		<![CDATA[
+		SELECT
+			  SCREEN_ID        -- 화면 ID
+			, SCREEN_NAME      -- 화면 이름
+			, SCREEN_PATH      -- 화면 경로(URL 또는 라우트)
+			, MEMO             -- 비고
+			, USE_YN           -- 사용 여부 (Y/N)
+			, RGTR_USER_ID     -- 등록자 ID
+			, RGTR_DT          -- 등록일시
+			, LAST_USER_ID     -- 최종 수정자 ID
+			, LAST_CHG_DT      -- 최종 수정일시
+		FROM SCREEN
+		WHERE 1=1
+		AND system_type = 'ADMIN'
+	]]>
+		<if test="useYn != null and useYn != ''">
+			AND  USE_YN = #{useYn}
+		</if>
+		<if test="screenName != null and screenName != ''">
+			AND   SCREEN_NAME LIKE CONCAT('%', #{screenName}, '%')
+		</if>
+		<if test="screenPath != null and screenPath != ''">
+			AND   SCREEN_PATH LIKE CONCAT('%', #{screenPath}, '%')
+		</if>
+
+		ORDER BY SCREEN_ID
+		<if test="startNum >= 0 and endNum != 0">
+			LIMIT #{startNum}, #{endNum}
+		</if>
+	</select>
+	<!-- 화면 정보 수정 -->
+	<update id="updateScr" parameterType="hashmap">
+		<![CDATA[
+		UPDATE SCREEN
+		SET
+			  SCREEN_NAME = #{screenName}      -- 화면 이름
+			, SCREEN_PATH = #{screenPath}      -- 화면 경로(URL 또는 라우트)
+			, MEMO        = #{memo}             -- 비고
+			, USE_YN      = #{useYn}            -- 사용 여부 (Y/N)
+			, LAST_USER_ID = #{lastUserId}	-- 수정자
+			, LAST_CHG_DT = DATE_FORMAT(NOW(), '%Y%m%d%H%i%s')		-- 수정일자
+		WHERE SCREEN_ID = #{screenId}
+		]]>
+	</update>
+	<!-- 화면 정보 추가 -->
+	<insert id="insertScr" parameterType="hashmap">
+		<![CDATA[
+		INSERT INTO SCREEN (
+		     SYSTEM_TYPE	   -- 시스템 타입 (예: admin)
+			, SCREEN_NAME      -- 화면 이름
+			, SCREEN_PATH      -- 화면 경로(URL 또는 라우트)
+			, MEMO             -- 비고
+			, USE_YN           -- 사용 여부 (Y/N)
+			, RGTR_USER_ID     -- 등록자 ID
+			, RGTR_DT          -- 등록일시
+			, LAST_USER_ID     -- 최종 수정자 ID
+			, LAST_CHG_DT      -- 최종 수정일시
+		) VALUES (
+			 'ADMIN'         -- 시스템 타입 (예: admin)
+			, #{screenName}    -- 화면 이름
+			, #{screenPath}    -- 화면 경로(URL 또는 라우트)
+			, #{memo}          -- 비고
+			, #{useYn}         -- 사용 여부 (Y/N)
+			, #{rgtrUserId}    -- 등록자 ID
+			, DATE_FORMAT(NOW(), '%Y%m%d%H%i%s')  -- 등록일시
+			, #{lastUserId}    -- 최종 수정자 ID
+			, DATE_FORMAT(NOW(), '%Y%m%d%H%i%s')  -- 최종 수정일시
+		)
+		]]>
+	</insert>
+	<!-- 화면 정보 삭제 -->
+	<delete id="deleteScr" parameterType="hashmap">
+		<![CDATA[
+		DELETE FROM SCREEN
+		WHERE SCREEN_ID = #{screenId}
+		]]>
+	</delete>
+</mapper>

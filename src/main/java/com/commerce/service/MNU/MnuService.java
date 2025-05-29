@@ -2,7 +2,6 @@ package com.commerce.service.MNU;
 
 import com.commerce.comm.CamelKeyMap;
 import com.commerce.comm.ObjectMapperUtils;
-import com.commerce.comm.UserVO;
 import com.commerce.comm.UtilMapper;
 import com.commerce.exception.UserException;
 import com.commerce.module.COM.COMService;
@@ -11,7 +10,6 @@ import com.commerce.service.MNU.vo.MNU0101S01R;
 import com.commerce.service.MNU.vo.MNU0101S01S;
 import com.commerce.service.MNU.vo.MNUMenu;
 import io.micrometer.common.util.StringUtils;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,14 +18,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Transactional
 @Service("MnuService")
 public class MnuService extends UtilMapper {
-    @Autowired
-    private HttpSession session;
 
     @Autowired
     private COMService comService;
