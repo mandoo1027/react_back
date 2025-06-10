@@ -261,17 +261,22 @@ VALUES
 ('입찰보관신청 상품관리', '/KRM/KRM001M05', '', 'Y', 'admin', '20250517052732', 'admin', '20250517052835'),
 ('로그 확인', '/KRM/KRM001M04', '', 'Y', 'admin', '20250517052732', 'admin', '20250517052835');
 
-CREATE TABLE menu_temp (
-  menu_id         INT AUTO_INCREMENT PRIMARY KEY,
-  menu_name       VARCHAR(100) NOT NULL COMMENT '메뉴 이름',
-  menu_level      INT NOT NULL COMMENT '메뉴 깊이 (1: 대메뉴, 2: 서브메뉴 등)',
-  sort_order      INT NOT NULL DEFAULT 1 COMMENT '정렬 순서',
-  parent_menu_id  INT DEFAULT NULL COMMENT '상위 메뉴 ID (NULL이면 루트)',
-  screen_id       INT DEFAULT NULL COMMENT '연결된 화면 ID',
-  use_yn          CHAR(1) DEFAULT 'Y' COMMENT '사용 여부 (Y/N)',
-  display_yn      CHAR(1) DEFAULT 'Y' COMMENT '메뉴 노출 여부 (Y/N)',
-  rgtr_user_id    VARCHAR(50) COMMENT '등록자 ID',
-  rgtr_dt         VARCHAR(14) COMMENT '등록일시 (YYYYMMDDHHMISS)',
-  last_user_id    VARCHAR(50) COMMENT '최종 수정자 ID',
-  last_chg_dt     VARCHAR(14) COMMENT '최종 수정일시 (YYYYMMDDHHMISS)'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='메뉴 관리 테이블';
+-- teo.menu_temp definition
+
+CREATE TABLE `menu_temp` (
+  `menu_id` int(11) NOT NULL AUTO_INCREMENT,
+  `menu_name` varchar(100) NOT NULL COMMENT '메뉴 이름',
+  `menu_level` int(11) NOT NULL COMMENT '메뉴 깊이 (1: 대메뉴, 2: 서브메뉴 등)',
+  `sort_order` int(11) NOT NULL DEFAULT 1 COMMENT '정렬 순서',
+  `parent_menu_id` int(11) DEFAULT NULL COMMENT '상위 메뉴 ID (NULL이면 루트)',
+  `screen_id` int(11) DEFAULT NULL COMMENT '연결된 화면 ID',
+  `use_yn` char(1) DEFAULT 'Y' COMMENT '사용 여부 (Y/N)',
+  `display_yn` char(1) DEFAULT 'Y' COMMENT '메뉴 노출 여부 (Y/N)',
+  `rgtr_user_id` varchar(50) DEFAULT NULL COMMENT '등록자 ID',
+  `rgtr_dt` varchar(14) DEFAULT NULL COMMENT '등록일시 (YYYYMMDDHHMISS)',
+  `last_user_id` varchar(50) DEFAULT NULL COMMENT '최종 수정자 ID',
+  `last_chg_dt` varchar(14) DEFAULT NULL COMMENT '최종 수정일시 (YYYYMMDDHHMISS)',
+  `system_type` varchar(100) DEFAULT NULL COMMENT '시스템 타입(admin)',
+  `menu_grp_code` varchar(100) DEFAULT NULL COMMENT '그룹 코드',
+  PRIMARY KEY (`menu_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci COMMENT='메뉴 관리 테이블';

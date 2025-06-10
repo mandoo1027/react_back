@@ -10,6 +10,7 @@
 			  SCREEN_ID        -- 화면 ID
 			, SCREEN_NAME      -- 화면 이름
 			, SCREEN_PATH      -- 화면 경로(URL 또는 라우트)
+			, MAPPING_CODE     -- 매핑 코드 (예: M001)
 			, MEMO             -- 비고
 			, USE_YN           -- 사용 여부 (Y/N)
 			, RGTR_USER_ID     -- 등록자 ID
@@ -42,6 +43,7 @@
 		SET
 			  SCREEN_NAME = #{screenName}      -- 화면 이름
 			, SCREEN_PATH = #{screenPath}      -- 화면 경로(URL 또는 라우트)
+			, MAPPING_CODE = #{mappingCode}    -- 매핑 코드 (예: M001)
 			, MEMO        = #{memo}             -- 비고
 			, USE_YN      = #{useYn}            -- 사용 여부 (Y/N)
 			, LAST_USER_ID = #{lastUserId}	-- 수정자
@@ -56,6 +58,7 @@
 		     SYSTEM_TYPE	   -- 시스템 타입 (예: admin)
 			, SCREEN_NAME      -- 화면 이름
 			, SCREEN_PATH      -- 화면 경로(URL 또는 라우트)
+			, MAPPING_CODE     -- 매핑 코드 (예: M001)
 			, MEMO             -- 비고
 			, USE_YN           -- 사용 여부 (Y/N)
 			, RGTR_USER_ID     -- 등록자 ID
@@ -66,6 +69,7 @@
 			 'ADMIN'         -- 시스템 타입 (예: admin)
 			, #{screenName}    -- 화면 이름
 			, #{screenPath}    -- 화면 경로(URL 또는 라우트)
+			, #{mappingCode}     -- 매핑 코드 (예: M001)
 			, #{memo}          -- 비고
 			, #{useYn}         -- 사용 여부 (Y/N)
 			, #{rgtrUserId}    -- 등록자 ID

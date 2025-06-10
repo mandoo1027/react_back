@@ -133,4 +133,69 @@
 		AND   MENU_CODE = #{menuCode}
 	]]>
 	</update>
+
+
+	<!-- SELECT -->
+	<select id="selectMenuListTemp" parameterType="hashmap" resultType="hashmap">
+		SELECT
+		system_type,
+		menu_id,
+		menu_name,
+		menu_level,
+		sort_order,
+		parent_menu_id,
+		screen_id,
+		use_yn,
+		display_yn,
+		rgtr_user_id,
+		rgtr_dt,
+		last_user_id,
+		last_chg_dt
+		FROM menu_temp
+		WHERE 1=1
+		<if test="systemType != null">
+			AND system_type = #{systemType}
+		</if>
+		<if test="menuLevel != null">
+			AND menu_level = #{menuLevel}
+		</if>
+		<if test="parentMenuId != null">
+			AND parent_menu_id = #{parentMenuId}
+		</if>
+		ORDER BY sort_order ASC
+	</select>
+
+	<!-- INSERT -->
+	<insert id="insertMenuTemp"  parameterType="hashmap">
+		INSERT INTO menu_temp (
+		system_type,menu_name, menu_level, sort_order, parent_menu_id,
+		screen_id, use_yn, display_yn, rgtr_user_id, rgtr_dt
+		) VALUES (
+		#{systemType}, #{menuName}, #{menuLevel}, #{sortOrder}, #{parentMenuId},
+		#{screenId}, #{useYn}, #{displayYn}, #{rgtrUserId}, DATE_FORMAT(NOW(), '%Y%m%d%H%i%s')
+		)
+	</insert>
+
+	<!-- UPDATE -->
+	<update id="updateMenuTemp"  parameterType="hashmap">
+		UPDATE menu_temp
+		SET
+		menu_name = #{menuName},
+		menu_level = #{menuLevel},
+		sort_order = #{sortOrder},
+		parent_menu_id = #{parentMenuId},
+		screen_id = #{screenId},
+		use_yn = #{useYn},
+		display_yn = #{displayYn},
+		last_user_id = #{lastUserId},
+		last_chg_dt = DATE_FORMAT(NOW(), '%Y%m%d%H%i%s')
+		WHERE
+		menu_id = #{menuId}
+	</update>
+
+	<!-- DELETE -->
+	<delete id="deleteMenuTemp" parameterType="int">
+		DELETE FROM menu_temp
+		WHERE menu_id = #{menuId}
+	</delete>
 </mapper>

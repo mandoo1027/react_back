@@ -16,7 +16,6 @@ public class MNUMenu  implements Comparable<MNUMenu> {
     private String menuCss;
     private String menuDepth;
     private String menuScrDev;
-    private String menuName;
     private List<String> navigator;
     private String menuSeq;
     private String rgtrDt;
@@ -25,10 +24,25 @@ public class MNUMenu  implements Comparable<MNUMenu> {
     private String upperMenuCode;
     private String useEndDate;
     private String useStrtDate;
-    private String useYn;
     private List<MNUMenu> children;
     private String scrCtn;
     private String useInstDiv;
+
+
+    // 메뉴 신
+
+    private String systemType; // 행상태
+    private String menuId; // 메뉴 ID
+    private String menuName; // 메뉴 이름
+    private String menuLevel; // 메뉴 레벨
+    private String sortOrder; // 정렬 순서
+    private String parentMenuId; // 상위 메뉴 ID
+    private String screenId; // 화면 ID
+    private String screenNm; // 화면 이름
+    private String useYn; // 사용 여부
+    private String displayYn; // 표시 여부
+    private String menuGrpCode; // 메뉴 그룹 코드
+
 
     @Override
     public int compareTo(MNUMenu other) {

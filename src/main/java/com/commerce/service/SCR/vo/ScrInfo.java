@@ -8,6 +8,7 @@ public class ScrInfo {
     private String rowStatus;              // 상태
     private String screenName;             // 화면 이름
     private String screenPath;             // 화면 경로(URL 또는 라우트)
+    private String mappingCode;            // 매핑 코드 (예: MCO001)
     private String memo;                   // 비고
     private String useYn;                  // 사용 여부 (Y/N)
     private String rgtrUserId;             // 등록자 ID

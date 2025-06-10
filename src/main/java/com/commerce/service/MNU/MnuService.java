@@ -8,6 +8,7 @@ import com.commerce.module.COM.COMService;
 import com.commerce.service.HCO.vo.AdminVO;
 import com.commerce.service.MNU.vo.MNU0101S01R;
 import com.commerce.service.MNU.vo.MNU0101S01S;
+import com.commerce.service.MNU.vo.MNU0201S01S;
 import com.commerce.service.MNU.vo.MNUMenu;
 import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -152,5 +153,63 @@ public class MnuService extends UtilMapper {
         // List 역정렬
         Collections.reverse(naviList);
         menu.setNavigator(naviList);
+    }
+
+
+
+    public boolean MNU0201S01(MNU0201S01S req, MNU0101S01R rsp) throws UserException {
+        Map<String, Object> map = objectMapper.convertValue(req, Map.class);
+
+        List<CamelKeyMap> result = generalMapper.selectList("MEN","selectMnuListTemp",map);
+
+        List<MNUMenu> convertList = ObjectMapperUtils.convertToList(result, MNUMenu.class);
+
+        String type = StringUtils.isNotEmpty(req.getSystemDivCd()) ? req.getSystemDivCd() : "";
+
+
+        List<MNUMenu> amdList = getHierarchicalMenu(convertList, "ADM", type);
+
+        List<MNUMenu> amdMappingList = getHierarchicalMenu(convertList, "ADM", "LIST");
+
+        // 조회된 메뉴 Tree구조로 변경
+        rsp.setADM(amdList);
+        rsp.setAdmMappingList(amdMappingList);
+
+        return true;
+    }
+
+    public boolean MNU0201S02(MNU0201S01S req, MNU0101S01R rsp) throws UserException {
+        Map<String, Object> map = objectMapper.convertValue(req, Map.class);
+
+        List<CamelKeyMap> result = generalMapper.selectList("MEN","selectMenuListTemp",map);
+
+        List<MNUMenu> convertList = ObjectMapperUtils.convertToList(result, MNUMenu.class);
+
+        rsp.setADM(convertList);
+
+        return true;
+    }
+
+
+    public boolean MNU0201U02(MNU0201S01S req) throws UserException {
+        int resultCnt = 0;
+        AdminVO userVo = comService.getAdminInfo();
+        for (MNU0201S01S menu : req.getMenuList()) {
+            Map<String, Object> map = objectMapper.convertValue(menu, Map.class);
+            String userId = userVo.getId();
+
+            map.put("lastUserId", userId);
+            map.put("rgtrUserId", userId);
+
+            if ("C".equals(map.get("rowStatus"))) {
+                resultCnt += generalMapper.insert("MEN", "insertMenuTemp",map );
+            } else if ("U".equals(map.get("rowStatus"))) {
+                resultCnt += generalMapper.insert("MEN", "updateMenuTemp",map );
+            } else if ("D".equals(map.get("rowStatus"))) {
+                resultCnt += generalMapper.insert("MEN", "deleteMenuTemp", map);
+            }
+        }
+
+        return resultCnt > 0;
     }
 }
