@@ -37,11 +37,14 @@ public class MNUMenu  implements Comparable<MNUMenu> {
     private String menuLevel; // 메뉴 레벨
     private String sortOrder; // 정렬 순서
     private String parentMenuId; // 상위 메뉴 ID
+    private String parentMenuNm; // 상위 메뉴명
     private String screenId; // 화면 ID
     private String screenNm; // 화면 이름
     private String useYn; // 사용 여부
     private String displayYn; // 표시 여부
     private String menuGrpCode; // 메뉴 그룹 코드
+    private String mappingCode; // 메뉴 그룹 코드
+    private String screenPath; // 화면 경로
 
 
     @Override

@@ -15,10 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Transactional
@@ -164,7 +161,7 @@ public class MnuService extends UtilMapper {
 
         List<MNUMenu> convertList = ObjectMapperUtils.convertToList(result, MNUMenu.class);
 
-        String type = StringUtils.isNotEmpty(req.getSystemDivCd()) ? req.getSystemDivCd() : "";
+        String type = StringUtils.isNotEmpty(req.getSystemType()) ? req.getSystemType() : "";
 
 
         List<MNUMenu> amdList = getHierarchicalMenu(convertList, "ADM", type);
@@ -185,11 +182,32 @@ public class MnuService extends UtilMapper {
 
         List<MNUMenu> convertList = ObjectMapperUtils.convertToList(result, MNUMenu.class);
 
+//        for(MNUMenu menu : convertList) {
+//            makeChildMenu(menu, convertList);
+//        }
+//
+//        // 정렬
+//        List<MNUMenu> topLevelMenus = convertList.stream()
+//                .filter(menu -> menu.getParentMenuId() == null)
+//                .collect(Collectors.toList());
+
+
         rsp.setADM(convertList);
 
         return true;
     }
 
+    public void makeChildMenu(MNUMenu childMenu, List<MNUMenu> menuList) {
+        menuList.stream()
+                .filter(menu -> Objects.equals(childMenu.getParentMenuId(), menu.getMenuId()))
+                .findFirst()
+                .ifPresent(parent -> {
+                    parent.setChildren(
+                            Optional.ofNullable(parent.getChildren()).orElseGet(ArrayList::new)
+                    );
+                    parent.getChildren().add(childMenu);
+                });
+    }
 
     public boolean MNU0201U02(MNU0201S01S req) throws UserException {
         int resultCnt = 0;
@@ -203,6 +221,11 @@ public class MnuService extends UtilMapper {
 
             if ("C".equals(map.get("rowStatus"))) {
                 resultCnt += generalMapper.insert("MEN", "insertMenuTemp",map );
+                if((Integer)map.get("menuLevel") == 1){//레벨이 1이면 menu_grp_code에도 동일한 값을 넣어줘야한다.
+                    map.put("menuGrpCode", map.get("menuId"));
+                    generalMapper.insert("MEN", "updateGrpCodeMenuTemp",map );
+                }
+
             } else if ("U".equals(map.get("rowStatus"))) {
                 resultCnt += generalMapper.insert("MEN", "updateMenuTemp",map );
             } else if ("D".equals(map.get("rowStatus"))) {

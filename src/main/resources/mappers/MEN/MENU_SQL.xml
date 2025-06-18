@@ -25,15 +25,15 @@
 			, LAST_CHG_DT		-- 수정일자
 		FROM menu
 		WHERE 1=1
-
 		AND   USE_STRT_DATE <= DATE_FORMAT(NOW(), '%Y%m%d')
 		AND   USE_END_DATE >= DATE_FORMAT(NOW(), '%Y%m%d')
 	]]>
 		<if test="searchType == null or searchType == ''">
 			AND  USE_YN = 'Y'
 		</if>
-		<if test="sysDivCd == 'ADM'">
-			AND   SYS_DIV_CD = 'ADM'
+
+		<if test="systemType != null and systemType != ''">
+			AND   SYS_DIV_CD = #{systemType}
 		</if>
 		<if test="menuCode != null and menuCode != ''">
 			AND   MENU_CODE LIKE CONCAT('%', #{menuCode}, '%')
@@ -83,7 +83,7 @@
 		)
 		VALUES
 		(
-			  #{sysDivCd}		-- 시스템구분 : EFM, ADM
+			  #{systemType}		-- 시스템구분 : EFM, ADM
 			, #{menuScrDev}		-- 메뉴화면구분 : M 메뉴  S 화면 N 네비게이션
 			, #{menuCode}		-- 메뉴코드 : M + 업무구분(3) + 순번(3)
 			, #{menuName}		-- 메뉴_화면명
@@ -107,7 +107,7 @@
 	<delete id="deleteMenu" parameterType="hashmap">
 		DELETE FROM menu
 		WHERE 1=1
-		AND   SYS_DIV_CD = #{sysDivCd}
+		AND   SYS_DIV_CD = #{systemType}
 		AND   MENU_CODE = #{menuCode}
 	</delete>
 	<update id="updateMenu" parameterType="hashmap">
@@ -129,7 +129,7 @@
 			, LAST_USER_ID = #{lastUserId}	-- 수정자
 			, LAST_CHG_DT = DATE_FORMAT(NOW(), '%Y%m%d%H%i%s')		-- 수정일자
 		WHERE 1=1
-		AND   SYS_DIV_CD = #{sysDivCd}
+		AND   SYS_DIV_CD = #{systemType}
 		AND   MENU_CODE = #{menuCode}
 	]]>
 	</update>
@@ -138,44 +138,55 @@
 	<!-- SELECT -->
 	<select id="selectMenuListTemp" parameterType="hashmap" resultType="hashmap">
 		SELECT
-		system_type,
-		menu_id,
-		menu_name,
-		menu_level,
-		sort_order,
-		parent_menu_id,
-		screen_id,
-		use_yn,
-		display_yn,
-		rgtr_user_id,
-		rgtr_dt,
-		last_user_id,
-		last_chg_dt
-		FROM menu_temp
+		m.system_type,
+		m.menu_id,
+		m.menu_name,
+		m.menu_level,
+		m.sort_order,
+		m.parent_menu_id,
+		get_menu_nm(m.parent_menu_id) as parent_menu_nm,
+		m.screen_id,
+		m.use_yn,
+		m.display_yn,
+		m.rgtr_user_id,
+		m.rgtr_dt,
+		m.last_user_id,
+		m.last_chg_dt,
+		m.menu_grp_code,
+		s.mapping_code,
+		s.screen_name as screen_nm,
+		s.screen_path
+		FROM menu_temp m
+		left join screen s on m.screen_id = s.screen_id
 		WHERE 1=1
 		<if test="systemType != null">
-			AND system_type = #{systemType}
+			AND m.system_type = #{systemType}
 		</if>
 		<if test="menuLevel != null">
-			AND menu_level = #{menuLevel}
+			AND m.menu_level = #{menuLevel}
 		</if>
 		<if test="parentMenuId != null">
-			AND parent_menu_id = #{parentMenuId}
+			AND m.parent_menu_id = #{parentMenuId}
 		</if>
-		ORDER BY sort_order ASC
+		ORDER BY m.menu_grp_code, m.menu_level, m.sort_order
 	</select>
 
 	<!-- INSERT -->
-	<insert id="insertMenuTemp"  parameterType="hashmap">
+	<insert id="insertMenuTemp"  parameterType="hashmap" useGeneratedKeys="true" keyProperty="menuId">
 		INSERT INTO menu_temp (
 		system_type,menu_name, menu_level, sort_order, parent_menu_id,
-		screen_id, use_yn, display_yn, rgtr_user_id, rgtr_dt
+		screen_id, use_yn, display_yn, rgtr_user_id, rgtr_dt,menu_grp_code
 		) VALUES (
 		#{systemType}, #{menuName}, #{menuLevel}, #{sortOrder}, #{parentMenuId},
-		#{screenId}, #{useYn}, #{displayYn}, #{rgtrUserId}, DATE_FORMAT(NOW(), '%Y%m%d%H%i%s')
+		#{screenId}, #{useYn}, #{displayYn}, #{rgtrUserId}, DATE_FORMAT(NOW(), '%Y%m%d%H%i%s'),#{menuGrpCode}
 		)
 	</insert>
-
+	<update id="updateGrpCodeMenuTemp"  parameterType="hashmap">
+		UPDATE menu_temp
+		SET menu_grp_code = #{menuGrpCode},
+		last_user_id = #{lastUserId}
+		WHERE menu_id = #{menuId}
+	</update>
 	<!-- UPDATE -->
 	<update id="updateMenuTemp"  parameterType="hashmap">
 		UPDATE menu_temp

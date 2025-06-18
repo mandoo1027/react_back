@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 @Component
 public class MNU0201S01S {
-    private String systemDivCd;
+    private String systemType; // 시스템 구분 (ADM, USR)
     private Integer menuId;
     private String menuName;
     private Integer menuLevel;
@@ -16,6 +16,7 @@ public class MNU0201S01S {
     private Integer parentMenuId;
     private Integer screenId;
     private String useYn;
+    private String menuGrpCode;
     private String displayYn;
     private String rgtrUserId;
     private String rgtrDt;

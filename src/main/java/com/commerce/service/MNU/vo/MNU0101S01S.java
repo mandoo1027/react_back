@@ -9,7 +9,7 @@ import java.util.List;
 @Component
 public class MNU0101S01S {
     private String type; // 메뉴타입
-    private String sysDivCd;
+    private String systemType;
     private String menuCode;
     private String menuName;
     private String use_yn;
