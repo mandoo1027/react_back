@@ -6,10 +6,7 @@ import com.commerce.comm.UtilMapper;
 import com.commerce.exception.UserException;
 import com.commerce.module.COM.COMService;
 import com.commerce.service.HCO.vo.AdminVO;
-import com.commerce.service.MNU.vo.MNU0101S01R;
-import com.commerce.service.MNU.vo.MNU0101S01S;
-import com.commerce.service.MNU.vo.MNU0201S01S;
-import com.commerce.service.MNU.vo.MNUMenu;
+import com.commerce.service.MNU.vo.*;
 import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,6 +54,32 @@ public class MnuService extends UtilMapper {
         return true;
     }
 
+    // 권한 메뉴 조회
+    public boolean MNU0301S01(MNU0301S01S req, MNU0301S01R rsp) throws UserException {
+        Map<String, Object> map = objectMapper.convertValue(req, Map.class);
+
+        List<CamelKeyMap> result = generalMapper.selectList("MEN_AUTH","selectAuthMnuList",map);
+
+        List<MNUMenu> convertList = ObjectMapperUtils.convertToList(result, MNUMenu.class);
+
+        rsp.setADM(convertList);
+
+        return true;
+    }
+
+    // 권한그룹별 메뉴 등록
+    public boolean MNU0301U01(MNU0301S01S req) throws UserException {
+        AdminVO userVo = comService.getAdminInfo();
+        String userId = userVo.getId();
+        Map<String, Object> map = objectMapper.convertValue(req, Map.class);
+        map.put("lastUserId", userId);
+        map.put("rgtrUserId", userId);
+        int resultCnt = 0;
+        generalMapper.delete("MEN_AUTH", "deleteAuthMenu", map);
+        resultCnt += generalMapper.insert("MEN_AUTH", "insertAuthMenu",map );
+
+        return resultCnt > 0;
+    }
 
     public boolean MNU0101U02(MNU0101S01S req) throws UserException {
         int resultCnt = 0;

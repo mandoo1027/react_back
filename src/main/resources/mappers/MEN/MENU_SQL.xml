@@ -137,28 +137,30 @@
 
 	<!-- SELECT -->
 	<select id="selectMenuListTemp" parameterType="hashmap" resultType="hashmap">
-		SELECT
-		m.system_type,
-		m.menu_id,
-		m.menu_name,
-		m.menu_level,
-		m.sort_order,
-		m.parent_menu_id,
-		get_menu_nm(m.parent_menu_id) as parent_menu_nm,
-		m.screen_id,
-		m.use_yn,
-		m.display_yn,
-		m.rgtr_user_id,
-		m.rgtr_dt,
-		m.last_user_id,
-		m.last_chg_dt,
-		m.menu_grp_code,
-		s.mapping_code,
-		s.screen_name as screen_nm,
-		s.screen_path
+		select	IF(ma.menu_id IS NOT NULL, true, false) chk,
+				m.system_type,
+				m.menu_id,
+				m.menu_name,
+				m.menu_level,
+				m.sort_order,
+				m.parent_menu_id,
+				get_menu_nm(m.parent_menu_id) as parent_menu_nm,
+				m.screen_id,
+				m.use_yn,
+				m.display_yn,
+				m.rgtr_user_id,
+				m.rgtr_dt,
+				m.last_user_id,
+				m.last_chg_dt,
+				m.menu_grp_code,
+				s.mapping_code,
+				s.screen_name as screen_nm,
+				s.screen_path
 		FROM menu_temp m
 		left join screen s on m.screen_id = s.screen_id
+		inner join menu_auth ma on m.menu_id = ma.menu_id and ma.code = #{authGradeCd}
 		WHERE 1=1
+
 		<if test="systemType != null">
 			AND m.system_type = #{systemType}
 		</if>

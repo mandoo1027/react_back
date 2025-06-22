@@ -52,6 +52,10 @@ public class GeneralMapperService {
         String statement = namespace + "." + queryId;
         return sqlSessionTemplate.update(statement, paramMap);
     }
+    public int delete(String namespace, String queryId, Map<String,Object> paramMap) {
+        String statement = namespace + "." + queryId;
+        return sqlSessionTemplate.delete(statement, paramMap);
+    }
 
 
 }

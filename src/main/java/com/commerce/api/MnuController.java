@@ -3,9 +3,7 @@ package com.commerce.api;
 import com.commerce.comm.ResultVO;
 import com.commerce.exception.UserException;
 import com.commerce.service.MNU.MnuService;
-import com.commerce.service.MNU.vo.MNU0101S01R;
-import com.commerce.service.MNU.vo.MNU0101S01S;
-import com.commerce.service.MNU.vo.MNU0201S01S;
+import com.commerce.service.MNU.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -73,9 +71,32 @@ public class MnuController {
         return result;
     }
 
+    @PostMapping(value = "/MNU0301S01")
+    public ResultVO MNU0301S01(@RequestBody MNU0301S01S req, MNU0301S01R res) throws UserException {
+        boolean isResult = mnuService.MNU0301S01(req, res);
+        ResultVO result = new ResultVO();
+        if(isResult) {
+            result.setResultData(res);
+            result.setSucessCode();
+        }
+        return result;
+    }
+
     @PostMapping(value = "/MNU0201U02")
     public ResultVO MNU0201U02(@RequestBody MNU0201S01S req) throws UserException {
         boolean isResult = mnuService.MNU0201U02(req);
+        ResultVO result = new ResultVO();
+        if(isResult) {
+            result.setResultData(isResult);
+            result.setSucessCode();
+        }
+        return result;
+    }
+
+    // 권한 메뉴 등록
+    @PostMapping(value = "/MNU0301U01")
+    public ResultVO MNU0301U01(@RequestBody MNU0301S01S req) throws UserException {
+        boolean isResult = mnuService.MNU0301U01(req);
         ResultVO result = new ResultVO();
         if(isResult) {
             result.setResultData(isResult);

@@ -2,6 +2,7 @@ package com.commerce.intercepter;
 
 import com.commerce.comm.ResultVO;
 import com.commerce.module.COM.COMService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -17,7 +18,21 @@ public class ResultVOInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 요청 전 처리
 
-        return true; // false를 반환하면 요청을 중단합니다.
+        HttpSession session = request.getSession(false);
+
+        if (session == null || session.getAttribute("user") == null) {
+            ResultVO result = new ResultVO();
+            result.setErrorCode("SESSION_EXPIRED");
+            result.setErrorMsg("세션이 만료되었습니다. 재로그인 부탁드립니다.");
+            ObjectMapper mapper = new ObjectMapper();
+            String json = mapper.writeValueAsString(result);
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
+            response.setContentType("application/json;charset=UTF-8");
+            response.getWriter().write(json);
+            return false;
+        }
+
+        return true; // 로그인된 경우 진행
     }
 
     @Override

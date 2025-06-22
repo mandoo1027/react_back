@@ -12,7 +12,9 @@ import java.util.Objects;
 @Setter
 public class ResultVO {
     private String resultCode;
+    private String errorCode;
     private String resultMsg;
+    private String errorMsg;
     private boolean success;
 
     private Object resultData;

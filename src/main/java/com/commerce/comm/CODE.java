@@ -6,6 +6,7 @@ public enum CODE {
     USE_STAT_CD_03("03", "탈퇴대기"),
     USE_STAT_CD_04("04", "탈퇴");
 
+
     private final String code;
     private final String name;
 

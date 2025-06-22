@@ -106,7 +106,8 @@ public class ObjectMapperUtils {
     							} else if(fieldClass == Float.class) {
     								value = Float.parseFloat(String.valueOf(value));
     							} else if(fieldClass == boolean.class) {
-    								value = Boolean.parseBoolean(String.valueOf(value));
+									String str = String.valueOf(value).trim().toLowerCase();
+									value = "true".equals(str) || "1".equals(str);
     							} else if(fieldClass == Date.class) {
     								SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     								value = simpleDateFormat.parse(String.valueOf(value));

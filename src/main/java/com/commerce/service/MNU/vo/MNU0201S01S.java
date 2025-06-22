@@ -27,4 +27,5 @@ public class MNU0201S01S {
     private int endNum;
 
     private String rowStatus;
+    private String authGradeCd ; // 권한 등급 코드
 }

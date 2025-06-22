@@ -32,6 +32,7 @@ public class MNUMenu  implements Comparable<MNUMenu> {
     // 메뉴 신
 
     private String systemType; // 행상태
+    private boolean chk; // 체크박스
     private String menuId; // 메뉴 ID
     private String menuName; // 메뉴 이름
     private String menuLevel; // 메뉴 레벨

@@ -26,7 +26,11 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new ResultVOInterceptor())
-                .addPathPatterns("/**"); // 인터셉터를 적용할 경로 설정
+                .addPathPatterns("/admin/**") // 인터셉터를 적용할 경로 설정
+                .excludePathPatterns("/admin/service/HCO0101S01" //로그인
+                                        ,"/admin/service/HCO0101S02"  // OPT 인증
+                                        ,"/admin/service/HCO0101S03" // 로그아웃
+                                        , "/admin/service/otp/**");
     }
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

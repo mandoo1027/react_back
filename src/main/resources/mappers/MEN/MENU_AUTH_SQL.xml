@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MEN_AUTH">
+
+	<!-- SELECT -->
+	<select id="selectAuthMnuList" parameterType="hashmap" resultType="hashmap">
+		select	IF(ma.menu_id IS NOT NULL, true, false) chk,
+		m.system_type,
+		m.menu_id,
+		m.menu_name,
+		m.menu_level,
+		m.sort_order,
+		m.parent_menu_id,
+		get_menu_nm(m.parent_menu_id) as parent_menu_nm,
+		m.screen_id,
+		m.use_yn,
+		m.display_yn,
+		m.rgtr_user_id,
+		m.rgtr_dt,
+		m.last_user_id,
+		m.last_chg_dt,
+		m.menu_grp_code,
+		s.mapping_code,
+		s.screen_name as screen_nm,
+		s.screen_path
+		FROM menu_temp m
+		left join screen s on m.screen_id = s.screen_id
+		left join menu_auth ma on m.menu_id = ma.menu_id and ma.code = #{authGradeCd}
+		WHERE 1=1
+
+		<if test="systemType != null">
+			AND m.system_type = #{systemType}
+		</if>
+		<if test="menuLevel != null">
+			AND m.menu_level = #{menuLevel}
+		</if>
+		<if test="parentMenuId != null">
+			AND m.parent_menu_id = #{parentMenuId}
+		</if>
+		ORDER BY m.menu_grp_code, m.menu_level, m.sort_order
+	</select>
+
+	<!-- INSERT -->
+	<insert id="insertAuthMenu"  parameterType="hashmap" useGeneratedKeys="true" keyProperty="menuId">
+		INSERT INTO menu_auth (
+		code, menu_id,
+		create_auth, read_auth, update_auth, delete_auth,
+		rgtr_user_id, rgtr_dt, last_user_id, last_chg_dt, system_type
+		)
+		SELECT
+			#{authGradeCd},
+			t.menu_id,
+			true,
+			true,
+			true,
+			true,
+			#{rgtrUserId},             -- 등록자 ID (고정값 또는 바인딩)
+			DATE_FORMAT(NOW(), '%Y%m%d%H%i%s'),  -- 등록일시
+			#{lastUserId},             -- 수정자 ID (동일인으로 초기화)
+			DATE_FORMAT(NOW(), '%Y%m%d%H%i%s'),  -- 수정일시
+		t.system_type
+		FROM menu_temp t
+		WHERE t.menu_id IN
+		<foreach item="id" collection="menuIdList" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</insert>
+
+
+	<!-- DELETE -->
+	<delete id="deleteAuthMenu" parameterType="hashmap">
+		DELETE FROM menu_auth
+		WHERE code = #{authGradeCd}
+	</delete>
+</mapper>
