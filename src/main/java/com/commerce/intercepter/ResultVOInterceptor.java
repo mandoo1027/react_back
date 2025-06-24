@@ -12,12 +12,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 public class ResultVOInterceptor implements HandlerInterceptor {
 
-    @Autowired
-    private HttpSession session;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 요청 전 처리
-
+        // CORS preflight 요청은 통과시킴
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            return true;
+        }
         HttpSession session = request.getSession(false);
 
         if (session == null || session.getAttribute("user") == null) {

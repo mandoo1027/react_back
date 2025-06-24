@@ -18,7 +18,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://127.0.0.1:3000")
+                .allowedOrigins("http://127.0.0.1:3000","http://localhost:3000")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true);
@@ -26,10 +26,11 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new ResultVOInterceptor())
-                .addPathPatterns("/admin/**") // 인터셉터를 적용할 경로 설정
+                .addPathPatterns("/admin/service/**") // 인터셉터를 적용할 경로 설정
                 .excludePathPatterns("/admin/service/HCO0101S01" //로그인
                                         ,"/admin/service/HCO0101S02"  // OPT 인증
                                         ,"/admin/service/HCO0101S03" // 로그아웃
+                                        ,"/admin/service/MNU0201S02" // 메뉴 조회
                                         , "/admin/service/otp/**");
     }
     @Override

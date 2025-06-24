@@ -24,6 +24,10 @@ spring:
         multipart:
             max-file-size: 500MB
             max-request-size: 500MB
+        session:
+            cookie:
+                secure: false
+                same-site: None
 
 file:
     resource-locations: /Users/kyungilkim/devel/react/commerce-back/uploads/

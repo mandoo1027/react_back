@@ -65,7 +65,7 @@ public class HcoController {
         String newSessionId = session.getId();
        // getData.setCurrentSessionId(newSessionId);
         getData.setPwd("");
-
+        System.out.print("newSessionId : " + newSessionId);
         session.setAttribute("user", getData);
         result.setResultData(true);
         result.setSucessCode();
