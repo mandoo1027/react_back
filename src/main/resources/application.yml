@@ -28,7 +28,14 @@ spring:
             cookie:
                 secure: false
                 same-site: None
-
+management:
+    endpoints:
+        web:
+            exposure:
+                include: health, info
+    endpoint:
+        health:
+            show-details: always
 file:
     resource-locations: /Users/kyungilkim/devel/react/commerce-back/uploads/
     home-dir: /Users/kyungilkim/devel/react/commerce-back/
